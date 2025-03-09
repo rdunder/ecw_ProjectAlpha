@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Data.Entities;
 
-class RoleEntity : IdentityRole<int>
+public class RoleEntity : IdentityRole<int>
 {    
 }

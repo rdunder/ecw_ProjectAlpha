@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Data.Entities;
 
-class UserEntity : IdentityUser<int>
+public class UserEntity : IdentityUser<int>
 {
 }

@@ -7,6 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Contexts;
 
-class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEntity, RoleEntity, int> (options)
+public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEntity, RoleEntity, int> (options)
 {
 }
