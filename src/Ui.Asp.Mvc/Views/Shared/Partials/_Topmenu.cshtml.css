@@ -1,0 +1,76 @@
+﻿
+
+.search {
+}
+
+.topmenu-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+}
+
+    .topmenu-nav .topmenu-nav-item {
+        font-size: 1.3rem;
+        color: var(--text-color);
+    }
+
+.dropdown-menu {
+    border-radius: 16px;
+    padding: 0.8rem;
+    border: none;
+    background-color: var(--background-color-forms);
+    color: var(--text-color)
+}
+
+h6 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    padding: 0.8rem 2rem 0.8rem 0.8rem;
+    background-color: var(--clr-accent-10);
+    border-radius: 8px;
+}
+
+li {
+    display: flex;
+    align-items: center;
+}
+
+    li a {
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--text-color)
+    }
+
+    li p {
+        margin: 0;
+        color: var(--text-color)
+    }
+
+    
+
+.darkmode-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.form-check-input {
+    transform: scale(1.4);
+    background-color: var(--clr-grey-400);
+    border-color: var(--clr-grey-400);
+}
+
+    .form-check-input::before {
+        background-color: #fff;
+    }
+
+    .form-check-input:checked::before {
+        background-color: #0d6efd;
+    }

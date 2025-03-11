@@ -1,0 +1,52 @@
+﻿
+
+/* Container for the custom switch */
+.custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 1.6rem;
+}
+
+    /* Hide the default checkbox */
+    .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* Track */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: background-color 0.3s;
+}
+
+    /* Knob */
+    .slider::before {
+        content: "";
+        position: absolute;
+        height: 22px;
+        width: 22px;
+        left: 1px;
+        top: 2px;
+        background-color: white; /* Default knob color */
+        border-radius: 50%;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+/* When checked: change track and knob color */
+.custom-switch input:checked + .slider {
+    background-color: #e0e0e0; /* Optional: change track color */
+}
+
+    .custom-switch input:checked + .slider::before {
+        transform: translateX(22px); /* Move knob to right */
+        background-color: #0d6efd; /* Blue knob when checked */
+    }

@@ -1,0 +1,87 @@
+/* #region || Root */
+:root {
+    --font-primary: "Nunito", sans-serif;
+    --font-logo: "Comfortaa", sans-serif;
+    
+    --font-weight-extralight: 200;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --font-weight-black: 900;
+
+
+    --screen-size-tablet: 768px;
+    --screen-size-desktop: 1400px;
+
+    --clr-heading: #1a1926;
+    --clr-body-light: #637085;
+    --clr-body-dark: #28263B;
+
+    --clr-grey-100: #F5F7FA;
+    --clr-grey-200: #F0F1F5;
+    --clr-grey-300: #E8EAED;
+    --clr-grey-400: #E3E5E8;
+    --clr-grey-500: #DEDEDE;
+
+    --clr-border-100: #EBEEF2;
+    --clr-border-200: #E3E5E8;
+    --clr-border-300: #C6C8CC;
+
+    --clr-background: #F1F3F7;
+    --clr-surface: #FFFFFF;
+
+    --clr-accent: #2D99FF;
+    --clr-dark-accent: #2682D9;
+
+    --clr-orange: #FF9640;
+    --clr-dark-orange: #F09330;
+
+    --clr-red: #FF6640;
+    --clr-dark-red: #E94D3F;
+
+    --clr-yellow: #FFD422;
+    --clr-dark-yellow: #FCBB42;
+
+    --clr-blue: #2CD9D9;
+    --clr-dark-blue: #2D7DCC;
+
+    --clr-green: #31D482;
+    --clr-dark-green: #24B26B;
+
+    --clr-purple: #826AF9;
+    --clr-dark-purple: #634CD4;
+
+
+
+    /* Theme variables */
+    --text-color: var(--clr-body-dark);
+    --text-color-light: var(--clr-body-light);
+    --headline-color: var(--clr-heading);
+    --border-color: var(--clr-grey-500);
+    --background-color: var(--clr-background);
+    --background-color-forms: var(--clr-surface);
+
+}
+/* #endregion */
+
+[data-theme="light"] {
+    --text-color: var(--clr-body-dark);
+    --text-color-light: var(--clr-body-light);
+    --headline-color: var(--clr-heading);
+    --border-color: var(--clr-grey-500);
+    --background-color: var(--clr-background);
+    --background-color-forms: var(--clr-surface);
+}
+
+[data-theme="dark"] {
+    --text-color: #E8E8E8;
+    --text-color-light: #9E9E9E;
+    --headline-color: var(--clr-surface);
+    --border-color: #2F2F30;
+    --background-color: #151517;
+    --background-color-forms: #202123;
+
+}

@@ -5,6 +5,7 @@
 :root {
     --font-primary: "Nunito", sans-serif;
     --font-logo: "Comfortaa", sans-serif;
+    
     --font-weight-extralight: 200;
     --font-weight-light: 300;
     --font-weight-regular: 400;
@@ -13,36 +14,51 @@
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
     --font-weight-black: 900;
+
+
     --screen-size-tablet: 768px;
     --screen-size-desktop: 1400px;
+
     --clr-heading: #1a1926;
     --clr-body-light: #637085;
     --clr-body-dark: #28263B;
+
     --clr-grey-100: #F5F7FA;
     --clr-grey-200: #F0F1F5;
     --clr-grey-300: #E8EAED;
     --clr-grey-400: #E3E5E8;
     --clr-grey-500: #DEDEDE;
+
     --clr-border-100: #EBEEF2;
     --clr-border-200: #E3E5E8;
     --clr-border-300: #C6C8CC;
+
     --clr-background: #F1F3F7;
     --clr-surface: #FFFFFF;
+
     --clr-accent: #2D99FF;
-    --clr-accent-10: #2D99FF10;
     --clr-dark-accent: #2682D9;
+
     --clr-orange: #FF9640;
     --clr-dark-orange: #F09330;
+
     --clr-red: #FF6640;
     --clr-dark-red: #E94D3F;
+
     --clr-yellow: #FFD422;
     --clr-dark-yellow: #FCBB42;
+
     --clr-blue: #2CD9D9;
     --clr-dark-blue: #2D7DCC;
+
     --clr-green: #31D482;
     --clr-dark-green: #24B26B;
+
     --clr-purple: #826AF9;
     --clr-dark-purple: #634CD4;
+
+
+
     /* Theme variables */
     --text-color: var(--clr-body-dark);
     --text-color-light: var(--clr-body-light);
@@ -50,6 +66,7 @@
     --border-color: var(--clr-grey-500);
     --background-color: var(--clr-background);
     --background-color-forms: var(--clr-surface);
+
 }
 /* #endregion */
 
@@ -70,15 +87,7 @@
     --border-color: #2F2F30;
     --background-color: #151517;
     --background-color-forms: #202123;
-}
 
-.theme-dark {
-    --text-color: #E8E8E8;
-    --text-color-light: #9E9E9E;
-    --headline-color: var(--clr-surface);
-    --border-color: #2F2F30;
-    --background-color: #151517;
-    --background-color-forms: #202123;
 }
 /* #endregion */
 
@@ -136,7 +145,6 @@ h6 {
 }
 /* #endregion */
 
-/* #region || Links and Forms */
 .nav-link {
     font-size: 0.938rem;
     font-weight: var(--font-weight-semibold);
@@ -151,6 +159,7 @@ h6 {
     position: relative;
     padding: 14px 25px;
     border-radius: 15px;
+
     display: flex;
     gap: 0.5rem;
     justify-content: center;
@@ -160,14 +169,13 @@ h6 {
 .btn-blue {
     color: var(--clr-surface);
     border: 1px solid var(--clr-surface);
-    background-color: var(--clr-accent);
+    background-color: var(--clr-accent);    
     box-shadow: 0px 4px 16px 0px rgba(0, 129, 255, 0.18);
-    font-weight: var(--font-weight-semibold);
-    &:hover
+    font-weight: var(--font-weight-semibold);    
 
-{
-    background-color: var(--clr-dark-accent);
-}
+    &:hover {
+        background-color: var(--clr-dark-accent);
+    }
 
 }
 
@@ -176,6 +184,7 @@ h6 {
     border: 1px solid var(--clr-grey-100);
     background-color: var(--clr-grey-100);
     font-weight: var(--font-weight-semibold);
+
     &:hover {
         background-color: var(--clr-grey-300);
     }
@@ -184,18 +193,10 @@ h6 {
         position: absolute;
         left: 1rem;
     }
-
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    width: 600px;
-}
-/* #endregion */
 
-/* #region || components  */
+/* #region ||  */
 .center-screen {
     display: flex;
     justify-content: center;
@@ -215,10 +216,10 @@ h6 {
     display: grid;
     grid-template-columns: minmax(50px, 270px) 1fr;
     grid-template-rows: minmax(80px, auto) 1fr;
-    grid-template-areas:
+    grid-template-areas: 
         "side top"
         "side content";
-
+    
     .side {
         grid-area: side;
         border-right: 1px solid var(--border-color);
@@ -229,6 +230,7 @@ h6 {
         grid-area: top;
         border-bottom: 1px solid var(--border-color);
         padding: 1rem;
+
         display: grid;
         grid-template-columns: 1fr auto;
         gap: 5rem;
@@ -239,10 +241,17 @@ h6 {
         grid-area: content;
         padding: 1rem;
     }
-
 }
-/* #endregion */
 
 
 
+.form-container {
+    
 
+    display: flex;
+    flex-direction: column;
+    
+    text-align: center;
+
+    width: 600px;
+}

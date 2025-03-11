@@ -1,0 +1,44 @@
+﻿
+<div class="search">
+    search
+</div>
+<nav class="topmenu-nav">
+    <a href="#" class="topmenu-nav-item"><i class="bi bi-bell-fill"></i></a>
+    <div class="vr"></div>
+
+    <a href="#"
+       class="topmenu-nav-item"
+       id="userDropdown"
+       data-bs-toggle="dropdown"
+       data-bs-auto-close="outside"
+       aria-expanded="false">
+       <i class="bi bi-person-circle"></i>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm "
+        aria-labelledby="userDropdown">
+        <h6>
+            <img src="~/images/profile.png" />
+            @User.Identity.Name
+        </h6>
+
+        <li>
+            <div class="darkmode-toggle">
+                <p>Dark Mode</p>
+                @await Html.PartialAsync("Partials/CustomSwitch")
+            </div>
+        </li>
+
+        <hr />
+
+        <li><a class="dropdown-item" href="/">Account Settings</a></li>
+        
+        <li><a class="dropdown-item" href="/">Admin Login</a></li>
+        
+        <li>
+            <a class="dropdown-item" href="@Url.Action("LogOut", "Auth")"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </li>
+    </ul>
+</nav>
+
+

@@ -1,0 +1,32 @@
+﻿
+<div class="sidemenu-container">
+    <a href="/" class="logo">
+        <img src="~/images/Logo.png" />
+        <span>alpha</span>
+    </a>
+    <nav class="sidemenu-nav">
+        <a class="nav-link @(Context.Request.Path == "/" ? "active" : "")" asp-controller="Projects" asp-action="Index">
+            <i class="bi bi-briefcase-fill"></i> 
+            Projects
+        </a>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="nav-link @(Context.Request.Path == "/members" ? "active" : "")" asp-controller="Members" asp-action="Index">
+                <i class="bi bi-people-fill"></i> 
+                Team Members
+            </a>
+        }        
+    </nav>
+
+    
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <hr />
+        @if (User.IsInRole("Admin"))
+        {
+            <strong>Admin in da house</strong>
+        }
+    }
+</div>
