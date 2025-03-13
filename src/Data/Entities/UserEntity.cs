@@ -10,4 +10,9 @@ namespace Data.Entities;
 
 public class UserEntity : IdentityUser<int>
 {
+    [MaxLength(50)]
+    public string FirstName { get; set; } = null!;
+
+    [MaxLength(50)]
+    public string LastName { get; set; } = null!;
 }

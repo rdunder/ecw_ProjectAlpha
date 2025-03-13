@@ -143,6 +143,10 @@ h6 {
     font-weight: var(--font-weight-semibold);
     color: var(--headline-color);
 }
+
+p {
+    margin: 0;
+}
 /* #endregion */
 
 .nav-link {
@@ -254,4 +258,23 @@ h6 {
     text-align: center;
 
     width: 600px;
+}
+
+.divider-or {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    p {
+        font-size: 0.75rem;
+    }
+
+
+    div {
+        width: 100%;
+        border: 1px solid var(--clr-border-200);
+        height: 1px;
+        
+    }
 }

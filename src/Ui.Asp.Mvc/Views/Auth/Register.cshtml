@@ -1,4 +1,78 @@
-﻿@{
+﻿
+@model RegisterViewModel
+
+@{
     Layout = "_AuthLayout";
     ViewData["Title"] = "Register";
 }
+
+
+<div class="surface">
+    <form class="form-container" novalidate method="post" asp-controller="Auth" asp-action="Register">
+        <h1>Register</h1>
+
+        <div class="form-group">
+            <button class="btn btn-grey">
+                <img src="~/images/google-icon.png" />
+                <span>Sign Up with Google </span>
+            </button>
+        </div>
+
+        <div class="form-divider-alt">
+            <div class="line"></div>
+            <p>OR</p>
+            <div class="line"></div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" placeholder="Enter Your First Name" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" placeholder="Enter Your Last Name" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" placeholder="Enter Your Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" placeholder="Enter Your Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>           
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" placeholder="Repeat Password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox">
+                <input asp-for="AcceptTerms" 
+                    onchange="document.getElementById('btnRegisterAccount').disabled = !this.checked;" />
+                <label asp-for="AcceptTerms">
+                    I Accept
+                    <a href="#"> Terms and Conditions</a>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" id="btnRegisterAccount" disabled class="btn btn-blue">Register</button>
+        </div>
+
+        <p class="mt-5">
+            Already have an account?
+            <a asp-action="Login"> Login</a>
+        </p>
+
+    </form>
+</div>

@@ -10,7 +10,7 @@
             Projects
         </a>
 
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("admin"))
         {
             <a class="nav-link @(Context.Request.Path == "/members" ? "active" : "")" asp-controller="Members" asp-action="Index">
                 <i class="bi bi-people-fill"></i> 
@@ -18,15 +18,4 @@
             </a>
         }        
     </nav>
-
-    
-
-    @if (User.Identity.IsAuthenticated)
-    {
-        <hr />
-        @if (User.IsInRole("Admin"))
-        {
-            <strong>Admin in da house</strong>
-        }
-    }
 </div>
