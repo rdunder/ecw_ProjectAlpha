@@ -1,7 +1,19 @@
 ﻿
 @{
     ViewData["Title"] = "Members";
+
+    List<string> users = new List<string>()
+    {
+        "Arne", "Kalle", "Björne", "Greger"
+    };
 }
 
 
 <h1>Members...</h1>
+
+<div class="member-card-container">
+    @foreach (var user in users)
+    {
+        @await Html.PartialAsync("Partials/_MemberCard", user)
+    }
+</div>

@@ -1,6 +1,8 @@
 ﻿
+@inject UserManager<UserEntity> _userManager
 
 @{
+    var user = await _userManager.GetUserAsync(User);
 }
 
 
@@ -24,7 +26,7 @@
         aria-labelledby="userDropdown">
         <h6>
             <img src="~/images/profile.png" />
-            @User.Identity.Name
+            @user.FirstName @user.LastName
         </h6>
 
         <li>

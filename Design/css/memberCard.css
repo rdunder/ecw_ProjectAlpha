@@ -1,5 +1,7 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
 
 /* #region || Root */
 :root {
@@ -149,15 +151,6 @@ p {
 }
 /* #endregion */
 
-.nav-link {
-    font-size: 0.938rem;
-    font-weight: var(--font-weight-semibold);
-}
-
-.tab-link {
-    font-size: 0.938rem;
-    font-weight: var(--font-weight-bold);
-}
 
 .btn {
     position: relative;
@@ -199,104 +192,61 @@ p {
     }
 }
 
-
-/* #region ||  */
-.center-screen {
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100dvh;
+    min-height: 100vh;
 }
-
-.surface {
-    background-color: var(--background-color-forms);
-    box-shadow: 0px 20px 30px -18px rgba(4, 15, 21, 0.10);
-    padding: 5rem 2.5rem 1rem 2.5rem;
-    border-radius: 16px;
-}
-
-.portal {
-    height: 100dvh;
-    display: grid;
-    grid-template-columns: minmax(50px, 270px) 1fr;
-    grid-template-rows: minmax(80px, auto) 1fr;
-    grid-template-areas: 
-        "side top"
-        "side content";
-    
-    .side {
-        grid-area: side;
-        border-right: 1px solid var(--border-color);
-        padding: 1rem;
-    }
-
-    .top {
-        grid-area: top;
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem;
-
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 5rem;
-        align-items: center;
-    }
-
-    .content {
-        grid-area: content;
-        padding: 1rem;
-    }
-}
-
-
-
-.form-container {
-    
-
-    display: flex;
-    flex-direction: column;
-    
-    text-align: center;
-
-    width: 600px;
-}
-
-.divider-or {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-
-    p {
-        font-size: 0.75rem;
-    }
-
-
-    div {
-        width: 100%;
-        border: 1px solid var(--clr-border-200);
-        height: 1px;
-        
-    }
-}
-
-
-
 
 .member-card {
     background-color: var(--background-color-forms);
     border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    width: 300px;
 }
 
-.member-card .member-card-options {
+.member-card .menu {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
+}
+
+.member-card .avatar-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.member-card .avatar-container .avatar {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.member-card .member-card-content {
-    text-align: center;
+.member-card .menu .menu-btn {
+    border: none;
+    background-color: transparent;
+    color: var(--text-color-light);
+    font-size: 1.4rem;
+    font-weight: var(--font-weight-semibold);
 }
 
-.member-card .job-title {
+.member-card .title {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
     background-color: var(--clr-grey-200);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.member-card .btn {
+    width: 100%;
+    margin-top: 1rem;
 }

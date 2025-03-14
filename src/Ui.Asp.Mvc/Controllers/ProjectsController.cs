@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ui.Asp.Mvc.Controllers;
 
+[Authorize]
 public class ProjectsController : Controller
-{
-    [Authorize]
+{    
     public IActionResult Index()
     {
         
