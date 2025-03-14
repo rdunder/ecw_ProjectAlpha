@@ -23,6 +23,7 @@
     --clr-grey-300: #E8EAED;
     --clr-grey-400: #E3E5E8;
     --clr-grey-500: #DEDEDE;
+    --clr-dark-100: #313133;
     --clr-border-100: #EBEEF2;
     --clr-border-200: #E3E5E8;
     --clr-border-300: #C6C8CC;
@@ -50,6 +51,8 @@
     --border-color: var(--clr-grey-500);
     --background-color: var(--clr-background);
     --background-color-forms: var(--clr-surface);
+    --background-color-badges: var(--clr-grey-200);
+    --background-color-cards: #ffffff90;
 }
 /* #endregion */
 
@@ -79,6 +82,8 @@
     --border-color: #2F2F30;
     --background-color: #151517;
     --background-color-forms: #202123;
+    --background-color-badges: var(--clr-dark-100);
+    --background-color-cards: #20212380;
 }
 /* #endregion */
 
@@ -177,8 +182,8 @@ p {
 
 .btn-grey {
     color: var(--headline-color);
-    border: 1px solid var(--clr-grey-100);
-    background-color: var(--clr-grey-100);
+    border: 1px solid var(--background-color-badges);
+    background-color: var(--background-color-badges);
     font-weight: var(--font-weight-semibold);
     &:hover {
         background-color: var(--clr-grey-300);
@@ -302,6 +307,7 @@ p {
     }
 
 }
+
 /* #endregion */
 
 

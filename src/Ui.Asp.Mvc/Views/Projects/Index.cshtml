@@ -1,5 +1,4 @@
 ﻿
-@model List<string>
 
 @{
     ViewData["Title"] = "Projects";
@@ -7,7 +6,15 @@
    
 }
 
+@if (User.IsInRole("Trainee"))
+{
+    <h4>Contact your Administrator to get access to projects ...</h4>
+}
+else
+{
+    <h1>Projects...</h1>    
+}
 
-<h1>Projects...</h1>
+
 
 

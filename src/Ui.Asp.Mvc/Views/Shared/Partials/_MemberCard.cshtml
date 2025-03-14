@@ -1,20 +1,38 @@
-﻿@model string
+﻿@model User
 
+
+@{
+    
+}
 
 <div class="member-card">
     <div class="menu">
-        <button class="menu-btn"><i class="bi bi-three-dots"></i></button>
+        <button 
+        class="menu-btn"
+        data-bs-toggle="dropdown">
+            <i class="bi bi-three-dots"></i>
+        </button>
+
+        <ul class="dropdown-menu">
+            <li class="mt-2 mb-3">
+                <a class="dropdown-item" href="@Url.Action("Edit", "Members", Model)"><i class="bi bi-pencil-fill"></i> Edit</a>
+            </li>
+            <hr />
+            <li>
+                <a class="dropdown-item delete" asp-action="Delete" asp-controller="Members" asp-route-email="@Model.Email" ><i class="bi bi-trash"></i> Delete User</a>
+            </li>
+        </ul>
     </div>
 
     <div class="avatar-container">
         <img class="avatar" src="./images/avatarLarge.png" />
     </div>
 
-    <h4>@Model</h4>
+    <h4>@Model.FirstName @Model.LastName</h4>
 
-    <p class="title">Chief Executive Officer</p>
+    <p class="title">@Model.RoleName</p>
 
-    <p class="contact">hans@domain.com</p>
+    <p class="contact">@Model.Email</p>
     <p class="contact">+46 070-123 45 78</p>
 
     <div class="msg-btn-container">
@@ -22,3 +40,39 @@
     </div>
 </div>
 
+
+
+@* <a href="#"
+   class="topmenu-nav-item"
+   id="userDropdown"
+   data-bs-toggle="dropdown"
+   data-bs-auto-close="outside"
+   aria-expanded="false">
+    <i class="bi bi-person-circle"></i>
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end shadow-sm "
+    aria-labelledby="userDropdown">
+    <h6>
+        <img src="~/images/profile.png" />
+        @user.FirstName @user.LastName
+    </h6>
+
+    <li>
+        <div class="darkmode-toggle">
+            <p>Dark Mode</p>
+            @await Html.PartialAsync("Partials/CustomSwitch")
+        </div>
+    </li>
+
+    <hr />
+
+    <li><a class="dropdown-item" href="/">Account Settings</a></li>
+
+    <li><a class="dropdown-item" href="/">Admin Login</a></li>
+
+    <li>
+        <a class="dropdown-item" href="@Url.Action("LogOut", "Auth")"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </li>
+</ul>
+ *@

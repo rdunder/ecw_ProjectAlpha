@@ -1,6 +1,9 @@
 ﻿using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Service.Dtos;
+using Service.Interfaces;
+using System.Security.Claims;
 using Ui.Asp.Mvc.Models;
 
 namespace Ui.Asp.Mvc.Controllers;
@@ -12,12 +15,16 @@ public class AuthController : Controller
     private readonly RoleManager<RoleEntity> _roleManager;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, ILogger<AuthController> logger)
+    private readonly IUserService _userService;
+
+    public AuthController(SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, ILogger<AuthController> logger, IUserService userService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;
         _logger = logger;
+
+        _userService = userService;
     }
 
     [HttpGet]
@@ -27,40 +34,18 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterAsync(RegisterViewModel model)
+    public async Task<IActionResult> RegisterAsync(UserDto dto)
     {
-        _logger.LogInformation($"{model.FirstName} {model.LastName} - <{model.Email}>");
-
         if (ModelState.IsValid)
         {
             _logger.LogInformation("Modelstate is valid");
-
-            var result = await _userManager.CreateAsync(new UserEntity()
-            {
-                Email = model.Email,
-                UserName = model.Email,
-                FirstName = model.FirstName, 
-                LastName = model.LastName
-            }, model.Password);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("UserManager managed to create User");
-
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                _logger.LogInformation("UserManager DID NOT managed to create User");
-
-                return View(model);
-            }
+            var result = await _userService.CreateAsync(dto);
+            return result ? RedirectToAction("Login") : View(dto);         
         }
         else
         {
             _logger.LogInformation("Modelstate is NOT valid");
-
-            return View(model);
+            return View(dto);
         }
 
 
@@ -73,9 +58,48 @@ public class AuthController : Controller
         return RedirectToAction("Login");
     }
 
+
+
+
     [HttpGet]
-    public IActionResult Login()
+    public async Task<IActionResult> LoginAsync()
     {
+
+        //  If the app is started for the first time, this will be added:
+        #region
+        //  User: admin@domain.com with password: Password123! and add the Administrator role to that user
+        //  Roles: Trainee, Fullstack Developer, Frontend Developer, Backend Developer and Administrator
+        if (await _roleManager.RoleExistsAsync("Administrator") == false)
+        {
+            try
+            {
+                await _roleManager.CreateAsync(new RoleEntity() { Name = "Trainee" });
+                await _roleManager.CreateAsync(new RoleEntity() { Name = "Fullstack Developer" });
+                await _roleManager.CreateAsync(new RoleEntity() { Name = "Frontend Developer" });
+                await _roleManager.CreateAsync(new RoleEntity() { Name = "Backend Developer" });
+                await _roleManager.CreateAsync(new RoleEntity() { Name = "Administrator" });
+
+                var admin = new UserEntity()
+                {
+                    FirstName = "Super",
+                    LastName = "User",
+                    Email = "admin@domain.com",
+                    UserName = "admin@domain.com",
+                    PhoneNumber = "+46 743 897 356"
+                };
+
+                await _userManager.CreateAsync(admin, "Password123!");
+                await _userManager.AddToRoleAsync(admin, "Administrator");
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Something went wrong with creating roles and admin user");
+                throw new Exception("Something went wrong with creating roles and admin user");
+            }
+        }
+        //________________________________________________________________________________________________
+        #endregion
+
         return View();
     }
 

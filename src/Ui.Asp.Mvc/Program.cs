@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
+using Service.Interfaces;
+using Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,13 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb")));
+
+
+
+builder.Services.AddScoped<IUserService, UserService>();
+
+
+
 
 builder.Services
     .AddIdentity<UserEntity, RoleEntity>()
