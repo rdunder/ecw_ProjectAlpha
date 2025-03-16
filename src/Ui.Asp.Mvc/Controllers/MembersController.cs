@@ -31,6 +31,6 @@ public class MembersController(IUserService userService, ILogger<MembersControll
     {
         _logger.LogInformation($"User: {user.FirstName} {user.LastName}");
 
-        return View(user);
+        return RedirectToAction("Index");
     }
 }

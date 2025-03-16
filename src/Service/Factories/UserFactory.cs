@@ -19,7 +19,12 @@ public static class UserFactory
                 LastName = dto.LastName,
                 Email = dto.Email,
                 UserName = dto.Email,
-
+                PhoneNumber = dto.PhoneNumber,
+                Avatar = dto.Avatar,
+                Address = dto.Address,
+                City = dto.City,
+                PostalCode = dto.PostalCode,
+                BirthDate = dto.BirthDate,
             };
 
     public static User Create(UserEntity entity) =>
