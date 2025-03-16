@@ -1,0 +1,12 @@
+﻿
+
+
+
+::deep .col-form-label {
+    font-weight: var(--font-weight-semibold);
+}
+
+::deep .form-control {
+    border-radius: 10px;
+    border: 1px solid var(--clr-border-100);
+}

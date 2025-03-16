@@ -1,93 +1,61 @@
 ﻿@model UserDto
 
+@{
+
+}
 
 
-<form class="form-container" novalidate method="post" asp-controller="Auth" asp-action="Register">
 
-    @if (!User.IsInRole("Administrator") && !User.IsInRole("admin"))
-    {
-        <h1>Register</h1>
 
-        <div class="form-group">
-            <button class="btn btn-grey">
-                <img src="~/images/google-icon.png" />
-                <span>Sign Up with Google </span>
-            </button>
-        </div>
 
-        <div class="form-divider-alt">
-            <div class="line"></div>
-            <p>OR</p>
-            <div class="line"></div>
-        </div>
-    }
 
-    <div class="form-group">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" placeholder="Enter First Name" autocomplete="off" />
+    <div class="col-md-6">
+        <label asp-for="FirstName" class="col-form-label"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" placeholder="Enter Last Name" />
+    <div class="col-md-6">
+        <label asp-for="LastName" class="col-form-label"></label>
+        <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" placeholder="Enter Email" />
+    <div class="col-lg-6">
+        <label asp-for="Email" class="col-form-label"></label>
+        <input asp-for="Email" class="form-control" placeholder="Enter Email" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
+    <div class="col-lg-6">
+        <label asp-for="PhoneNumber" class="col-form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Phone Number" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
 
-    @if (User.IsInRole("Administrator") || User.IsInRole("admin"))
-    {
-        <div class="form-group">
-            <label asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" placeholder="Enter Phone Number" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-    }
+    <div class="col-md-6">
+        <label asp-for="RoleName" class="col-form-label"></label>
+        <input asp-for="RoleName" class="form-control" />
+    </div>
 
+    <div class="col-md-6">
+        <label asp-for="BirthDate" class="col-form-label"></label>
+        <input asp-for="BirthDate" type="date" class="form-control" />
+    </div>
 
-    @if (!User.IsInRole("Administrator") && !User.IsInRole("admin"))
-    {
+    <div class="col-md-4">
+        <label asp-for="Address" class="col-form-label"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
 
+    <div class="col-md-4">
+        <label asp-for="City" class="col-form-label"></label>
+        <input asp-for="City" class="form-control" />
+    </div>
 
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <input asp-for="Password" placeholder="Enter Password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ConfirmPassword"></label>
-            <input asp-for="ConfirmPassword" placeholder="Repeat Password" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <div class="checkbox">
-                <input asp-for="AcceptTerms"
-                onchange="document.getElementById('btnRegisterAccount').disabled = !this.checked;" />
-                <label asp-for="AcceptTerms">
-                    I Accept
-                    <a href="#"> Terms and Conditions</a>
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" id="btnRegisterAccount" disabled class="btn btn-blue">Register</button>
-        </div>
-
-        <p class="mt-5">
-            Already have an account?
-            <a asp-action="Login"> Login</a>
-        </p>
-    }
-
-</form>
+    <div class="col-md-4">
+        <label asp-for="PostalCode" class="col-form-label"></label>
+        <input asp-for="PostalCode" class="form-control" />
+    </div>
 
 @await Html.PartialAsync("_ValidationScripts")

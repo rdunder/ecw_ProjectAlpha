@@ -19,7 +19,8 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public async Task<bool> CreateAsync(UserDto? dto)
     {
-        var entity = UserFactory.Create(dto);
+
+            var entity = UserFactory.Create(dto);
         var result = await _userManager.CreateAsync(entity, dto.Password);
 
         //await _roleManager.CreateAsync(new RoleEntity() { Name = "Chief Executive Officer" });
@@ -33,6 +34,10 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         if (dto.RoleName == null)
         {
             await _userManager.AddToRoleAsync(entity, "Trainee");
+        }
+        else
+        {
+            await _userManager.AddToRoleAsync(entity, dto.RoleName);
         }
 
         return result.Succeeded ? true : false;
