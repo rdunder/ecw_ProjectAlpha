@@ -15,7 +15,7 @@
 
         <ul class="dropdown-menu">
             <li class="mt-2 mb-3">
-                <a class="dropdown-item" href="@Url.Action("Edit", "Members", Model)"><i class="bi bi-pencil-fill"></i> Edit</a>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-fill"></i> Edit</a>
             </li>
             <hr />
             <li>
@@ -42,37 +42,20 @@
 
 
 
-@* <a href="#"
-   class="topmenu-nav-item"
-   id="userDropdown"
-   data-bs-toggle="dropdown"
-   data-bs-auto-close="outside"
-   aria-expanded="false">
-    <i class="bi bi-person-circle"></i>
-</a>
-
-<ul class="dropdown-menu dropdown-menu-end shadow-sm "
-    aria-labelledby="userDropdown">
-    <h6>
-        <img src="~/images/profile.png" />
-        @user.FirstName @user.LastName
-    </h6>
-
-    <li>
-        <div class="darkmode-toggle">
-            <p>Dark Mode</p>
-            @await Html.PartialAsync("Partials/CustomSwitch")
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">@Model.FirstName @Model.LastName</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
-    </li>
-
-    <hr />
-
-    <li><a class="dropdown-item" href="/">Account Settings</a></li>
-
-    <li><a class="dropdown-item" href="/">Admin Login</a></li>
-
-    <li>
-        <a class="dropdown-item" href="@Url.Action("LogOut", "Auth")"><i class="bi bi-box-arrow-right"></i> Logout</a>
-    </li>
-</ul>
- *@
+    </div>
+</div>

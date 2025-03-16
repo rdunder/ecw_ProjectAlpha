@@ -255,9 +255,10 @@ p {
     display: flex;
     flex-direction: column;
     
-    text-align: center;
+}
 
-    width: 600px;
+.form-group {
+    width: 100%;
 }
 
 .divider-or {

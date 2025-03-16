@@ -3,3 +3,13 @@
     flex-wrap: wrap;
     gap: 2rem;
 }
+
+.modal-form-container {
+    padding: 2rem;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}

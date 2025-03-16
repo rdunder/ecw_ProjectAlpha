@@ -22,6 +22,12 @@ public class UserDto
     public string Email { get; set; } = null!;
 
 
+    [Display(Name = "Phone Number")]
+    [DataType(DataType.PhoneNumber)]
+    [RegularExpression(@"^(?:\+46\s?|0)\d(?:[\s]?\d){8,11}$", ErrorMessage = "Phonenumber needs to be formatted as:\n+46 701231234 OR\n0701231234")]
+    public string? PhoneNumber { get; set; }
+
+
     [Display(Name = "Password")]
     [Required(ErrorMessage = "You must enter a Password")]
     [DataType(DataType.Password)]
@@ -40,5 +46,9 @@ public class UserDto
     public bool AcceptTerms { get; set; }
 
 
+    public string? Avatar { get; set; }
+
     public string? RoleName { get; set; }
+
+    public DateOnly? BirthDate { get; set; }
 }

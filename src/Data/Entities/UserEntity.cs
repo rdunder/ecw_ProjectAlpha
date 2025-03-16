@@ -12,7 +12,8 @@ public class UserEntity : IdentityUser<int>
     [MaxLength(50)]
     public string LastName { get; set; } = null!;
 
-
+    [MaxLength(20)]
+    public override string? PhoneNumber { get; set; }
 
 
     [NotMapped]

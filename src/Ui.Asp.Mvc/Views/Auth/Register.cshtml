@@ -1,13 +1,15 @@
 ﻿
-@model UserDto
 
 @{
     Layout = "_AuthLayout";
     ViewData["Title"] = "Register";
 }
 
-
 <div class="surface">
+    @await Html.PartialAsync("Partials/_UserForm")
+</div>
+
+@* <div class="surface">
     <form class="form-container" novalidate method="post" asp-controller="Auth" asp-action="Register">
         <h1>Register</h1>
 
@@ -77,4 +79,4 @@
     </form>
 </div>
 
-@await Html.PartialAsync("_ValidationScripts")
+@await Html.PartialAsync("_ValidationScripts") *@
