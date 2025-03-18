@@ -4,25 +4,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities;
 
-public class UserEntity : IdentityUser<int>
+public class UserEntity : IdentityUser<Guid>
 {
     [MaxLength(50)]
+    [ProtectedPersonalData]
     public string FirstName { get; set; } = null!;
 
     [MaxLength(50)]
+    [ProtectedPersonalData]
     public string LastName { get; set; } = null!;
 
     [MaxLength(20)]
     public override string? PhoneNumber { get; set; }
 
-    public string? Avatar { get; set; }   
+    [PersonalData]
+    public string? Avatar { get; set; }
 
+    [ProtectedPersonalData]
     public DateOnly? BirthDate { get; set; }
+
+
+
+    public ICollection<ProjectEntity> Projects { get; set; } = [];
+    public UserAddressEntity? Address { get; set; }
 
 
     [NotMapped]
     public string? RoleName { get; set; }
-
-    public RoleEntity? Role { get; set; }
-    public UserAddressEntity? Address { get; set; }
 }
