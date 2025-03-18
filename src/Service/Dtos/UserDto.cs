@@ -50,11 +50,7 @@ public class UserDto
 
     public string? RoleName { get; set; }
 
-    public string? Address { get; set; }
-
-    public string? City { get; set; }
-
-    public int? PostalCode { get; set; }
+    
 
     public DateOnly? BirthDate { get; set; }
 }

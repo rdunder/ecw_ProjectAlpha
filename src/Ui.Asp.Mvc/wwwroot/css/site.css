@@ -172,12 +172,9 @@ p {
     background-color: var(--clr-accent);
     box-shadow: 0px 4px 16px 0px rgba(0, 129, 255, 0.18);
     font-weight: var(--font-weight-semibold);
-    &:hover
-
-{
-    background-color: var(--clr-dark-accent);
 }
-
+.btn-blue:hover {
+    background-color: var(--clr-dark-accent);
 }
 
 .btn-grey {
@@ -185,15 +182,14 @@ p {
     border: 1px solid var(--background-color-badges);
     background-color: var(--background-color-badges);
     font-weight: var(--font-weight-semibold);
-    &:hover {
-        background-color: var(--clr-grey-300);
-    }
+}
+.btn-grey:hover {
+    background-color: var(--clr-grey-300);
+}
 
-    img {
-        position: absolute;
-        left: 1rem;
-    }
-
+btn-grey img {
+    position: absolute;
+    left: 1rem;
 }
 
 

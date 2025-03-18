@@ -9,4 +9,5 @@ namespace Data.Contexts;
 
 public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEntity, RoleEntity, int> (options)
 {
+    public DbSet<UserAddressEntity> UserAddresses { get; set; }
 }

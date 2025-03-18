@@ -27,8 +27,12 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 
-builder.Services
-    .AddIdentity<UserEntity, RoleEntity>()
+builder.Services.AddIdentity<UserEntity, RoleEntity>(opt =>
+    {
+        opt.Password.RequiredLength = 8;
+        opt.User.RequireUniqueEmail = true;
+        opt.SignIn.RequireConfirmedEmail = false;
+    })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 

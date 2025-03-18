@@ -5,7 +5,7 @@ using Service.Models;
 
 namespace Ui.Asp.Mvc.Controllers;
 
-[Authorize(Roles = "admin")]
+[Authorize(Roles = "Administrator")]
 public class MembersController(IUserService userService, ILogger<MembersController> logger) : Controller
 {
     IUserService _userService = userService;
@@ -26,6 +26,8 @@ public class MembersController(IUserService userService, ILogger<MembersControll
 
         return RedirectToAction("Index");
     }
+
+
 
     public async Task<IActionResult> EditAsync(User user)
     {

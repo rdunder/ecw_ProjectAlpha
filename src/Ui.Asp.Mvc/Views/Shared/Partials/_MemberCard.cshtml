@@ -52,12 +52,13 @@
                     </div>
 
                     <form class="row g-3" novalidate method="post" asp-controller="Member" asp-action="Edit">
+                        <h1>@Model.FirstName</h1>
                         @await Html.PartialAsync("Partials/_UserForm", new UserDto()
-                   {
-                       FirstName = "fraggel",
-                       LastName = Model.LastName,
-                       Email = Model.Email
-                   })
+                       {
+                           FirstName = Model.FirstName,
+                           LastName = Model.LastName,
+                           Email = Model.Email
+                       })
                         <button type="submit" class="btn btn-blue mt-4">Save Member</button>
                     </form>
 

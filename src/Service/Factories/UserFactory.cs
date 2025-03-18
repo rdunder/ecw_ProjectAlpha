@@ -21,9 +21,6 @@ public static class UserFactory
                 UserName = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 Avatar = dto.Avatar,
-                Address = dto.Address,
-                City = dto.City,
-                PostalCode = dto.PostalCode,
                 BirthDate = dto.BirthDate,
             };
 

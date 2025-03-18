@@ -10,11 +10,16 @@
             Projects
         </a>
 
-        @if (User.IsInRole("admin"))
+        @if (User.IsInRole("Administrator"))
         {
             <a class="nav-link @(Context.Request.Path == "/members" ? "active" : "")" asp-controller="Members" asp-action="Index">
                 <i class="bi bi-people-fill"></i> 
                 Team Members
+            </a>
+
+            <a class="nav-link @(Context.Request.Path == "/members" ? "active" : "")" asp-controller="Roles" asp-action="Index">
+                <i class="bi bi-people-fill"></i>
+                Roles
             </a>
         }        
     </nav>

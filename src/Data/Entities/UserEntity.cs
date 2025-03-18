@@ -15,19 +15,14 @@ public class UserEntity : IdentityUser<int>
     [MaxLength(20)]
     public override string? PhoneNumber { get; set; }
 
-    public string? Avatar { get; set; }
-
-    [MaxLength(50)]
-    public string? Address { get; set; }
-
-    [MaxLength(50)]
-    public string? City { get; set; }
-
-    [MaxLength(50)]
-    public int? PostalCode { get; set; }
+    public string? Avatar { get; set; }   
 
     public DateOnly? BirthDate { get; set; }
 
+
     [NotMapped]
     public string? RoleName { get; set; }
+
+    public RoleEntity? Role { get; set; }
+    public UserAddressEntity? Address { get; set; }
 }
