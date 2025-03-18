@@ -2,7 +2,7 @@
 
 
 @{
-
+    string ModalId = Model.FirstName;
 }
 
 <div class="member-card">
@@ -15,7 +15,7 @@
 
         <ul class="dropdown-menu">
             <li class="mt-2 mb-3">
-                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ModalAdminEditMember"><i class="bi bi-pencil-fill"></i> Edit</a>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#@ModalId"><i class="bi bi-pencil-fill"></i> Edit</a>
             </li>
             <hr />
             <li>
@@ -40,7 +40,7 @@
     </div>
 
 
-    <div class="modal fade" id="ModalAdminEditMember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="@ModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -51,9 +51,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form class="row g-3" novalidate method="post" asp-controller="Member" asp-action="Edit">
+                    <form class="row g-3" novalidate method="post" >
                         <h1>@Model.FirstName</h1>
-                        @await Html.PartialAsync("Partials/_UserForm", new UserDto()
+                       @await Html.PartialAsync("Partials/_UserForm", new UserDto()
                        {
                            FirstName = Model.FirstName,
                            LastName = Model.LastName,
