@@ -3,10 +3,11 @@ using Data.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 using Service.Interfaces;
 using Service.Services;
+using Data.Interfaces;
+using Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,16 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb")));
 
 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IUserAddressRepository, UserAddressRepository>();
 
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<IUserAddressService, UserAddressService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 

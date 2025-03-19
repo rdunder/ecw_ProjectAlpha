@@ -6,7 +6,8 @@ namespace Data.Entities;
 
 public class StatusEntity
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
     [Required]
     [MaxLength(50)]

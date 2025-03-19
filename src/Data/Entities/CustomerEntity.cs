@@ -5,7 +5,8 @@ namespace Data.Entities;
 
 public class CustomerEntity
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
     [Required]
     [MaxLength(100)]

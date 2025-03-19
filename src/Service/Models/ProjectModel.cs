@@ -7,7 +7,7 @@ namespace Service.Models;
 
 public class ProjectModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
     public DateOnly StartDate { get; set; }
@@ -24,5 +24,5 @@ public class ProjectModel
     public CustomerEntity Customer { get; set; } = null!;
 
 
-    public IEnumerable<UserEntity>? Users { get; set; };
+    public IEnumerable<UserEntity>? Users { get; set; }
 }

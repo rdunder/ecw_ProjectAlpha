@@ -58,8 +58,7 @@ namespace Data.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CustomerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
@@ -72,8 +71,7 @@ namespace Data.Migrations
                 name: "Statuses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StatusName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -211,8 +209,7 @@ namespace Data.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -220,20 +217,22 @@ namespace Data.Migrations
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    StatusId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Projects_Customers_CustomerId1",
+                        column: x => x.CustomerId1,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_Statuses_StatusId",
-                        column: x => x.StatusId,
+                        name: "FK_Projects_Statuses_StatusId1",
+                        column: x => x.StatusId1,
                         principalTable: "Statuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -243,7 +242,7 @@ namespace Data.Migrations
                 name: "ProjectEntityUserEntity",
                 columns: table => new
                 {
-                    ProjectsId = table.Column<int>(type: "int", nullable: false),
+                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -308,14 +307,14 @@ namespace Data.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_CustomerId",
+                name: "IX_Projects_CustomerId1",
                 table: "Projects",
-                column: "CustomerId");
+                column: "CustomerId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_StatusId",
+                name: "IX_Projects_StatusId1",
                 table: "Projects",
-                column: "StatusId");
+                column: "StatusId1");
         }
 
         /// <inheritdoc />

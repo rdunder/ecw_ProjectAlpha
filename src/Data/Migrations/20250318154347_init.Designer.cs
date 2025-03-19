@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250318110144_init")]
+    [Migration("20250318154347_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.CustomerEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -50,11 +48,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
@@ -64,6 +60,9 @@ namespace Data.Migrations
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("CustomerId1")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -83,11 +82,14 @@ namespace Data.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("StatusId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId1");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusId1");
 
                     b.ToTable("Projects");
                 });
@@ -122,11 +124,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.StatusEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("StatusName")
                         .IsRequired()
@@ -348,8 +348,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("ProjectEntityUserEntity", b =>
                 {
-                    b.Property<int>("ProjectsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProjectsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UsersId")
                         .HasColumnType("uniqueidentifier");
@@ -365,13 +365,13 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.CustomerEntity", "Customer")
                         .WithMany("Projects")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CustomerId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.StatusEntity", "Status")
                         .WithMany("Projects")
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StatusId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

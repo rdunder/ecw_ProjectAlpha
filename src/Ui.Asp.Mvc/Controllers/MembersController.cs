@@ -20,9 +20,9 @@ public class MembersController(IUserService userService, ILogger<MembersControll
     }
 
     
-    public async Task<IActionResult> DeleteAsync(string email)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        await _userService.DeleteAsync(email);
+        await _userService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }
@@ -31,7 +31,7 @@ public class MembersController(IUserService userService, ILogger<MembersControll
 
     public async Task<IActionResult> EditAsync(User user)
     {
-        _logger.LogInformation($"User: {user.FirstName} {user.LastName}");
+        _logger.LogInformation($"####\n\nUser: {user.FirstName} {user.LastName}\n{user.Id}\n{user.BirthDate}\n\n####");
 
         return RedirectToAction("Index");
     }

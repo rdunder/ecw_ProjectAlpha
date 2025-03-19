@@ -5,6 +5,6 @@ using Service.Models;
 
 namespace Service.Interfaces;
 
-public interface IUserService : IService<User, UserDto>
+public interface IUserAddressService : IService<UserAddressModel, UserAddressDto>
 {
 }

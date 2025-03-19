@@ -44,9 +44,9 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return result.Succeeded ? true : false;
     }
 
-    public async Task<bool> DeleteAsync(string email)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         if (user != null)
         {
             var result = await _userManager.DeleteAsync(user);
@@ -72,12 +72,12 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return users;
     }
 
-    public Task<User> GetByIdAsync(int id)
+    public Task<User> GetByIdAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> UpdateAsync(int id, UserDto? dto)
+    public Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
         throw new NotImplementedException();
     }

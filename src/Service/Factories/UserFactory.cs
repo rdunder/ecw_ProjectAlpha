@@ -29,11 +29,14 @@ public static class UserFactory
             ? throw new ArgumentNullException(nameof(entity))
             : new User()
             {
+                Id = entity.Id,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 Email = entity.Email ?? "",
                 UserName = entity.UserName,
                 PhoneNumber = entity.PhoneNumber ?? "",
                 RoleName = entity.RoleName,
+                Avatar = entity.Avatar,
+                BirthDate = entity.BirthDate,
             };
 }

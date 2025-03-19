@@ -1,0 +1,1 @@
+BACKUP DATABASE ecw_ProjectAlpha TO DISK = 'E:\TEMP\backup.bak'
