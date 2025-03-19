@@ -30,6 +30,6 @@ public class ProjectDto
 
     public string? Avatar { get; set; }
 
-    public int StatusId { get; set; }
-    public int CustomerId { get; set; }
+    public Guid StatusId { get; set; }
+    public Guid CustomerId { get; set; }
 }

@@ -1,26 +1,50 @@
 ﻿
 
+using Data.Contexts;
+using Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Service.Dtos;
+using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
 
-public class RoleService : IRoleService
+public class RoleService(RoleManager<RoleEntity> roleManager, AppDbContext context) : IRoleService
 {
-    public Task<bool> CreateAsync(RoleDto? dto)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly AppDbContext _context = context;
+    private readonly RoleManager<RoleEntity> _roleManager = roleManager;
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> CreateAsync(RoleDto? dto)
     {
-        throw new NotImplementedException();
-    }
+        if (dto == null) return false;
 
-    public Task<IEnumerable<RoleModel>> GetAllAsync()
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                var entity = RoleFactory.Create(dto);
+                var result = await _roleManager.CreateAsync(entity);
+
+                await transaction.CommitAsync();
+
+                return result.Succeeded ? true : false;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }
+        }
+    }    
+
+    public async Task<IEnumerable<RoleModel>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var entities = await _roleManager.Roles.ToListAsync();
+        var roles = entities.Select(entity => RoleFactory.Create(entity));
+        
+        return roles;
     }
 
     public Task<RoleModel> GetByIdAsync(Guid id)
@@ -29,6 +53,11 @@ public class RoleService : IRoleService
     }
 
     public Task<bool> UpdateAsync(Guid id, RoleDto? dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }

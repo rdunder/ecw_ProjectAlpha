@@ -24,10 +24,10 @@ public static class UserFactory
                 BirthDate = dto.BirthDate,
             };
 
-    public static User Create(UserEntity entity) =>
+    public static UserModel Create(UserEntity entity) =>
         entity is null
             ? throw new ArgumentNullException(nameof(entity))
-            : new User()
+            : new UserModel()
             {
                 Id = entity.Id,
                 FirstName = entity.FirstName,
@@ -39,4 +39,20 @@ public static class UserFactory
                 Avatar = entity.Avatar,
                 BirthDate = entity.BirthDate,
             };
+
+    public static UserEntity Create(UserModel model) =>
+        model is null
+        ? throw new ArgumentNullException(nameof(model))
+        : new UserEntity()
+        {
+            Id = model.Id,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Email = model.Email,
+            UserName = model.UserName,
+            PhoneNumber = model.PhoneNumber,
+            RoleName = model.RoleName,
+            Avatar = model.Avatar,
+            BirthDate = model.BirthDate,
+        };
 }

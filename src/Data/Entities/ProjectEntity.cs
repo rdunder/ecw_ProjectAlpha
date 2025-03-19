@@ -26,11 +26,11 @@ public class ProjectEntity
     public string? Avatar { get; set; }
 
 
-    public int StatusId { get; set; }
+    public Guid StatusId { get; set; }
     public StatusEntity Status { get; set; } = null!;
 
 
-    public int CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public CustomerEntity Customer { get; set; } = null!;
 
     public ICollection<UserEntity> Users { get; set; } = [];

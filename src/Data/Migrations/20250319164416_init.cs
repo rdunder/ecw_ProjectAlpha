@@ -216,23 +216,21 @@ namespace Data.Migrations
                     EndDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    StatusId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    StatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Customers_CustomerId1",
-                        column: x => x.CustomerId1,
+                        name: "FK_Projects_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_Statuses_StatusId1",
-                        column: x => x.StatusId1,
+                        name: "FK_Projects_Statuses_StatusId",
+                        column: x => x.StatusId,
                         principalTable: "Statuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -307,14 +305,14 @@ namespace Data.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_CustomerId1",
+                name: "IX_Projects_CustomerId",
                 table: "Projects",
-                column: "CustomerId1");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_StatusId1",
+                name: "IX_Projects_StatusId",
                 table: "Projects",
-                column: "StatusId1");
+                column: "StatusId");
         }
 
         /// <inheritdoc />

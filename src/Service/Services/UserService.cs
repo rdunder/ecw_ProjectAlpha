@@ -19,18 +19,8 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public async Task<bool> CreateAsync(UserDto? dto)
     {
-       
-
-            var entity = UserFactory.Create(dto);
+        var entity = UserFactory.Create(dto);
         var result = await _userManager.CreateAsync(entity, dto.Password);
-
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Chief Executive Officer" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Administrator" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Chief Technician Officer" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Frontend Developer" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Fullstack Developer" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Backend Developer" });
-        //await _roleManager.CreateAsync(new RoleEntity() { Name = "Trainee" });
 
         if (dto.RoleName == null)
         {
@@ -58,7 +48,7 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         }
     }
 
-    public async Task<IEnumerable<User>> GetAllAsync()
+    public async Task<IEnumerable<UserModel>> GetAllAsync()
     {
         var userEntities = await _userManager.Users.ToListAsync();
 
@@ -72,7 +62,7 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return users;
     }
 
-    public Task<User> GetByIdAsync(Guid id)
+    public Task<UserModel> GetByIdAsync(Guid id)
     {
         throw new NotImplementedException();
     }
@@ -80,5 +70,33 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
     public Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<bool> AddToRoleAsync(UserModel model, string roleName)
+    {
+        if (model == null) return false;
+
+        var entity = await _userManager.FindByEmailAsync(model.Email);
+
+
+        var roles = await _userManager.GetRolesAsync(entity);
+        foreach (var role in roles)
+        {
+            await _userManager.RemoveFromRoleAsync(entity, role);
+        }
+
+
+        if (await _roleManager.RoleExistsAsync(roleName) && entity != null)
+        {
+            var result = await _userManager.AddToRoleAsync(entity, roleName);
+            return result.Succeeded;
+        }
+
+        return false;
+    }
+
+    public async Task<UserModel> GetByEmailAsync(string email)
+    {
+        return new UserModel();
     }
 }

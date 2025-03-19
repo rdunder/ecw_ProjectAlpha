@@ -5,6 +5,7 @@ using Service.Dtos;
 using Service.Interfaces;
 using System.Security.Claims;
 using Ui.Asp.Mvc.Models;
+using Ui.Asp.Mvc.Services;
 
 namespace Ui.Asp.Mvc.Controllers;
 
@@ -14,15 +15,23 @@ public class AuthController : Controller
     private readonly UserManager<UserEntity> _userManager;
     private readonly RoleManager<RoleEntity> _roleManager;
     private readonly ILogger<AuthController> _logger;
+    private readonly InitService _initService;
 
     private readonly IUserService _userService;
 
-    public AuthController(SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, ILogger<AuthController> logger, IUserService userService)
+    public AuthController(
+        SignInManager<UserEntity> signInManager, 
+        UserManager<UserEntity> userManager, 
+        RoleManager<RoleEntity> roleManager, 
+        ILogger<AuthController> logger,
+        InitService initService,
+        IUserService userService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;
         _logger = logger;
+        _initService = initService;
 
         _userService = userService;
     }
@@ -77,27 +86,12 @@ public class AuthController : Controller
         #region
         //  User: admin@domain.com with password: Password123! and add the Administrator role to that user
         //  Roles: Trainee, Fullstack Developer, Frontend Developer, Backend Developer and Administrator
+
         if (await _roleManager.RoleExistsAsync("Administrator") == false)
         {
             try
             {
-                await _roleManager.CreateAsync(new RoleEntity() { Name = "Trainee" });
-                await _roleManager.CreateAsync(new RoleEntity() { Name = "Fullstack Developer" });
-                await _roleManager.CreateAsync(new RoleEntity() { Name = "Frontend Developer" });
-                await _roleManager.CreateAsync(new RoleEntity() { Name = "Backend Developer" });
-                await _roleManager.CreateAsync(new RoleEntity() { Name = "Administrator" });
-
-                var admin = new UserEntity()
-                {
-                    FirstName = "Super",
-                    LastName = "User",
-                    Email = "admin@domain.com",
-                    UserName = "admin@domain.com",
-                    PhoneNumber = "+46 743 897 356"
-                };
-
-                await _userManager.CreateAsync(admin, "Password123!");
-                await _userManager.AddToRoleAsync(admin, "Administrator");
+                await _initService.InitCreate();
             }
             catch (Exception e)
             {
@@ -105,6 +99,7 @@ public class AuthController : Controller
                 throw new Exception("Something went wrong with creating roles and admin user");
             }
         }
+
         //________________________________________________________________________________________________
         #endregion
 

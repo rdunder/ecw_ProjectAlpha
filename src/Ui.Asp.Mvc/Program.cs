@@ -8,6 +8,7 @@ using Service.Interfaces;
 using Service.Services;
 using Data.Interfaces;
 using Data.Repositories;
+using Ui.Asp.Mvc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,10 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserAddressService, UserAddressService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+
+
+builder.Services.AddTransient<InitService>();
 
 
 

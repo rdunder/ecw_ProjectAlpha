@@ -1,7 +1,12 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<RoleModel>
 
 @{
     ViewData["Title"] = "Roles";
 }
 
-<h1>Roles ...</h1>
+<div>
+    @foreach (var role in Model)
+    {
+        <p>@role.Name</p>
+    }
+</div>

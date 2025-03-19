@@ -13,6 +13,6 @@ public class UserModel
     public string? Avatar { get; set; }
     public DateOnly? BirthDate { get; set; }
 
-
+    UserAddressModel? Address { get; set; }
     public string? RoleName { get; set; }
 }

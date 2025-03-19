@@ -29,7 +29,7 @@ public class MembersController(IUserService userService, ILogger<MembersControll
 
 
 
-    public async Task<IActionResult> EditAsync(User user)
+    public async Task<IActionResult> EditAsync(UserModel user)
     {
         _logger.LogInformation($"####\n\nUser: {user.FirstName} {user.LastName}\n{user.Id}\n{user.BirthDate}\n\n####");
 

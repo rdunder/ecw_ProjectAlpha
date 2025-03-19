@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 
 namespace Ui.Asp.Mvc.Controllers;
 
-[Authorize(Roles = "admin")]
-public class RolesController : Controller
+[Authorize(Roles = "Administrator")]
+public class RolesController(IRoleService roleService) : Controller
 {
     [Route("/roles")]
-    public ActionResult Index()
+    public async Task<IActionResult> IndexAsync()
     {
-        return View();
+        var roles = await roleService.GetAllAsync();
+        return View(roles);
     }
 
     // GET: RolesController/Details/5
