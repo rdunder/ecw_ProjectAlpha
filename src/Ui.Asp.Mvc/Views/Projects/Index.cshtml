@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectModel>
+﻿@model ProjectsViewModel
 
 @{
     ViewData["Title"] = "Projects";
@@ -10,40 +10,29 @@
 }
 else
 {
-    <div class="d-flex justify-content-between mb-5">
-        <h1>Members...</h1>
-        <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#ModalAddProject">Add Project</button>
-    </div>
+    <partial 
+        name="_AddProjectModal" 
+        model="@Model.projectDto"
+        />
 
-    <div>
-        @foreach (var project in Model)
-        {
-            <partial name="_ProjectCard" model="project"/>
-        }
-    </div>
+    <section class="section-projects">
+        <div class="d-flex justify-content-between mb-5">
+            <h1>Projects</h1>
+            <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addProjectModal">Add Project</button>
+        </div>
+
+        <div>
+            @foreach (var project in Model.Projects)
+            {
+                <partial name="_ProjectCard" model="project"/>
+            }
+        </div>
+    </section>
 }
 
 
 
-<div class="modal fade" id="ModalAddProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-body p-4">
 
-                <div class="d-flex justify-content-between mb-4">
-                    <h3 class="modal-title fs-5" id="exampleModalLabel">New Project</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form class="row g-3" novalidate method="post" asp-controller="Projects" asp-action="Add" enctype="multipart/form-data">
-                    @await Html.PartialAsync("_ProjectForm", new ProjectDto())
-                    <button type="submit" class="btn btn-blue mt-4">Save Project</button>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 

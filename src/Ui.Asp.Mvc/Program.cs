@@ -38,6 +38,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddTransient<InitService>();
+builder.Services.AddScoped<ImageManager>();
 
 
 

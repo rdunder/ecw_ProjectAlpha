@@ -2,13 +2,15 @@
 
 @{
     TimeSpan timeDifference = Model.EndDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
+    string avatar = Model.Avatar != null ? $"project_avatars/{Model.Avatar}" : "projectImg01.png";
+    //string avatar = $"project_avatars/{Model.Avatar}" ?? "projectImg01.png";
 }
 
 
 <div class="project-card">
     <header>
         <div class="title">
-            <img class="project-avatar" src="~/images/projectImg01.png" />
+            <img class="project-avatar" src="~/images/@avatar" />
             <div>
                 <h6>@Model.Name</h6>
                 <p>@Model.Customer.CustomerName</p>

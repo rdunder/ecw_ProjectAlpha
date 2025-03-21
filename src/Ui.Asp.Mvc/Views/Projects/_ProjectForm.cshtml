@@ -1,6 +1,8 @@
 ﻿@model ProjectDto
 
 @{
+    var customers = ViewBag.Customers;
+    var statuses = ViewBag.Statuses;
 }
 
 <div class="image-preview-container">
@@ -10,82 +12,59 @@
         </div>
     </div>
     <img src="#" id="image-preview" alt="avatar image preview" class="d-none" />
+    <input asp-for="File" hidden accept="image/*" />
 </div>
 
-<div class="col-md-12">
-    @* <label asp-for="File" class="col-form-label"></label> *@
-    <input asp-for="File" hidden autofocus="false" class="form-control" placeholder="Enter First Name" accept="image/*" />
-    <span asp-validation-for="File" class="text-danger"></span>
-</div>
 
-<div class="col-md-12">
-    <label asp-for="Name" class="col-form-label"></label>
-    <input asp-for="Name" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+
+<div class="col-md-12 form-group">
+    <label asp-for="Name" ></label>
+    <input asp-for="Name" class="form-control" autocomplete="off" />
     <span asp-validation-for="Name" class="text-danger"></span>
 </div>
 
-<div class="col-md-12">
-    <label asp-for="CustomerId" class="col-form-label"></label>
-    <input asp-for="CustomerId" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+<div class="col-md-12 form-group">
+    <label asp-for="CustomerId" ></label>
+    <select asp-for="CustomerId" asp-items="@customers" class="form-control">
+        <option value="" disabled selected>-- Select a Customer --</option>
+    </select>
     <span asp-validation-for="CustomerId" class="text-danger"></span>
 </div>
 
-<div class="col-md-12">
-    <label asp-for="Description" class="col-form-label"></label>
-    <input asp-for="Description" class="form-control" placeholder="Enter Last Name" />
+<div class="col-md-12 form-group">
+    <label asp-for="Description"></label>
+    <input asp-for="Description" class="form-control"  />
     <span asp-validation-for="Description" class="text-danger"></span>
 </div>
 
-<div class="col-lg-6">
-    <label asp-for="StartDate" class="col-form-label"></label>
-    <input asp-for="StartDate" class="form-control" type="date" />
-    <span asp-validation-for="StartDate" class="text-danger"></span>
+<div class="form-group-horizontal">
+    <div class="col-6">
+        <label asp-for="StartDate" ></label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="col-6">
+        <label asp-for="EndDate" ></label>
+        <input asp-for="EndDate" class="form-control" type="date" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
 </div>
 
-<div class="col-lg-6">
-    <label asp-for="EndDate" class="col-form-label"></label>
-    <input asp-for="EndDate" class="form-control" type="date" />
-    <span asp-validation-for="EndDate" class="text-danger"></span>
+<div class="col-md-12 form-group">
+    <label asp-for="StatusId"></label>
+    <select asp-for="StatusId" asp-items="@statuses" class="form-control">
+        <option value="" disabled selected>-- Select a Status --</option>
+    </select>
+    <span asp-validation-for="StatusId" class="text-danger"></span>
 </div>
 
-<div class="col-md-12">
-    <label asp-for="Budget" class="col-form-label"></label>
+<div class="col-md-12 form-group">
+    <label asp-for="Budget" ></label>
     <input asp-for="Budget" class="form-control" />
     <span asp-validation-for="Budget" class="text-danger"></span>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const fileInput = document.querySelector("#File");
-        const circle = document.querySelector("#circle-container");
-
-        if (!fileInput) return;
-
-        circle.addEventListener('click', function() {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];            
-            const img = document.querySelector("#image-preview");
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    img.src = e.target.result
-                    img.classList.remove("d-none")
-                    circle.classList.add("d-none")
-                }
-
-                reader.readAsDataURL(file)
-            } else {
-                img.classList.add("d-none")
-                circle.classList.remove("d-none")
-            }
-
-        })
-    })
-</script>
 
 @await Html.PartialAsync("_ValidationScripts")
 

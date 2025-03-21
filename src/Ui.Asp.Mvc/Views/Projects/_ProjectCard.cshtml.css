@@ -24,7 +24,10 @@
             align-items: center;
         }
 
-            .project-card header .title .project-avatar {
+            .project-card header .title ::deep .project-avatar {
+                width: 56px;
+                height: 56px;
+                border-radius: 10px;
             }
 
             .project-card header .title p {
