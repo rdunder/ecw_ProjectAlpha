@@ -43,6 +43,7 @@
     --clr-dark-orange: #F09330;
 
     --clr-red: #FF6640;
+    --clr-red-15: #ff664015;
     --clr-dark-red: #E94D3F;
 
     --clr-yellow: #FFD422;
@@ -89,6 +90,17 @@
     --background-color-forms: #202123;
 
 }
+
+.theme-dark {
+    --text-color: #E8E8E8;
+    --text-color-light: #9E9E9E;
+    --headline-color: var(--clr-surface);
+    --border-color: #2F2F30;
+    --background-color: #151517;
+    --background-color-forms: #202123;
+    --background-color-badges: var(--clr-dark-100);
+    --background-color-cards: #20212380;
+}
 /* #endregion */
 
 /* #region || Reset*/
@@ -108,6 +120,9 @@ body {
 /* #endregion */
 
 /* #region || Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
 h1 {
     font-size: 2.25rem;
     font-weight: var(--font-weight-bold);

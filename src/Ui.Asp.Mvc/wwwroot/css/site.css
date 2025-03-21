@@ -35,6 +35,7 @@
     --clr-orange: #FF9640;
     --clr-dark-orange: #F09330;
     --clr-red: #FF6640;
+    --clr-red-15: #ff664015;
     --clr-dark-red: #E94D3F;
     --clr-yellow: #FFD422;
     --clr-dark-yellow: #FCBB42;
@@ -104,6 +105,10 @@ body {
 /* #endregion */
 
 /* #region || Typography */
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+}
+
 h1 {
     font-size: 2.25rem;
     font-weight: var(--font-weight-bold);
@@ -138,10 +143,6 @@ h6 {
     font-size: 1.125rem;
     font-weight: var(--font-weight-semibold);
     color: var(--headline-color);
-}
-
-p {
-    margin: 0;
 }
 /* #endregion */
 

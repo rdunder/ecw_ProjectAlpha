@@ -1,0 +1,35 @@
+﻿@model ProjectModel
+
+@{
+    TimeSpan timeDifference = Model.EndDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
+}
+
+
+<div class="project-card">
+    <header>
+        <div class="title">
+            <img class="project-avatar" src="~/images/projectImg01.png" />
+            <div>
+                <h6>@Model.Name</h6>
+                <p>@Model.Customer.CustomerName</p>
+            </div>
+        </div>
+        <div class="menu">
+            <button class="menu-btn"><i class="bi bi-three-dots"></i></button>
+        </div>
+    </header>
+
+    <p class="project-description">@Model.Description</p>
+
+    <footer>
+        <div class="timeframe">
+            <i class="bi bi-clock-fill"></i>
+            <p>@timeDifference.Days days left</p>
+        </div>
+        <div class="members">
+            <img src="~/images/profile.png">
+            <img src="~/images/profile.png">
+            <img src="~/images/profile.png">
+        </div>
+    </footer>
+</div>

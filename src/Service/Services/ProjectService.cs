@@ -1,6 +1,7 @@
 ﻿
 
 using Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
@@ -39,7 +40,11 @@ public class ProjectService(IProjectRepository repo) : IProjectService
 
         try
         {
-            var entities = await _repo.GetAllAsync();
+            var entities = await _repo.GetAllAsync(query => 
+                query
+                    .Include(x => x.Status)
+                    .Include(x => x.Customer)
+                );
             projects.AddRange(entities.Select(entity => ProjectFactory.Create(entity)));
 
             return projects;

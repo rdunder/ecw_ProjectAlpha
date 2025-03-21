@@ -39,24 +39,24 @@ public static class ProjectFactory
             Budget = entity.Budget,
             Avatar = entity.Avatar,
 
-            StatusId = entity.StatusId,
-            CustomerId = entity.CustomerId,
+            Status = StatusFactory.Create(entity.Status),
+            Customer = CustomerFactory.Create(entity.Customer),
         };
 
-    public static ProjectEntity Create(ProjectModel model) =>
-        model is null
-        ? throw new ArgumentNullException(nameof(model))
-        : new ProjectEntity()
-        {
-            Id = model.Id,
-            Name = model.Name,
-            Description = model.Description,
-            StartDate = model.StartDate,
-            EndDate = model.EndDate,
-            Budget = model.Budget,
-            Avatar = model.Avatar,
+    //public static ProjectEntity Create(ProjectModel model) =>
+    //    model is null
+    //    ? throw new ArgumentNullException(nameof(model))
+    //    : new ProjectEntity()
+    //    {
+    //        Id = model.Id,
+    //        Name = model.Name,
+    //        Description = model.Description,
+    //        StartDate = model.StartDate,
+    //        EndDate = model.EndDate,
+    //        Budget = model.Budget,
+    //        Avatar = model.Avatar,
 
-            StatusId = model.StatusId,
-            CustomerId = model.CustomerId,
-        };
+    //        StatusId = model.StatusId,
+    //        CustomerId = model.CustomerId,
+    //    };
 }

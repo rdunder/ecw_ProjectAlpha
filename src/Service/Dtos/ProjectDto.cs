@@ -1,6 +1,7 @@
 ﻿
 
 using Data.Entities;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
@@ -14,6 +15,7 @@ public class ProjectDto
 
     [Display(Name = "Project Description", Prompt = "Describe the project")]
     [Required(ErrorMessage = "You must enter a description")]
+    [RegularExpression(@"^(\s*\S+\s+){4,}\S+.*$", ErrorMessage = "Describe the project in at least 5  words")]
     public string Description { get; set; } = null!;
 
     [Display(Name = "Starting Date", Prompt = "Enter Start Date")]
@@ -28,7 +30,9 @@ public class ProjectDto
     [Required(ErrorMessage = "You must enter a budget")]
     public decimal Budget { get; set; }
 
+    public IFormFile? File { get; set; }
     public string? Avatar { get; set; }
+
 
     public Guid StatusId { get; set; }
     public Guid CustomerId { get; set; }

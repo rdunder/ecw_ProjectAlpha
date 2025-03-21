@@ -1,0 +1,47 @@
+﻿::deep .col-form-label {
+    font-weight: var(--font-weight-semibold);
+}
+
+::deep .form-control {
+    border-radius: 10px;
+    border: 1px solid var(--clr-border-100);
+}
+
+
+
+.image-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+    .image-preview-container .image-preview-border {
+        border: 1px dashed var(--text-color-light);
+        padding: 3rem;
+        border-radius: 16px;
+        cursor: pointer;
+    }
+
+.image-preview-container .circle {
+    background-color: grey;
+    height: 40px;
+    width: 40px;
+    padding: 0.5rem;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-preview-container .circle i {
+    color: white;
+}
+
+
+.image-preview-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

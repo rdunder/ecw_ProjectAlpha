@@ -138,7 +138,7 @@ public class AuthController : Controller
         }
         else
         {
-            return RedirectToAction(nameof(ProjectsController.Index), "Projects");
+            return RedirectToAction("Index", "Projects");
         }
     }
 }

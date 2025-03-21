@@ -16,13 +16,13 @@ public class ProjectModel
     public string? Avatar { get; set; }
 
 
-    public Guid StatusId { get; set; }
-    public StatusEntity Status { get; set; } = null!;
+    //public Guid StatusId { get; set; }
+    public StatusModel Status { get; set; } = null!;
 
 
-    public Guid CustomerId { get; set; }
-    public CustomerEntity Customer { get; set; } = null!;
+    //public Guid CustomerId { get; set; }
+    public CustomerModel Customer { get; set; } = null!;
 
 
-    public IEnumerable<UserEntity>? Users { get; set; }
+    public IEnumerable<UserModel>? Users { get; set; }
 }
