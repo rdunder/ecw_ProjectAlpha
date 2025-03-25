@@ -1,0 +1,6 @@
+﻿@model IEnumerable<ProjectModel>
+
+@foreach (var project in Model)
+{
+    <partial name="_ProjectCard" model="project" />
+}

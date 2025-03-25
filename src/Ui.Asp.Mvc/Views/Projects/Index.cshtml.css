@@ -1,1 +1,48 @@
 ﻿
+
+
+#projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+
+
+
+.project-sort-menu-container {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+}
+
+.project-sort-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+    .project-sort-menu a {
+        display: block;
+        color: var(--text-color-light);
+        font-weight: var(--font-weight-bold);
+        text-decoration: none;
+        padding-bottom: 1rem;
+    }
+
+        .project-sort-menu a.active {
+            position: relative;
+            color: var(--clr-accent);
+        }
+
+            .project-sort-menu a.active::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+
+                display: inline-block;
+                width: 100%;
+                height: 4px;
+                background-color: var(--clr-accent);
+                border-radius: 8px 8px 0 0;
+            }
+

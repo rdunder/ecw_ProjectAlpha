@@ -72,9 +72,28 @@ public class ProjectService(IProjectRepository repo) : IProjectService
         }
     }
 
-    public Task<bool> UpdateAsync(Guid id, ProjectDto? dto)
+    public async Task<bool> UpdateAsync(Guid id, ProjectDto? dto)
     {
-        throw new NotImplementedException();
+        if (dto is null || await _repo.AlreadyExistsAsync(x => x.Id == dto.Id) == false) return false;
+
+        await _repo.BeginTransactionAsync();
+
+        try
+        {
+            var entity = ProjectFactory.Create(dto);
+            entity.Id = dto.Id;
+
+            _repo.Update(entity);
+
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
     }
 
     public async Task<bool> DeleteAsync(Guid id)

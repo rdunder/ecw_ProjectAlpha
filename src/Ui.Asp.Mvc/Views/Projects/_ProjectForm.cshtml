@@ -1,18 +1,35 @@
 ﻿@model ProjectDto
 
 @{
-    var customers = ViewBag.Customers;
-    var statuses = ViewBag.Statuses;
+    // string avatar = Model.Avatar != string.Empty ? $"project_avatars/{Model.Avatar}" : string.Empty;
+
 }
 
+<input asp-for="Id" hidden />
+<input asp-for="Avatar" hidden />
+
+
 <div class="image-preview-container">
-    <div id="circle-container" class="image-preview-border">
-        <div class="circle circle-gray">
-            <i class="bi bi-camera"></i>
+    @if (Model.Avatar == null)
+    {
+        <div id="circle-container" class="image-preview-border">
+            <div class="circle circle-gray">
+                <i class="bi bi-camera"></i>
+            </div>
         </div>
-    </div>
-    <img src="#" id="image-preview" alt="avatar image preview" class="d-none" />
-    <input asp-for="File" hidden accept="image/*" />
+        <img src="#" id="image-preview" alt="avatar image preview" class="d-none" />
+        <input asp-for="File" hidden accept="image/*" />
+    }
+    else
+    {
+        <div id="circle-container" class="image-preview-border d-none">
+            <div class="circle circle-gray">
+                <i class="bi bi-camera"></i>
+            </div>
+        </div>
+        <img src="~/images/project_avatars/@Model.Avatar" id="image-preview" alt="avatar image preview" class="" />
+        <input asp-for="File" hidden accept="image/*" />
+    }
 </div>
 
 
@@ -25,7 +42,7 @@
 
 <div class="col-md-12 form-group">
     <label asp-for="CustomerId" ></label>
-    <select asp-for="CustomerId" asp-items="@customers" class="form-control">
+    <select asp-for="CustomerId" asp-items="@ViewBag.Customers" class="form-control">
         <option value="" disabled selected>-- Select a Customer --</option>
     </select>
     <span asp-validation-for="CustomerId" class="text-danger"></span>
@@ -53,7 +70,7 @@
 
 <div class="col-md-12 form-group">
     <label asp-for="StatusId"></label>
-    <select asp-for="StatusId" asp-items="@statuses" class="form-control">
+    <select asp-for="StatusId" asp-items="@ViewBag.Statuses" class="form-control">
         <option value="" disabled selected>-- Select a Status --</option>
     </select>
     <span asp-validation-for="StatusId" class="text-danger"></span>

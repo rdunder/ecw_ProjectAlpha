@@ -8,6 +8,7 @@ namespace Service.Dtos;
 
 public class ProjectDto
 {
+    public Guid Id { get; set; }
 
     [Display(Name = "Project Name", Prompt = "Enter Project Name")]
     [Required(ErrorMessage = "You must enter a name")]
