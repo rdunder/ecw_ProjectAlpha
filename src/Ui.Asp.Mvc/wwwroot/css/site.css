@@ -272,6 +272,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
 
+.test-class {
+
+}
+
 .date-input-wrapper {
     position: relative;
 }
