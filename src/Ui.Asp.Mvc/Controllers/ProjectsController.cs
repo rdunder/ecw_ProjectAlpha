@@ -21,6 +21,7 @@ public class ProjectsController(IProjectService projectService, ICustomerService
 
     public async Task<IActionResult> IndexAsync()
     {
+
         ProjectsViewModel viewModel = new()
         {
             Projects = await _projectService.GetAllAsync(),
