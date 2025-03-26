@@ -1,12 +1,9 @@
-﻿
-
-using Data.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Service.Dtos;
 using System.ComponentModel.DataAnnotations;
 
-namespace Service.Dtos;
+namespace Ui.Asp.Mvc.Models;
 
-public class ProjectDto
+public class ProjectForm
 {
     public Guid Id { get; set; }
 
@@ -37,15 +34,28 @@ public class ProjectDto
     public Guid CustomerId { get; set; }
 
 
-    [Display(Name = "Status", Prompt = "Select a Status")]
-    [Required(ErrorMessage = "You must select a Status")]
     public Guid StatusId { get; set; }
 
 
     [Display(Name = "Project Avatar", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
     public IFormFile? File { get; set; }
-
-
     public string? Avatar { get; set; }
+
+
+    public static implicit operator ProjectDto(ProjectForm form) =>
+        form is null
+        ? null!
+        : new ProjectDto
+        {
+            Id = form.Id,
+            Name = form.Name,
+            Description = form.Description,
+            StartDate = form.StartDate,
+            EndDate = form.EndDate,
+            CustomerId = form.CustomerId,
+            StatusId = form.StatusId,
+            Budget = form.Budget,
+            Avatar = form.Avatar
+        };
 }

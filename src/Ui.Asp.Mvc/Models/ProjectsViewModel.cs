@@ -14,6 +14,6 @@ namespace Ui.Asp.Mvc.Models
 
         public IEnumerable<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
 
-        public ProjectDto projectDto { get; set; } = new ProjectDto();
+        public ProjectForm form { get; set; } = new();
     }
 }

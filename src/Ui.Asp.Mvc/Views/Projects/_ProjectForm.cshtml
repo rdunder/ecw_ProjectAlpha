@@ -1,4 +1,4 @@
-﻿@model ProjectDto
+﻿@model ProjectForm
 
 @{
     // string avatar = Model.Avatar != string.Empty ? $"project_avatars/{Model.Avatar}" : string.Empty;
@@ -27,7 +27,7 @@
                 <i class="bi bi-camera"></i>
             </div>
         </div>
-        <img src="~/images/project_avatars/@Model.Avatar" id="image-preview" alt="avatar image preview" class="" />
+        <img src="~/images/Projects_Avatars/@Model.Avatar" id="image-preview" alt="avatar image preview" class="" />
         <input asp-for="File" hidden accept="image/*" />
     }
 </div>
@@ -48,33 +48,53 @@
     <span asp-validation-for="CustomerId" class="text-danger"></span>
 </div>
 
+
+
 <div class="col-md-12 form-group">
     <label asp-for="Description"></label>
-    <input asp-for="Description" class="form-control"  />
+    <textarea asp-for="Description" id="richTextArea" class="form-control"></textarea>
     <span asp-validation-for="Description" class="text-danger"></span>
 </div>
 
+
+
+@* <div class="col-md-12 form-group">
+    <label asp-for="Description"></label>
+    @Html.TextAreaFor(model => model.Description, new {
+        @class="form-control",
+        rows = 4,
+        id = "richTextArea"
+    })
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div> *@
+
+
+
+
+
 <div class="form-group-horizontal">
-    <div class="col-6">
+    <div class="col-6 date-input-wrapper" >
         <label asp-for="StartDate" ></label>
         <input asp-for="StartDate" class="form-control" type="date" />
+        <i class="bi bi-calendar"></i>
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
 
-    <div class="col-6">
+    <div class="col-6 date-input-wrapper">
         <label asp-for="EndDate" ></label>
         <input asp-for="EndDate" class="form-control" type="date" />
+        <i class="bi bi-calendar"></i>
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
 </div>
 
-<div class="col-md-12 form-group">
+@* <div class="col-md-12 form-group">
     <label asp-for="StatusId"></label>
     <select asp-for="StatusId" asp-items="@ViewBag.Statuses" class="form-control">
         <option value="" disabled selected>-- Select a Status --</option>
     </select>
     <span asp-validation-for="StatusId" class="text-danger"></span>
-</div>
+</div> *@
 
 <div class="col-md-12 form-group">
     <label asp-for="Budget" ></label>
@@ -83,5 +103,8 @@
 </div>
 
 
+<script src="https://cdn.tiny.cloud/1/lbjm2n85x08rdztajc4zpp79wy8v7sdj55r8xdkzrgwcypfe/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="~/js/richTextArea.js" asp-append-version="true" />
 @await Html.PartialAsync("_ValidationScripts")
+
 

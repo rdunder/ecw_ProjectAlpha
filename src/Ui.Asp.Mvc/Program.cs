@@ -9,6 +9,7 @@ using Service.Services;
 using Data.Interfaces;
 using Data.Repositories;
 using Ui.Asp.Mvc.Services;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ builder.Services.AddScoped<IUserAddressService, UserAddressService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
-
+//  Asp webapp specific services
 builder.Services.AddTransient<InitService>();
 builder.Services.AddScoped<ImageManager>();
 
@@ -63,6 +64,12 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true;
 });
 
+builder.Services.Configure<CookiePolicyOptions>(opt =>
+{
+    opt.CheckConsentNeeded = context => true;
+    opt.MinimumSameSitePolicy = SameSiteMode.Strict;
+});
+
 var app = builder.Build();
 
 
@@ -74,6 +81,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.UseCookiePolicy();
 
 app.MapControllerRoute(
     name: "default",

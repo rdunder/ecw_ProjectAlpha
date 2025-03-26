@@ -2,10 +2,10 @@
     font-weight: var(--font-weight-semibold);
 }
 
-::deep .form-control {
+/*::deep .form-control {
     border-radius: 10px;
     border: 1px solid var(--clr-border-100);
-}
+}*/
 
 
 
@@ -49,4 +49,6 @@
         object-fit: cover;
         cursor: pointer;
     }
+
+
 

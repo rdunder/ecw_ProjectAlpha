@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Shared\Components\" />
+    <Folder Include="wwwroot\images\Projects_Avatars\" />
   </ItemGroup>
 
 </Project>

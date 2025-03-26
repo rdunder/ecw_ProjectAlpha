@@ -1,0 +1,29 @@
+﻿
+#cookieConsent {
+    background-color: var(--clr-orange);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+    #cookieConsent ::deep a {
+        text-decoration: none;
+        color: var(--clr-dark-blue);
+        font-size: 1.1rem;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    #cookieConsent .accept-policy-container {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    #cookieConsent .accept-policy {
+        border: none;
+        padding: 0.3rem 1rem;
+        border-radius: 8px;
+        background-color: var(--clr-dark-green);
+        color: white;
+        min-width: 170px;
+    }

@@ -45,6 +45,7 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> RegisterAsync(UserDto dto)
     {
+
         if (dto.Password == null)
         {
             dto.Password = "Password123!";
@@ -122,7 +123,7 @@ public class AuthController : Controller
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Incorect Email or Password entered.");
                 return View(model);
             }
         }

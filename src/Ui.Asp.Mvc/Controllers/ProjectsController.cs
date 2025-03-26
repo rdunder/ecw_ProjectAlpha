@@ -6,34 +6,27 @@ using Service.Dtos;
 using Service.Interfaces;
 using Service.Models;
 using Ui.Asp.Mvc.Models;
+using Ui.Asp.Mvc.Services;
 
 namespace Ui.Asp.Mvc.Controllers;
 
 [Authorize]
-public class ProjectsController(
-    IProjectService projectService,
-    ICustomerService customerService,
-    IStatusService statusService,
-    ILogger<ProjectsController> logger, 
-    IWebHostEnvironment env) : Controller
-{    
+public class ProjectsController(IProjectService projectService, ICustomerService customerService, IStatusService statusService, ImageManager imageManager, ILogger<ProjectsController> logger) : Controller
+{
     private readonly IProjectService _projectService = projectService;
     private readonly ICustomerService _customerService = customerService;
     private readonly IStatusService _statusService = statusService;
+    private readonly ImageManager _imageManager = imageManager;
     private readonly ILogger<ProjectsController> _logger = logger;
-    private readonly IWebHostEnvironment _env = env;
 
     public async Task<IActionResult> IndexAsync()
     {
-        
         ProjectsViewModel viewModel = new()
         {
             Projects = await _projectService.GetAllAsync(),
             Customers = await _customerService.GetAllAsync(),
-            Statuses = await _statusService.GetAllAsync(),
-        };
-
-        
+            Statuses = await _statusService.GetAllAsync()
+        };        
 
 
         ViewBag.Customers = viewModel.Customers
@@ -60,9 +53,9 @@ public class ProjectsController(
 
 
     [HttpPost]
-    public async Task<IActionResult> AddAsync(ProjectDto dto)
+    public async Task<IActionResult> AddAsync(ProjectForm form)
     {
-        if (!ModelState.IsValid || dto == null)
+        if (!ModelState.IsValid || form == null)
         {
             var errors = ModelState
                 .Where(x => x.Value?.Errors.Count > 0)
@@ -74,23 +67,14 @@ public class ProjectsController(
             return BadRequest(new {success = false, errors});
         }
 
-        if (dto.File != null)
+        form.StatusId = await GetStatus(form);
+
+        if (form.File != null)
         {
-            var uploadFolder = Path.Combine(_env.WebRootPath, "images/project_avatars");
-            Directory.CreateDirectory(uploadFolder);
-
-            var newFileName = $"{dto.Name.Replace(" ", "_")}_Avatar_{Guid.NewGuid()}{Path.GetExtension(dto.File.FileName)}";
-            var filePath = Path.Combine(uploadFolder, newFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.File.CopyToAsync(stream);
-            }
-
-            dto.Avatar = newFileName;
+            form.Avatar = await _imageManager.SaveImage(form.File, nameof(ProjectsController));
         }
 
-        var result = await _projectService.CreateAsync(dto);
+        var result = await _projectService.CreateAsync(form);
         if (result)
             return Ok();
 
@@ -99,9 +83,9 @@ public class ProjectsController(
     
     
     [HttpPost]
-    public async Task<IActionResult> EditAsync(ProjectDto dto)
+    public async Task<IActionResult> EditAsync(ProjectForm form)
     {
-        if (!ModelState.IsValid || dto == null)
+        if (!ModelState.IsValid || form == null)
         {
             var errors = ModelState
                 .Where(x => x.Value?.Errors.Count > 0)
@@ -113,23 +97,15 @@ public class ProjectsController(
             return BadRequest(new {success = false, errors});
         }
 
-        if (dto.File != null)
+        form.StatusId = await GetStatus(form);
+
+        if (form.File != null)
         {
-            var uploadFolder = Path.Combine(_env.WebRootPath, "images/project_avatars");
-            Directory.CreateDirectory(uploadFolder);
-
-            var newFileName = $"{dto.Name.Replace(" ", "_")}_Avatar_{Guid.NewGuid()}{Path.GetExtension(dto.File.FileName)}";
-            var filePath = Path.Combine(uploadFolder, newFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.File.CopyToAsync(stream);
-            }
-
-            dto.Avatar = newFileName;
+            _imageManager.DeleteImage(form.Avatar, nameof(ProjectsController));
+            form.Avatar = await _imageManager.SaveImage(form.File, nameof(ProjectsController));
         }
 
-        var result = await _projectService.UpdateAsync(dto.Id, dto);
+        var result = await _projectService.UpdateAsync(form.Id, form);
         if (result) return Ok();
 
         _logger.LogInformation("\n############################################\n");
@@ -139,14 +115,25 @@ public class ProjectsController(
         return Ok("There was errors when updating project");
     }
 
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id, string avatar)
     {
+
+        _imageManager.DeleteImage(avatar, nameof(ProjectsController));
         await _projectService.DeleteAsync(id);
         return RedirectToAction("Index");
     }
 
 
-    
+    private async Task<Guid> GetStatus(ProjectForm form)
+    {
+        var statuses = await _statusService.GetAllAsync();
+        var startDateTimeDiff = form.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
+
+        if (startDateTimeDiff.Days > 0)
+            return statuses.FirstOrDefault(s => s.StatusName == "Pending").Id;
+        else
+            return statuses.FirstOrDefault(s => s.StatusName == "Active").Id;
+    }
 
 
 }

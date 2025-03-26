@@ -1,33 +1,37 @@
 ﻿
 document.addEventListener("DOMContentLoaded", () => {
 
-    //  handle Form Image Previews
+    //  Handle image previews
     document.querySelectorAll(".image-preview-container").forEach(pc => {
-        const fileInput = pc.querySelector("input[type='file']")
-        const circle = document.querySelector("#circle-container")
+        const fileInput = pc.querySelector("input[type='file']");
+        const circle = pc.querySelector("#circle-container");
+        const img = pc.querySelector("#image-preview");
 
-        pc.addEventListener('click', () => fileInput.click());
+
+        pc.addEventListener('click', () => {
+            fileInput.click();
+        });
 
         fileInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
-            const img = document.querySelector("#image-preview");
+
+            img.src = '';
 
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    img.src = e.target.result
-                    img.classList.remove("d-none")
-                    circle.classList.add("d-none")
-                }
+                    img.src = e.target.result;
+                    img.classList.remove("d-none");
+                    circle.classList.add("d-none");
+                };
 
-                reader.readAsDataURL(file)
+                reader.readAsDataURL(file);
             } else {
-                img.classList.add("d-none")
-                circle.classList.remove("d-none")
+                img.classList.add("d-none");
+                circle.classList.remove("d-none");
             }
-
-        })
-    })
+        });
+    });
 
 
 
@@ -48,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             form.querySelectorAll('[data-valmsg-for]').forEach(span => {
                 span.innerText = ''
                 span.classList.remove('field.validation-error')
-            })
+            })            
 
             const formData = new FormData(form)
 
@@ -85,10 +89,42 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     })
+
+    //  Hnadle Theme
+    let savedTheme = localStorage.getItem("theme");
+
+    if (!savedTheme) {
+        localStorage.setItem("theme", "theme-light");
+        savedTheme = "theme-light";
+    }
+
+    setTheme(savedTheme);
+
+    
+        
+
 });
 
 
-//  Dark Mode Toggle
+
+function setTheme(theme) {
+    if (theme === "theme-light") {
+        document.body.classList.remove("theme-dark")
+        document.body.classList.add("theme-light")
+        localStorage.setItem("theme", "theme-light")
+    } else if (theme === "theme-dark") {
+        document.body.classList.remove("theme-light")
+        document.body.classList.add("theme-dark")
+        localStorage.setItem("theme", "theme-dark")
+        document.querySelector("#theme-toggle-checkbox").checked = true;
+    }
+}
+
 function ToggleTheme() {
-    document.body.classList.toggle("theme-dark"); 
+    let savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "theme-light") {
+        setTheme("theme-dark")
+    } else if (savedTheme === "theme-dark") {
+        setTheme("theme-light")
+    }
 }

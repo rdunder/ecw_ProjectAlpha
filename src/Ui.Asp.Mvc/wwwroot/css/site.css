@@ -86,6 +86,7 @@
     --background-color-badges: var(--clr-dark-100);
     --background-color-cards: #20212380;
 }
+
 /* #endregion */
 
 /* #region || Reset*/
@@ -169,7 +170,7 @@ h6 {
 
 .btn-blue {
     color: var(--clr-surface);
-    border: 1px solid var(--clr-surface);
+    border: 1px solid var(--border-color);
     background-color: var(--clr-accent);
     box-shadow: 0px 4px 16px 0px rgba(0, 129, 255, 0.18);
     font-weight: var(--font-weight-semibold);
@@ -188,12 +189,17 @@ h6 {
     background-color: var(--clr-grey-300);
 }
 
-btn-grey img {
+.btn-grey img {
     position: absolute;
     left: 1rem;
 }
 
-
+.btn-modal-close {
+    color: var(--headline-color);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+}
 
 .form-container {
     display: flex;
@@ -248,7 +254,43 @@ btn-grey img {
     font-size: 1rem;
     padding: 0.7rem;
     border-radius: 10px;
-    border: 1px solid var(--clr-border-100);
+}
+
+.form-control {
+    color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color-forms);
+}
+
+    .form-control:focus {
+        color: var(--text-color-light);
+        border: 1px solid var(--border-color);
+        background-color: var(--background-color-forms);
+    }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.date-input-wrapper {
+    position: relative;
+}
+
+    .date-input-wrapper input[type="date"] {
+    }
+
+    .date-input-wrapper .bi-calendar {
+        position: absolute;
+        right: 40px;
+        top: 33px;
+        pointer-events: none;
+        color: var(--text-color-light);
+    }
+
+
+
+.form-control::placeholder {
+    color: var(--text-color-light);
 }
 
 .form-group span {
@@ -267,6 +309,18 @@ btn-grey img {
 
 .modal-md {
     width: 550px;
+}
+
+.modal-body {
+    background-color: var(--background-color-forms);
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+}
+
+.validation-summary-errors li {
+    color: var(--clr-dark-red);
 }
 
 /* #endregion */
@@ -291,7 +345,7 @@ btn-grey img {
 .portal {
     height: 100dvh;
     display: grid;
-    grid-template-columns: minmax(50px, 270px) 1fr;
+    grid-template-columns: minmax(30px, 270px) 1fr;
     grid-template-rows: minmax(80px, auto) 1fr;
     grid-template-areas:
         "side top"
@@ -318,6 +372,12 @@ btn-grey img {
         padding: 1rem;
     }
 
+}
+
+@media (width < 900px) {
+    .portal {
+        grid-template-columns: auto 1fr;
+    }
 }
 
 /* #endregion */

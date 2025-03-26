@@ -32,11 +32,11 @@
     }
 
     
-    string avatar = Model.Avatar != null ? $"project_avatars/{Model.Avatar}" : "projectImg01.png";
+    string avatar = Model.Avatar != null ? $"Projects_Avatars/{Model.Avatar}" : "projectImg01.png";
 
     
 
-    ProjectDto editModel = new ProjectDto()
+    ProjectForm editModel = new ProjectForm()
     {
         Id = Model.Id,
         Name = Model.Name,
@@ -72,14 +72,14 @@
                 </li>
                 <hr />
                 <li>
-                    <a class="dropdown-item delete" asp-action="Delete" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-trash"></i> Delete Project</a>
+                    <a class="dropdown-item delete" asp-action="Delete" asp-controller="Projects" asp-route-id="@Model.Id" asp-route-avatar="@Model.Avatar"><i class="bi bi-trash"></i> Delete Project</a>
                 </li>
             </ul>
 
         </div>
     </header>
 
-    <p class="project-description">@Model.Description</p>
+    <div class="project-description">@Html.Raw(@Model.Description)</div>
 
     <footer>
         <div class="timeframe">

@@ -50,3 +50,13 @@
         background-color: var(--clr-accent-10);
         color: var(--clr-accent);
     }
+
+@media (width < 900px) {
+    .sidemenu-container .logo span {
+        display: none;
+    }
+
+    .sidemenu-container .nav-link span {
+        display: none;
+    }
+}
