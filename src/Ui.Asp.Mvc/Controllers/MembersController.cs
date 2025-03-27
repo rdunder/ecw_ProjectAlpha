@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Dtos;
 using Service.Interfaces;
-using Service.Models;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Services;
 

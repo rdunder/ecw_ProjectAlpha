@@ -69,6 +69,7 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
+        
         throw new NotImplementedException();
     }
 
