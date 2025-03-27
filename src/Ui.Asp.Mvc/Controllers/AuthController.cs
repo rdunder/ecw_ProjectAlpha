@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Dtos;
 using Service.Interfaces;
 using System.Security.Claims;
-using Ui.Asp.Mvc.Models;
+using Ui.Asp.Mvc.Models.Auth;
 using Ui.Asp.Mvc.Services;
 
 namespace Ui.Asp.Mvc.Controllers;
@@ -43,27 +43,27 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterAsync(UserDto dto)
+    public async Task<IActionResult> RegisterAsync(RegisterViewModel viewModel)
     {
 
-        if (dto.Password == null)
+        if (viewModel.Password == null)
         {
-            dto.Password = "Password123!";
-            dto.ConfirmPassword = "Password123!";
+            viewModel.Password = "Password123!";
+            viewModel.ConfirmPassword = "Password123!";
             ModelState.Clear();
-            TryValidateModel(dto);
+            TryValidateModel(viewModel);
         }
 
         if (ModelState.IsValid)
         {
             _logger.LogInformation("Modelstate is valid");
-            var result = await _userService.CreateAsync(dto);
-            return result ? RedirectToAction("Login") : View(dto);         
+            var result = await _userService.CreateAsync(viewModel);
+            return result ? RedirectToAction("Login") : View(viewModel);         
         }
         else
         {
             _logger.LogInformation("Modelstate is NOT valid");
-            return View(dto);
+            return View(viewModel);
         }
 
 
@@ -109,13 +109,13 @@ public class AuthController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+    public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = null)
     {
         ViewData["ReturnUrl"] = returnUrl;
 
         if (ModelState.IsValid)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, viewModel.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -124,11 +124,11 @@ public class AuthController : Controller
             else
             {
                 ModelState.AddModelError(string.Empty, "Incorect Email or Password entered.");
-                return View(model);
+                return View(viewModel);
             }
         }
 
-        return View(model);
+        return View(viewModel);
     }
 
     private IActionResult RedirectToLocal(string returnUrl)

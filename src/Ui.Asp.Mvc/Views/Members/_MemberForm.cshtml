@@ -1,0 +1,99 @@
+﻿@model MemberFormViewModel
+
+@{
+    
+}
+
+
+<div class="image-preview-container">
+    @if (Model.Avatar == null)
+    {
+        <div id="circle-container" class="image-preview-border">
+            <div class="circle circle-gray">
+                <i class="bi bi-camera"></i>
+            </div>
+        </div>
+        <img src="#" id="image-preview" alt="avatar image preview" class="d-none" />
+        <input asp-for="File" hidden accept="image/*" />
+    }
+    else
+    {
+        <div id="circle-container" class="image-preview-border d-none">
+            <div class="circle circle-gray">
+                <i class="bi bi-camera"></i>
+            </div>
+        </div>
+        <img src="~/images/Members_Avatars/@Model.Avatar" id="image-preview" alt="avatar image preview" class="" />
+        <input asp-for="File" hidden accept="image/*" />
+    }
+</div>
+
+
+<div class="form-group-horizontal">
+    <div class="col-md-6">
+        <label asp-for="FirstName" class="col-form-label"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" autocomplete="off" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="LastName" class="col-form-label"></label>
+        <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+</div>
+
+
+
+<div class="col-lg-12 form-group">
+    <label asp-for="Email" class="col-form-label"></label>
+    <input asp-for="Email" class="form-control" placeholder="Enter Email" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div class="col-lg-12 form-group">
+    <label asp-for="PhoneNumber" class="col-form-label"></label>
+    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Phone Number" />
+    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+</div>
+
+
+
+<div class="form-group-horizontal">
+    <div class="col-md-6">
+        <label asp-for="RoleName" class="col-form-label"></label>
+        <select asp-for="RoleName" asp-items="@ViewBag.Roles" class="form-control">
+            <option value="" disabled selected>-- Select Job Title</option>
+        </select>
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 date-input-wrapper">
+        <label asp-for="BirthDate" class="col-form-label"></label>
+        <input asp-for="BirthDate" type="date" class="form-control" />
+        <i class="bi bi-calendar"></i>
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+
+    </div>
+</div>
+
+<div class="col-md-12 form-group">
+    <label asp-for="Address" class="col-form-label"></label>
+    <input asp-for="Address" class="form-control" />
+    <span asp-validation-for="BirthDate" class="text-danger"></span>
+</div>
+
+<div class="form-group-horizontal">
+    <div class="col-md-6">
+        <label asp-for="City" class="col-form-label"></label>
+        <input asp-for="City" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="PostalCode" class="col-form-label"></label>
+        <input asp-for="PostalCode" placeholder="" class="form-control" />
+    </div>
+</div>
+    
+
+@await Html.PartialAsync("_ValidationScripts")

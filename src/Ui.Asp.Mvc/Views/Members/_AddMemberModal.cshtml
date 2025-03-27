@@ -1,0 +1,22 @@
+﻿@model MemberFormViewModel
+
+
+<div class="modal fade" id="addMemberModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-width: 550px;">
+            <div class="modal-body p-4">
+
+                <div class="d-flex justify-content-between mb-4">
+                    <h3 class="modal-title fs-5" id="exampleModalLabel">New Member</h3>
+                    <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                </div>
+
+                <form class="row g-3" novalidate method="post" asp-controller="Members" asp-action="Add">
+                    @await Html.PartialAsync("_MemberForm", Model)
+                    <button type="submit" class="btn btn-blue mt-4">Save Member</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

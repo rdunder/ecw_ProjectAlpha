@@ -1,4 +1,4 @@
-@model ProjectForm
+@model ProjectFormViewModel
 
 @{
 }
@@ -12,7 +12,7 @@
 
                 <div class="d-flex justify-content-between mb-4">
                     <h3 class="modal-title fs-5" id="exampleModalLabel">Edit Project</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
                 </div>
 
                 <form class="row g-3" novalidate method="post" asp-controller="Projects" asp-action="Edit" enctype="multipart/form-data">

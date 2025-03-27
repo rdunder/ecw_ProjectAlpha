@@ -1,43 +1,22 @@
-﻿@model IEnumerable<UserModel>
+﻿@model MembersViewModel
 
 @{
     ViewData["Title"] = "Members";
 }
 
+<partial name="_AddMemberModal" model="@Model.form" />
+
 <div class="d-flex justify-content-between mb-5">
-    <h1>Members...</h1>
-    <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#ModalAdminAddMember">Add Member</button>
+    <h1>@ViewData["Title"]</h1>
+    <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member</button>
 </div>
 
 
 <div class="member-card-container">
-    @foreach (var user in Model)
+    @foreach (var user in Model.Members)
     {
-        @await Html.PartialAsync("Partials/_MemberCard", user)
+        @await Html.PartialAsync("_MemberCard", user)
     }
 </div>
 
 
-<div class="modal fade" id="ModalAdminAddMember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-body p-4">
-
-                <div class="d-flex justify-content-between mb-4">
-                    <h3 class="modal-title fs-5" id="exampleModalLabel">New Member</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form class="row g-3" novalidate method="post" asp-controller="Auth" asp-action="Register">
-                    @await Html.PartialAsync("Partials/_UserForm", new UserDto())
-                    <button type="submit" class="btn btn-blue mt-4">Save Member</button>
-                </form>
-
-            </div>
-                
-                       
-
-        </div>
-    </div>
-</div>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ui.Asp.Mvc.Models;
+namespace Ui.Asp.Mvc.Models.Auth;
 
 public class LoginViewModel
 {

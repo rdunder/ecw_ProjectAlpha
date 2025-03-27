@@ -272,13 +272,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
 
-.test-class {
-
-}
-
-.test-class-again {
-
-}
 
 .date-input-wrapper {
     position: relative;
@@ -294,6 +287,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         pointer-events: none;
         color: var(--text-color-light);
     }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
 
 
 

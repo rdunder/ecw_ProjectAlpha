@@ -1,0 +1,58 @@
+﻿@model UserModel
+
+
+@{
+    string avatar = Model.Avatar != null ? $"Members_Avatars/{Model.Avatar}" : "DefaultMemberAvatar.png";
+
+    MemberFormViewModel editModel = new()
+    {
+        Id = Model.Id,
+        Avatar = Model.Avatar,
+        FirstName = Model.FirstName,
+        LastName = Model.LastName,
+        Email = Model.Email,
+        PhoneNumber = Model.PhoneNumber,
+        RoleName = Model.RoleName,
+        BirthDate = Model.BirthDate
+    };
+}
+
+<partial name="_EditMemberModal" model="@editModel" />
+
+<div class="member-card">
+    <div class="menu">
+        <button 
+        class="menu-btn"
+        data-bs-toggle="dropdown">
+            <i class="bi bi-three-dots"></i>
+        </button>
+
+        <ul class="dropdown-menu">
+            <li class="mt-2 mb-3">
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editMemberModal_@Model.Id"><i class="bi bi-pencil-fill"></i> Edit</a>
+            </li>
+            <hr />
+            <li>
+                <a class="dropdown-item delete" asp-action="Delete" asp-controller="Members" asp-route-id="@Model.Id" ><i class="bi bi-trash"></i> Delete User</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="avatar-container">
+        <img class="avatar" src="~/images/@avatar" />
+    </div>
+
+    <h4>@Model.FirstName @Model.LastName</h4>
+
+    <p class="title">@Model.RoleName</p>
+
+    <p class="contact">@Model.Email</p>
+    <p class="contact">+46 070-123 45 78</p>
+
+    <div class="msg-btn-container">
+        <button class="btn btn-grey">Message</button>
+    </div>    
+</div>
+
+
+

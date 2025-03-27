@@ -1,10 +1,12 @@
 ﻿using Service.Dtos;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ui.Asp.Mvc.Models;
+namespace Ui.Asp.Mvc.Models.Auth;
 
 public class RegisterViewModel
 {
+    public string? Avatar { get; set; }
+
 
     [Display(Name = "First Name")]
     [Required(ErrorMessage = "You must enter your First Name")]
@@ -21,12 +23,6 @@ public class RegisterViewModel
     [DataType(DataType.EmailAddress)]
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email need to be formatted as <name@domain.com>")]
     public string Email { get; set; } = null!;
-
-
-    [Display(Name = "Phone Number")]
-    [DataType(DataType.PhoneNumber)]
-    [RegularExpression(@"^(?:\+46\s?|0)\d(?:[\s]?\d){8,11}$", ErrorMessage = "Phonenumber needs to be formatted as:\n+46 701231234 OR\n0701231234")]
-    public string? PhoneNumber { get; set; }
 
 
     [Display(Name = "Password")]
@@ -48,14 +44,7 @@ public class RegisterViewModel
     public bool AcceptTerms { get; set; }
 
 
-    public string? Avatar { get; set; }
 
-    public string? RoleName { get; set; }
-
-    public DateOnly? BirthDate { get; set; }
-
-    
-    
     public static implicit operator UserDto(RegisterViewModel viewModel) =>
         viewModel is null
         ? null!
@@ -64,10 +53,8 @@ public class RegisterViewModel
             FirstName = viewModel.FirstName,
             LastName = viewModel.LastName,
             Email = viewModel.Email,
-            PhoneNumber = viewModel.PhoneNumber,
             Password = viewModel.Password,
 
-            BirthDate = viewModel.BirthDate,
             Avatar = viewModel.Avatar,
         };
 }

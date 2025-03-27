@@ -77,7 +77,6 @@ public class InitService(
             Email = "admin@domain.com",
             PhoneNumber = "+46 743 897 356",
             Password = "Password123!",
-            ConfirmPassword = "Password123!"
         };
 
         var user = new UserDto()
@@ -86,8 +85,7 @@ public class InitService(
             LastName = "Dörpen",
             Email = "olle@domain.com",
             PhoneNumber = "+46 765 829 356",
-            Password = "Password123!",
-            ConfirmPassword = "Password123!"      
+            Password = "Password123!",     
         };
 
         var adminResult = await _userService.CreateAsync(admin);

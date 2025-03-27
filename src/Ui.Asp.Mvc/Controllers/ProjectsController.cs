@@ -54,7 +54,7 @@ public class ProjectsController(IProjectService projectService, ICustomerService
 
 
     [HttpPost]
-    public async Task<IActionResult> AddAsync(ProjectForm form)
+    public async Task<IActionResult> AddAsync(ProjectFormViewModel form)
     {
         if (!ModelState.IsValid || form == null)
         {
@@ -84,7 +84,7 @@ public class ProjectsController(IProjectService projectService, ICustomerService
     
     
     [HttpPost]
-    public async Task<IActionResult> EditAsync(ProjectForm form)
+    public async Task<IActionResult> EditAsync(ProjectFormViewModel form)
     {
         if (!ModelState.IsValid || form == null)
         {
@@ -125,7 +125,7 @@ public class ProjectsController(IProjectService projectService, ICustomerService
     }
 
 
-    private async Task<Guid> GetStatus(ProjectForm form)
+    private async Task<Guid> GetStatus(ProjectFormViewModel form)
     {
         var statuses = await _statusService.GetAllAsync();
         var startDateTimeDiff = form.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;

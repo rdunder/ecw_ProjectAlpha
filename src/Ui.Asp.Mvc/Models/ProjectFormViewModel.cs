@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ui.Asp.Mvc.Models;
 
-public class ProjectForm
+public class ProjectFormViewModel
 {
     public Guid Id { get; set; }
 
@@ -43,7 +43,7 @@ public class ProjectForm
     public string? Avatar { get; set; }
 
 
-    public static implicit operator ProjectDto(ProjectForm form) =>
+    public static implicit operator ProjectDto(ProjectFormViewModel form) =>
         form is null
         ? null!
         : new ProjectDto

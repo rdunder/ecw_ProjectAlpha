@@ -1,4 +1,4 @@
-﻿@model UserDto
+﻿@model RegisterViewModel
 
 @{
     Layout = "_AuthLayout";
@@ -24,31 +24,31 @@
 
         <div class="form-group">
             <label asp-for="FirstName"></label>
-            <input asp-for="FirstName" placeholder="Enter Your First Name" autocomplete="off"/>
+            <input asp-for="FirstName" class="form-control" placeholder="Enter Your First Name" autocomplete="off"/>
             <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="LastName"></label>
-            <input asp-for="LastName" placeholder="Enter Your Last Name" />
+            <input asp-for="LastName" class="form-control" placeholder="Enter Your Last Name" />
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Email"></label>
-            <input asp-for="Email" placeholder="Enter Your Email" />
+            <input asp-for="Email" class="form-control" placeholder="Enter Your Email" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Password"></label>
-            <input asp-for="Password" placeholder="Enter Your Password" />
+            <input asp-for="Password" class="form-control" placeholder="Enter Your Password" />
             <span asp-validation-for="Password" class="text-danger"></span>           
         </div>
 
         <div class="form-group">
             <label asp-for="ConfirmPassword"></label>
-            <input asp-for="ConfirmPassword" placeholder="Repeat Password" />
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Repeat Password" />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
 
