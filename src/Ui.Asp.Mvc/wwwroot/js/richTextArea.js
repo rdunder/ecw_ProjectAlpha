@@ -1,4 +1,12 @@
-﻿tinymce.init({
+﻿
+
+
+function isDarkMode() {
+    return document.body.classList.contains('theme-dark');
+}
+
+
+tinymce.init({
     selector: '#richTextArea',
     plugins: 'lists link autolink',
 
@@ -10,13 +18,20 @@
     height: 200,
     resize: false,
 
-    //  Cant find a way to load the css file, so cant style this.
-    content_css: ['/css/site.css'],
-    body_class: 'rich-text-are-body',
-    content_style: `
-        body {
-        }
-    `,
+
+    //  Contents of oxide-dark is copied over to custom-skin/skin.min.css
+    //  i  ahve then edited the css to match the design to create a Dark Theme
+    skin: 'custom-skin',
+    skin_url: '/css/tiny-mce/custom-skin',
+
+
+    
+
+    init_instance_callback: function (editor) {
+        const container = editor.getContainer();
+        container.style.visibility = 'visible';
+    },
+        
 
     setup: function (editor) {
         editor.on('change', function () {
@@ -25,3 +40,5 @@
     },
 
 });
+
+

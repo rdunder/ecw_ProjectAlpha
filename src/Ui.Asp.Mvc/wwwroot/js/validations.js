@@ -3,10 +3,10 @@
     if (!form) return;
 
     const fields = form.querySelectorAll("input[data-val='true']");
-    console.log(fields.length);
 
     fields.forEach(field => {
         field.addEventListener("input", () => {
+            console.log(field);
             validateField(field);
         })
     })
@@ -20,6 +20,10 @@ function validateField(field) {
     let value = field.value.trim();
 
     if (field.hasAttribute("data-val-required") && value === "") {
+        errorMsg = field.getAttribute("data-val-required");
+    }
+
+    if (value === "<p></p>") {
         errorMsg = field.getAttribute("data-val-required");
     }
 

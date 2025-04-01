@@ -5,7 +5,7 @@ using Service.Interfaces;
 
 namespace Ui.Asp.Mvc.Controllers;
 
-[Authorize(Roles = "Administrator")]
+[Authorize(Policy = "Managers")]
 public class RolesController(IRoleService roleService) : Controller
 {
     [Route("/roles")]

@@ -57,7 +57,7 @@ public class MembersController(IUserService userService, IRoleService roleServic
         }
 
         UserDto dto = form;
-        dto.Password = "Password123!";
+        dto.Password = PasswordManager.CreatePassword();
 
         var result = await _userService.CreateAsync(dto);
 
@@ -90,8 +90,21 @@ public class MembersController(IUserService userService, IRoleService roleServic
             return BadRequest(new { success = false, errors });
         }
 
+        if (form.File != null)
+        {
+            if (form.Avatar != null)
+                _imageManager.DeleteImage(form.Avatar, nameof(MembersController));
 
+            form.Avatar = await _imageManager.SaveImage(form.File, nameof(MembersController));
+        }
 
-        return RedirectToAction("Index");
+        var result = await _userService.UpdateAsync(form.Id, form);
+        if (result) return Ok();
+
+        _logger.LogInformation("\n############################################\n");
+        _logger.LogInformation("There was errors updating");
+        _logger.LogInformation("\n############################################\n");
+
+        return Ok("There was errors when updating project");
     }
 }

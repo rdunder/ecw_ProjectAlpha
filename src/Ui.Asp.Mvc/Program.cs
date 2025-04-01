@@ -10,6 +10,8 @@ using Data.Interfaces;
 using Data.Repositories;
 using Ui.Asp.Mvc.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,17 +60,74 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.AccessDeniedPath = "/Auth/Login";
     opt.Cookie.Name = "AlphaAuthCookie";
     opt.Cookie.HttpOnly = true;
+    opt.Cookie.SameSite = SameSiteMode.None;
+    opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     opt.ExpireTimeSpan = TimeSpan.FromMinutes(720);
     opt.LoginPath = "/Auth/Login";
     opt.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
     opt.SlidingExpiration = true;
 });
 
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("Admins", policy => policy.RequireRole("Administrator"));
+    opt.AddPolicy("Managers", policy => policy.RequireRole("Administrator", "Manager"));
+    opt.AddPolicy("Authorized", policy => policy.RequireRole(
+        "Administrator", 
+        "Fullstack Developer", 
+        "Frontend Developer",
+        "Backend Developer"));
+});
+
 builder.Services.Configure<CookiePolicyOptions>(opt =>
 {
     opt.CheckConsentNeeded = context => true;
-    opt.MinimumSameSitePolicy = SameSiteMode.Strict;
+    opt.MinimumSameSitePolicy = SameSiteMode.None;
 });
+
+
+builder.Services.AddAuthentication(opt =>
+    {
+        opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddGoogle(opt =>
+    {
+        opt.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        opt.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+        opt.Scope.Add("profile");
+        opt.ClaimActions.MapJsonKey("picture", "picture", "url");
+    })
+    .AddGitHub(opt =>
+    {
+        opt.ClientId = builder.Configuration["Authentication:Github:ClientId"]!;
+        opt.ClientSecret = builder.Configuration["Authentication:Github:ClientSecret"]!;
+        opt.Scope.Add("user:email");
+        opt.Scope.Add("read:user");
+
+        opt.ClaimActions.MapJsonKey("picture", "avatar_url");
+
+        opt.Events.OnCreatingTicket = ctx =>
+        {
+            if (ctx.User.TryGetProperty("name", out var name) && !string.IsNullOrEmpty(name.GetString()) && ctx.Identity != null)
+            {
+                var fullName = name.GetString().Split(' ', 2);
+
+                ctx.Identity.AddClaim(new Claim(ClaimTypes.GivenName, fullName.Length > 0 ? fullName[0] : ""));
+                ctx.Identity.AddClaim(new Claim(ClaimTypes.Surname, fullName.Length > 1 ? fullName[1] : ""));
+            }
+
+            return Task.CompletedTask;
+        };
+    }); 
+    
+
+
+    
+
+
+
+
 
 var app = builder.Build();
 

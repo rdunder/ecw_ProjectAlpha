@@ -22,7 +22,7 @@
         {
             status = $"{timeDifference.Days} days left";
         }
-        
+
     }
     else
     {
@@ -31,8 +31,8 @@
         status = $"Completed";
     }
 
-    
-    string avatar = Model.Avatar != null ? $"Projects_Avatars/{Model.Avatar}" : "projectImg01.png";
+
+    string avatarPath = imageManager.GetPath(nameof(ProjectsController), Model.Avatar!);
 
     
 
@@ -57,7 +57,7 @@
 <div class="project-card" data-status="@Model.Status.StatusName">
     <header>
         <div class="title">
-            <img class="project-avatar" src="~/images/@avatar" />
+            <img class="project-avatar" src="@avatarPath" />
             <div>
                 <h6>@Model.Name</h6>
                 <p>@Model.Customer.CustomerName</p>

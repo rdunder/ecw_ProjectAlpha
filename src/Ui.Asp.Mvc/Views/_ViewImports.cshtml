@@ -1,15 +1,27 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+
 
 @using Ui.Asp.Mvc
 @using Ui.Asp.Mvc.Extensions
 @using Ui.Asp.Mvc.Models
 @using Ui.Asp.Mvc.Models.Auth
+@using Ui.Asp.Mvc.Services
+@using Ui.Asp.Mvc.Controllers
 
 @using Service.Dtos
 @using Service.Models
+@using Service.Interfaces
 
 @using Data.Entities
+
+
+@inject IAuthorizationService authService
+@inject ImageManager imageManager
+@inject IUserService _userService
+
 
 
 

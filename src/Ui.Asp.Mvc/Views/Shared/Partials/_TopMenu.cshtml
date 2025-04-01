@@ -1,8 +1,9 @@
 ﻿
-@inject UserManager<UserEntity> _userManager
 
 @{
-    var user = await _userManager.GetUserAsync(User);
+    var userDisplayName = await _userService.GetDisplayName(User);
+    var user = await _userService.GetUser(User);
+    var avatar = imageManager.GetPath(nameof(MembersController), user.Avatar);
 }
 
 
@@ -25,9 +26,11 @@
     <ul class="dropdown-menu dropdown-menu-end shadow-sm "
         aria-labelledby="userDropdown">
         <h6>
-            <img src="~/images/profile.png" />
-            @user.FirstName @user.LastName
+            <img src="@avatar" alt="Profile Image." />
+            @userDisplayName
         </h6>
+
+        <p>@user.RoleName</p>
 
         <li>
             <div class="darkmode-toggle">
@@ -38,7 +41,7 @@
 
         <hr />
 
-        <li><a class="dropdown-item" href="/">Account Settings</a></li>
+        <li><a class="dropdown-item" href="/Account">Account Settings</a></li>
         
         <li><a class="dropdown-item" href="/">Admin Login</a></li>
         

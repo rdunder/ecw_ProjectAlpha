@@ -48,8 +48,9 @@ public class AuthController : Controller
 
         if (viewModel.Password == null)
         {
-            viewModel.Password = "Password123!";
-            viewModel.ConfirmPassword = "Password123!";
+            string pwd = PasswordManager.CreatePassword();
+            viewModel.Password = pwd;
+            viewModel.ConfirmPassword = pwd;
             ModelState.Clear();
             TryValidateModel(viewModel);
         }
@@ -129,6 +130,78 @@ public class AuthController : Controller
         }
 
         return View(viewModel);
+    }
+
+    [HttpPost]
+    public IActionResult ExternalSignin(string provider, string returnUrl = null!)
+    {
+
+        if (string.IsNullOrEmpty(provider))
+        {
+            ModelState.AddModelError("", "Invalid Provider");
+            return View("Login");
+        }
+
+        string redirectUrl = Url.Action("ExternalSigninCallback", "Auth", new { returnUrl })!;
+        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return Challenge(properties, provider);
+
+    }
+
+    public async Task<IActionResult> ExternalSigninCallback(string returnUrl = null!, string remoteError = null!)
+    {
+        returnUrl ??= Url.Content("~/");
+
+        if (!string.IsNullOrEmpty(remoteError))
+        {
+            ModelState.AddModelError("", $"Error from external provider: {remoteError}");
+            return View("Login");
+        }
+
+        var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+        if (externalLoginInfo == null)
+        {
+            return RedirectToAction("Login");
+        }
+
+        var signinResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+        if (signinResult.Succeeded)
+        {
+            return LocalRedirect(returnUrl);
+        }
+        else
+        {
+            UserDto dto = new()
+            {
+                FirstName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.GivenName) ?? string.Empty,
+                LastName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty,
+                Email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email)!,
+                UserName = $"{externalLoginInfo.LoginProvider.ToLower()}_{externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email)}",
+                Avatar = externalLoginInfo.Principal.FindFirstValue("picture")
+            };
+
+
+            _logger.LogInformation("###############################################################################################");
+
+            foreach (var claim in externalLoginInfo.Principal.Claims)
+            {
+                _logger.LogInformation($"{claim}");
+            }
+
+            _logger.LogInformation("###############################################################################################");
+
+
+            UserEntity entity = await _userService.CreateExternalAsync(dto, externalLoginInfo);
+            if (entity != null)
+            {
+                await _signInManager.SignInAsync(entity, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
+
+
+            return View("Login");
+        }
     }
 
     private IActionResult RedirectToLocal(string returnUrl)

@@ -100,8 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTheme(savedTheme);
 
-    
-        
+
 
 });
 

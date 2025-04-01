@@ -8,12 +8,34 @@
     var errorCount = ViewData.ModelState.Values.SelectMany(v => v.Errors).Count();
 }
 
-<div class="surface">
+<div class="surface login-form">
+    <h1>Login</h1>
+
+    <form class="form-container" method="post" novalidate asp-controller="Auth" asp-action="ExternalSignin">
+        <div class="form-group">
+            <input hidden name="returnUrl" value="@ViewBag.ReturnUrl" />
+            <button class="btn btn-grey" type="submit" name="provider" value="Google">
+                <img src="~/images/google-icon.png" />
+                <span>Login with Google </span>
+            </button>
+        </div>
+    </form>
+
+    <form class="form-container" method="post" novalidate asp-controller="Auth" asp-action="ExternalSignin">
+        <div class="form-group">
+            <input hidden name="returnUrl" value="@ViewBag.ReturnUrl" />
+            <button class="btn btn-grey" type="submit" name="provider" value="GitHub">
+                <img src="~/images/google-icon.png" />
+                <span>Login with Github </span>
+            </button>
+        </div>
+    </form>
+
     <form class="form-container" method="post" asp-controller="Auth" asp-action="Login" >
         <h1>Login</h1>
 
         <div class="form-group">
-            <button class="btn btn-grey">
+            <button class="btn btn-grey ">
                 <img src="~/images/google-icon.png" />
                 <span>Login with Google </span>
             </button>

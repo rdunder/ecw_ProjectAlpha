@@ -18,7 +18,7 @@ public static class UserFactory
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
-                UserName = dto.Email,
+                UserName = dto.UserName ?? dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 Avatar = dto.Avatar,
                 BirthDate = dto.BirthDate,

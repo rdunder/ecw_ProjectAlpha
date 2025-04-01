@@ -13,7 +13,6 @@ public class ProjectFormViewModel
 
     [Display(Name = "Project Description", Prompt = "Describe the project")]
     [Required(ErrorMessage = "You must enter a description")]
-    [RegularExpression(@"^(\s*\S+\s+){4,}\S+.*$", ErrorMessage = "Describe the project in at least 5  words")]
     public string Description { get; set; } = null!;
 
     [Display(Name = "Starting Date")]

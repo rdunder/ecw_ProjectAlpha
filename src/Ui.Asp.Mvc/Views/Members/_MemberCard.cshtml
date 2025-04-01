@@ -1,8 +1,9 @@
-﻿@model UserModel
+﻿
+@model UserModel
 
 
 @{
-    string avatar = Model.Avatar != null ? $"Members_Avatars/{Model.Avatar}" : "DefaultMemberAvatar.png";
+    string avatarPath = imageManager.GetPath(nameof(MembersController), Model.Avatar);
 
     MemberFormViewModel editModel = new()
     {
@@ -39,7 +40,7 @@
     </div>
 
     <div class="avatar-container">
-        <img class="avatar" src="~/images/@avatar" />
+        <img class="avatar" src="@avatarPath"/>
     </div>
 
     <h4>@Model.FirstName @Model.LastName</h4>
@@ -47,11 +48,12 @@
     <p class="title">@Model.RoleName</p>
 
     <p class="contact">@Model.Email</p>
-    <p class="contact">+46 070-123 45 78</p>
+    <p class="contact">@(Model.PhoneNumber.Length > 5 ? Model.PhoneNumber : "070xxxxxxx")</p>
 
     <div class="msg-btn-container">
         <button class="btn btn-grey">Message</button>
-    </div>    
+    </div>
+
 </div>
 
 

@@ -34,6 +34,31 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return result.Succeeded ? true : false;
     }
 
+    public async Task<UserEntity> CreateExternalAsync(UserDto? dto, ExternalLoginInfo loginInfo)
+    {
+        if (dto == null) return null!;
+
+        var entity = UserFactory.Create(dto);
+
+        try
+        {
+            var result = await _userManager.CreateAsync(entity);
+            if (result.Succeeded)
+            {
+                await _userManager.AddLoginAsync(entity, loginInfo);
+                await _userManager.AddToRoleAsync(entity, "Trainee");
+                return entity;
+            }
+            return null!;
+        }
+        catch (Exception ex) 
+        {
+            return null!;
+        }
+        
+
+    }
+
     public async Task<bool> DeleteAsync(Guid id)
     {
         var user = await _userManager.FindByIdAsync(id.ToString());
@@ -62,22 +87,42 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return users;
     }
 
-    public Task<UserModel> GetByIdAsync(Guid id)
+    public async Task<UserModel> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var entity = await _userManager.FindByIdAsync(id.ToString());
+        return entity is null ? null! : UserFactory.Create(entity);
     }
 
-    public Task<bool> UpdateAsync(Guid id, UserDto? dto)
+
+    public async Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
-        
-        throw new NotImplementedException();
+        if (dto is null) return false;
+        var entity = await _userManager.FindByIdAsync(id.ToString());
+
+        if (entity != null)
+        {
+            entity.FirstName = dto.FirstName;
+            entity.LastName = dto.LastName;
+            entity.Email = dto.Email;
+            entity.Avatar = dto.Avatar;
+            entity.PhoneNumber = dto.PhoneNumber;
+            
+            if (entity.RoleName != dto.RoleName && dto.RoleName != null)
+                await AddToRoleAsync(dto.Email, dto.RoleName);
+
+            var result = await _userManager.UpdateAsync(entity);
+            return result.Succeeded;
+        }
+
+        return false;        
     }
 
-    public async Task<bool> AddToRoleAsync(UserModel model, string roleName)
+    public async Task<bool> AddToRoleAsync(string email, string roleName)
     {
-        if (model == null) return false;
+        if (email == null) return false;
 
-        var entity = await _userManager.FindByEmailAsync(model.Email);
+        var entity = await _userManager.FindByEmailAsync(email);
+        if (entity == null) return false;
 
 
         var roles = await _userManager.GetRolesAsync(entity);
@@ -99,5 +144,21 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
     public async Task<UserModel> GetByEmailAsync(string email)
     {
         return new UserModel();
+    }
+
+    public async Task<UserModel> GetUser(ClaimsPrincipal claimsPrincipal)
+    {
+        var entity = await _userManager.GetUserAsync(claimsPrincipal);
+        var roles = await _userManager.GetRolesAsync(entity);
+        entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
+
+        return entity is null ? null! : UserFactory.Create(entity);
+    }
+
+    public async Task<string> GetDisplayName(ClaimsPrincipal claimsPrincipal)
+    {
+        var user = await _userManager.GetUserAsync(claimsPrincipal);
+
+        return user is null ? "Display Name" : $"{user.FirstName} {user.LastName}";
     }
 }

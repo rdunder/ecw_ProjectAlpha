@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Projects";
+    bool isAuthorized = (await authService.AuthorizeAsync(User, "Authorized")).Succeeded;
 }
 
-@if (User.IsInRole("Trainee"))
+@if (!isAuthorized)
 {
     <h4>Contact your Administrator to get access to projects ...</h4>
 }

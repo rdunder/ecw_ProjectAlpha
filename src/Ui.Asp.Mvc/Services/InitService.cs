@@ -101,7 +101,7 @@ public class InitService(
             PhoneNumber = "+46 743 897 356",
         };
 
-        var result = await _userService.AddToRoleAsync(admin, "Administrator");
+        var result = await _userService.AddToRoleAsync("admin@domain.com", "Administrator");
     }
     private async Task CreateProjects()
     {
