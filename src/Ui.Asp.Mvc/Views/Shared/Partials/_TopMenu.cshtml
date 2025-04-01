@@ -1,7 +1,6 @@
 ﻿
 
 @{
-    var userDisplayName = await _userService.GetDisplayName(User);
     var user = await _userService.GetUser(User);
     var avatar = imageManager.GetPath(nameof(MembersController), user.Avatar);
 }
@@ -25,12 +24,14 @@
 
     <ul class="dropdown-menu dropdown-menu-end shadow-sm "
         aria-labelledby="userDropdown">
-        <h6>
+        <div class="profile-container">
             <img src="@avatar" alt="Profile Image." />
-            @userDisplayName
-        </h6>
+            <div class="profile-name">
+                <h6>@user.FirstName @user.LastName</h6>
+                <p>@user.RoleName</p>
+            </div>
+        </div>
 
-        <p>@user.RoleName</p>
 
         <li>
             <div class="darkmode-toggle">

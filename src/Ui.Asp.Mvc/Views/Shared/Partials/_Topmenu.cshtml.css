@@ -22,28 +22,41 @@
     color: var(--text-color)
 }
 
-h6 {
+.profile-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
-
-    font-size: 1rem;
-    font-weight: var(--font-weight-bold);
+    gap: 1rem;    
     padding: 0.8rem 2rem 0.8rem 0.8rem;
     background-color: var(--clr-accent-10);
     border-radius: 8px;
 }
 
-.dropdown-menu h6 img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
+    .profile-container img {
+        width: 40px;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 50%;
+    }
 
-li {
-    display: flex;
-    align-items: center;
-}
+    .profile-container .profile-name {
+
+    }
+
+        .profile-container .profile-name h6 {
+            font-size: 1rem;
+            font-weight: var(--font-weight-bold);
+        }
+
+        .profile-container .profile-name p {
+            font-size: 0.7rem;
+            font-weight: var(--font-weight-semibold);
+        }
+
+
+    li {
+        display: flex;
+        align-items: center;
+    }
 
     li a {
         font-size: 1rem;
