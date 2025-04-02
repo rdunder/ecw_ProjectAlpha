@@ -7,4 +7,6 @@ namespace Service.Interfaces;
 
 public interface IProjectService : IService<ProjectModel, ProjectDto>
 {
+    public Task<bool> CloseProjectAsync(Guid id);
+    public Task<bool> StartProjectAsync(Guid id);
 }

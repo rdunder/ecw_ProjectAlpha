@@ -1,10 +1,11 @@
 ﻿@model MemberFormViewModel
 
 @{
-    
+    string avatar = imageManager.GetPath(nameof(MembersController), Model.Avatar);
 }
 
 <input asp-for="Id" hidden />
+<input asp-for="Avatar" hidden />
 
 <div class="image-preview-container">
     @if (Model.Avatar == null)
@@ -24,7 +25,7 @@
                 <i class="bi bi-camera"></i>
             </div>
         </div>
-        <img src="~/images/Members_Avatars/@Model.Avatar" id="image-preview" alt="avatar image preview" class="" />
+        <img src="@avatar" id="image-preview" alt="avatar image preview" class="" />
         <input asp-for="File" hidden accept="image/*" />
     }
 </div>

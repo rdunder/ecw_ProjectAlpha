@@ -67,10 +67,12 @@ public class MembersController(IUserService userService, IRoleService roleServic
         return Ok();
     }
     
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id, string avatar)
     {
+        if (!string.IsNullOrEmpty(avatar))
+            _imageManager.DeleteImage(avatar, nameof(MembersController));
+        
         await _userService.DeleteAsync(id);
-
         return RedirectToAction("Index");
     }
 

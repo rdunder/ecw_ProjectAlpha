@@ -67,17 +67,34 @@
             padding: 0.5em 1em;
             border-radius: 8px;
             font-size: 0.9em;
-            /* This is set depending on EndDate */
-            background-color: var(--clr-red-15);
-            color: var(--clr-dark-red)
         }
 
-        .project-card footer .members {
-            display: flex;
-            gap: 0.5rem;
-        }
+            .project-card footer .members {
+                display: flex;
+                gap: 0.5rem;
+            }
 
             .project-card footer .members ::deep img {
                 display: block;
                 width: 35px;
             }
+
+.timeframe.pending {
+    background-color: var(--clr-dark-100-10);
+    color: var(--clr-dark-100);
+}
+
+.timeframe.active {
+    background-color: var(--clr-accent-10);
+    color: var(--clr-dark-accent);
+}
+
+.timeframe.closed {
+    background-color: var(--clr-green-15);
+    color: var(--clr-dark-green)
+}
+
+.timeframe.warning {
+    background-color: var(--clr-red-15);
+    color: var(--clr-dark-red);
+}

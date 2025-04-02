@@ -9,9 +9,11 @@ using Service.Models;
 
 namespace Service.Services;
 
-public class ProjectService(IProjectRepository repo) : IProjectService
+public class ProjectService(IProjectRepository repo, IStatusRepository statusRepo) : IProjectService
 {
     private readonly IProjectRepository _repo = repo;
+    private readonly IStatusRepository _statusRepo = statusRepo;
+
     public async Task<bool> CreateAsync(ProjectDto? dto)
     {
         if (dto == null) return false;
@@ -116,5 +118,59 @@ public class ProjectService(IProjectRepository repo) : IProjectService
             await _repo.RollbackTransactionAsync();
             return false;
         }
+    }
+
+    public async Task<bool> StartProjectAsync(Guid id)
+    {
+        var entity = await _repo.GetAsync(p => p.Id == id);
+        var statusEntity = await _statusRepo.GetAsync(s => s.StatusName == "Active");
+
+        if (entity == null) return false;
+
+        entity.StatusId = statusEntity.Id;
+        entity.StartDate = DateOnly.FromDateTime(DateTime.Now);
+
+        await _repo.BeginTransactionAsync();
+        try
+        {
+            _repo.Update(entity);
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
+    }
+
+    public async Task<bool> CloseProjectAsync(Guid id)
+    {
+        var entity = await _repo.GetAsync(p => p.Id == id);
+        var statusEntity = await _statusRepo.GetAsync(s => s.StatusName == "Closed");
+
+        if (entity == null) return false;
+
+        entity.StatusId = statusEntity.Id;
+        entity.EndDate = DateOnly.FromDateTime(DateTime.Now);
+
+        await _repo.BeginTransactionAsync();
+
+        try
+        {
+            _repo.Update(entity);
+
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
+
+        
     }
 }

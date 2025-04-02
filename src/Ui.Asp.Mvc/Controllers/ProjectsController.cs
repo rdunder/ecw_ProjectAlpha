@@ -118,9 +118,22 @@ public class ProjectsController(IProjectService projectService, ICustomerService
 
     public async Task<IActionResult> DeleteAsync(Guid id, string avatar)
     {
-
-        _imageManager.DeleteImage(avatar, nameof(ProjectsController));
+        if (!string.IsNullOrEmpty(avatar))
+            _imageManager.DeleteImage(avatar, nameof(ProjectsController));
+        
         await _projectService.DeleteAsync(id);
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> StartProject(Guid id)
+    {
+        var project = await _projectService.StartProjectAsync(id);
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> CloseProject(Guid id)
+    {
+        var project = await _projectService.CloseProjectAsync(id);
         return RedirectToAction("Index");
     }
 

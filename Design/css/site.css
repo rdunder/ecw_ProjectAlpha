@@ -40,7 +40,9 @@
     --clr-dark-accent: #2682D9;
 
     --clr-orange: #FF9640;
+    --clr-orange-15: #FF964015;
     --clr-dark-orange: #F09330;
+    --clr-darker-orange: #ac6921;
 
     --clr-red: #FF6640;
     --clr-red-15: #ff664015;
@@ -48,6 +50,7 @@
 
     --clr-yellow: #FFD422;
     --clr-dark-yellow: #FCBB42;
+    --clr-dark-yellow-15: #FCBB4215;
 
     --clr-blue: #2CD9D9;
     --clr-dark-blue: #2D7DCC;
