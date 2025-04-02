@@ -1,6 +1,19 @@
 ﻿@model IEnumerable<ProjectModel>
 
-@foreach (var project in Model)
+@{
+    Dictionary<string, int> statusOrder = new()
+    {
+        { "Active", 1},
+        { "Pending", 2},
+        { "Closed", 3}
+    };
+
+    var sortedProjects = Model
+        .OrderBy(p => statusOrder.TryGetValue(p.Status.StatusName, out var order) ? order : 99)
+        .ThenBy(p => p.EndDate);
+}
+
+@foreach (var project in sortedProjects)
 {
     <partial name="_ProjectCard" model="project" />
 }

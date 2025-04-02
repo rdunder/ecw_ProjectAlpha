@@ -47,20 +47,17 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
 
             const status = this.getAttribute('data-status');
-            console.log(status)
             
             projectCards.forEach(card => {
-                const projectStatus = card.getAttribute('data-status');
-                console.log(card.style.display)
+                const projectStatus = card.getAttribute('data-status');               
 
-                if (status === 'ALL' || status === projectStatus) {
+                if (status === 'ALL' || status === projectStatus) {                    
                     card.style.display = '';
                 }
                 else {
                     card.style.display = 'none';
-                }
+                }                    
             });
-
         });
     });
 });

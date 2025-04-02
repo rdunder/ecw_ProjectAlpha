@@ -26,6 +26,7 @@ public class RoleService(RoleManager<RoleEntity> roleManager, AppDbContext conte
             {
                 var entity = RoleFactory.Create(dto);
                 var result = await _roleManager.CreateAsync(entity);
+                
 
                 await transaction.CommitAsync();
 

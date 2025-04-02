@@ -141,9 +141,11 @@ public class ProjectsController(IProjectService projectService, ICustomerService
     private async Task<Guid> GetStatus(ProjectFormViewModel form)
     {
         var statuses = await _statusService.GetAllAsync();
-        var startDateTimeDiff = form.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        var startDate = form.StartDate;
+        //var startDateTimeDiff = form.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
 
-        if (startDateTimeDiff.Days > 0)
+        if (startDate > today)
             return statuses.FirstOrDefault(s => s.StatusName == "Pending").Id;
         else
             return statuses.FirstOrDefault(s => s.StatusName == "Active").Id;
