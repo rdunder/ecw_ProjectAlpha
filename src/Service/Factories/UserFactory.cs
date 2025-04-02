@@ -54,5 +54,6 @@ public static class UserFactory
             RoleName = model.RoleName,
             Avatar = model.Avatar,
             BirthDate = model.BirthDate,
+            
         };
 }

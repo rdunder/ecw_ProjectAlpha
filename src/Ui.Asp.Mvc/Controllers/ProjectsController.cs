@@ -11,11 +11,18 @@ using Ui.Asp.Mvc.Services;
 namespace Ui.Asp.Mvc.Controllers;
 
 [Authorize]
-public class ProjectsController(IProjectService projectService, ICustomerService customerService, IStatusService statusService, ImageManager imageManager, ILogger<ProjectsController> logger) : Controller
+public class ProjectsController(
+    IProjectService projectService, 
+    ICustomerService customerService, 
+    IStatusService statusService,
+    IUserService userService,
+    ImageManager imageManager,
+    ILogger<ProjectsController> logger) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly ICustomerService _customerService = customerService;
     private readonly IStatusService _statusService = statusService;
+    private readonly IUserService _userService = userService;
     private readonly ImageManager _imageManager = imageManager;
     private readonly ILogger<ProjectsController> _logger = logger;
 
@@ -26,7 +33,8 @@ public class ProjectsController(IProjectService projectService, ICustomerService
         {
             Projects = await _projectService.GetAllAsync(),
             Customers = await _customerService.GetAllAsync(),
-            Statuses = await _statusService.GetAllAsync()
+            Statuses = await _statusService.GetAllAsync(),
+            Users = await _userService.GetAllAsync(),
         };        
 
 
@@ -68,6 +76,17 @@ public class ProjectsController(IProjectService projectService, ICustomerService
             return BadRequest(new {success = false, errors});
         }
 
+        //var admin = await _userService.GetByEmailAsync("admin@domain.com");
+        form.Users?.Add(new UserModel()
+        {
+            Id = Guid.Parse("F675BC3A-6C6E-4753-2A8E-08DD6706A340"),
+            FirstName = "Super",
+            LastName = "User",
+            PhoneNumber = "+46 743 897 356",
+            Avatar = "Members_Avatar_efbc4920-4bf9-4394-a187-589b59b194d2.PNG",
+            Email = "admin@domain.com"
+        });
+        
         form.StatusId = await GetStatus(form);
 
         if (form.File != null)

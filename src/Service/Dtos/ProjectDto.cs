@@ -2,6 +2,7 @@
 
 using Data.Entities;
 using Microsoft.AspNetCore.Http;
+using Service.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
@@ -48,4 +49,6 @@ public class ProjectDto
 
 
     public string? Avatar { get; set; }
+
+    public List<UserModel>? Users { get; set; }
 }

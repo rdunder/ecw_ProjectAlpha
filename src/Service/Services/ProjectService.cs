@@ -1,6 +1,8 @@
 ﻿
 
+using Data.Entities;
 using Data.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Dtos;
 using Service.Factories;
@@ -9,14 +11,15 @@ using Service.Models;
 
 namespace Service.Services;
 
-public class ProjectService(IProjectRepository repo, IStatusRepository statusRepo) : IProjectService
+public class ProjectService(IProjectRepository repo, IStatusRepository statusRepo, UserManager<UserEntity> usermManager) : IProjectService
 {
     private readonly IProjectRepository _repo = repo;
     private readonly IStatusRepository _statusRepo = statusRepo;
+    private readonly UserManager<UserEntity> _usermManager = usermManager;
 
     public async Task<bool> CreateAsync(ProjectDto? dto)
     {
-        if (dto == null) return false;
+        if (dto == null) return false;        
 
         await _repo.BeginTransactionAsync();
 
@@ -24,6 +27,17 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
         {
             var entity = ProjectFactory.Create(dto);
 
+            if (dto.Users != null)
+            {
+                foreach (var user in dto.Users)
+                {
+                    var userEntity = await _usermManager.FindByIdAsync(user.Id.ToString());
+                    if (userEntity != null)
+                    {
+                        entity.Users.Add(userEntity);
+                    }
+                }
+            }
             await _repo.CreateAsync(entity);
             await _repo.SaveChangesAsync();
             await _repo.CommitTransactionAsync();
@@ -46,6 +60,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
                 query
                     .Include(x => x.Status)
                     .Include(x => x.Customer)
+                    .Include(x => x.Users)
                 );
             projects.AddRange(entities.Select(entity => ProjectFactory.Create(entity)));
 

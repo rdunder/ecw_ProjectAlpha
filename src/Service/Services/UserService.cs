@@ -143,7 +143,9 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public async Task<UserModel> GetByEmailAsync(string email)
     {
-        return new UserModel();
+        var entity = await _userManager.FindByEmailAsync(email);
+        
+        return entity is null ? null! : UserFactory.Create(entity);
     }
 
     public async Task<UserModel> GetUser(ClaimsPrincipal claimsPrincipal)

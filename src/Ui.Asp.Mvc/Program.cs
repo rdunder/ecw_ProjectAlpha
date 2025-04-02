@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("LocalDb") ?? throw new ArgumentNullException($"Failed to get connectionstring:\n{nameof(args)}");
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(opt =>
@@ -23,7 +24,7 @@ builder.Services.AddControllersWithViews()
     });
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb")));
+    opt.UseSqlServer(connectionString));
 
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();

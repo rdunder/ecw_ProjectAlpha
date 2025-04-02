@@ -1,4 +1,5 @@
 ﻿using Service.Dtos;
+using Service.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ui.Asp.Mvc.Models;
@@ -41,6 +42,8 @@ public class ProjectFormViewModel
     public IFormFile? File { get; set; }
     public string? Avatar { get; set; }
 
+    public List<UserModel>? Users { get; set; } = [];
+
 
     public static implicit operator ProjectDto(ProjectFormViewModel form) =>
         form is null
@@ -55,6 +58,7 @@ public class ProjectFormViewModel
             CustomerId = form.CustomerId,
             StatusId = form.StatusId,
             Budget = form.Budget,
-            Avatar = form.Avatar
+            Avatar = form.Avatar,
+            Users = form.Users,
         };
 }
