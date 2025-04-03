@@ -34,7 +34,7 @@ public class ProjectsController(
             Projects = await _projectService.GetAllAsync(),
             Customers = await _customerService.GetAllAsync(),
             Statuses = await _statusService.GetAllAsync(),
-            Users = await _userService.GetAllAsync(),
+            Users = await _userService.GetAllAsync()
         };        
 
 
@@ -48,6 +48,13 @@ public class ProjectsController(
             .Select(s => new SelectListItem
             {
                 Value= s.Id.ToString(), Text = s.StatusName
+            }).ToList();
+
+        ViewBag.Users = viewModel.Users
+            .Select(u => new SelectListItem
+            {
+                Value = u.Id.ToString(),
+                Text = $"{u.FirstName} {u.LastName} <{u.RoleName}>"
             }).ToList();
 
         ViewBag.CountAll = viewModel.Projects.Count();
@@ -154,6 +161,27 @@ public class ProjectsController(
     {
         var project = await _projectService.CloseProjectAsync(id);
         return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> UpdateProjectMembers(AddMemberToProjectFormModel viewModel)
+    {
+        _logger.LogInformation("###################################################################");
+        _logger.LogInformation("###################################################################");
+        _logger.LogInformation("--");
+        
+        _logger.LogInformation(viewModel.ProjectId.ToString());
+        _logger.LogInformation(viewModel.MemberIds.Count().ToString());
+
+        foreach (var memberId in viewModel.MemberIds) { _logger.LogInformation(memberId.ToString()); }
+
+        _logger.LogInformation("--");
+        _logger.LogInformation("###################################################################");
+        _logger.LogInformation("###################################################################");
+
+        await _projectService.UpdateMemberList(viewModel.MemberIds, viewModel.ProjectId);
+
+        return RedirectToAction("Index");
+
     }
 
 

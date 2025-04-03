@@ -62,6 +62,13 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
                     .Include(x => x.Customer)
                     .Include(x => x.Users)
                 );
+
+            foreach (var entity in entities)
+            {
+                if (entity.Status.StatusName == "Pending")
+                    await CheckStatus(entity);
+            }
+
             projects.AddRange(entities.Select(entity => ProjectFactory.Create(entity)));
 
             return projects;
@@ -76,7 +83,12 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
     {
         try
         {
-            var entity = await _repo.GetAsync(x => x.Id == id);
+            var entity = await _repo.GetAsync(x => x.Id == id, query =>
+                query
+                    .Include(x => x.Status)
+                    .Include(x => x.Customer)
+                    .Include(x => x.Users)
+               );
 
             if (entity != null)
                 return ProjectFactory.Create(entity);
@@ -184,8 +196,55 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
         {
             await _repo.RollbackTransactionAsync();
             return false;
+        }        
+    }
+
+    public async Task<bool> UpdateMemberList(List<Guid> memberIds, Guid projectId)
+    {
+        if (memberIds == null || projectId == Guid.Empty) return false;
+
+        var projectEntity = await _repo.GetAsync(p => p.Id == projectId, query =>
+                query
+                    .Include(x => x.Status)
+                    .Include(x => x.Customer)
+                    .Include(x => x.Users)
+               );
+
+        await _repo.BeginTransactionAsync();
+        projectEntity.Users.Clear();       
+
+        await _repo.SaveChangesAsync();
+
+        foreach (var id in memberIds)
+        {
+            var user = await _usermManager.FindByIdAsync(id.ToString());
+            if (user != null && projectEntity.Users.Contains(user) == false)
+            {
+                projectEntity.Users.Add(user);
+            }
         }
 
+        try
+        {
+            _repo.Update(projectEntity);
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
         
+    }
+
+    private async Task CheckStatus(ProjectEntity entity)
+    {
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        if (entity.StartDate <= today)
+        {
+            await StartProjectAsync(entity.Id);
+        }
     }
 }

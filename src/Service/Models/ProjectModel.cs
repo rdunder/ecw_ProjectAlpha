@@ -24,5 +24,5 @@ public class ProjectModel
     public CustomerModel Customer { get; set; } = null!;
 
 
-    public IEnumerable<UserModel>? Users { get; set; }
+    public IEnumerable<UserModel>? Users { get; set; } = [];
 }

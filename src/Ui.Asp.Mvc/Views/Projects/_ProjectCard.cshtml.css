@@ -69,15 +69,7 @@
             font-size: 0.9em;
         }
 
-            .project-card footer .members {
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .project-card footer .members ::deep img {
-                display: block;
-                width: 35px;
-            }
+            
 
 .timeframe.pending {
     background-color: var(--clr-dark-100-10);
@@ -98,3 +90,15 @@
     background-color: var(--clr-red-15);
     color: var(--clr-dark-red);
 }
+
+.project-card footer .members {
+    display: flex;
+    gap: 0.5rem;
+}
+
+    .project-card footer .members ::deep img {
+        display: block;
+        width: 35px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+    }

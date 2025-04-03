@@ -41,6 +41,7 @@ public static class ProjectFactory
 
             Status = StatusFactory.Create(entity.Status),
             Customer = CustomerFactory.Create(entity.Customer),
+            Users = entity.Users.Select(u => UserFactory.Create(u))
         };
 
     //public static ProjectEntity Create(ProjectModel model) =>

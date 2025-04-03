@@ -1,47 +1,42 @@
 ﻿@model ProjectModel
 
-@{
-    var today = DateTime.Now;
-    TimeSpan timeDifference;
+
+@{    
+    var today = DateOnly.FromDateTime(DateTime.Now);
+    int daysDifference;
     string timeframeStatus = "";
     string timeframeCssClass = "";
-
 
     switch (Model.Status.StatusName)
     {
         case "Pending":
-            timeDifference = Model.StartDate.ToDateTime(TimeOnly.MinValue) - today;
-            timeframeStatus = $"Starts in {timeDifference.Days} days";
+            daysDifference = Model.StartDate.DayNumber - today.DayNumber;
+            timeframeStatus = daysDifference == 0 ? "Starts in 1 day" : $"Starts in {daysDifference} days";
             timeframeCssClass = "pending";
             break;
 
         case "Active":
-            timeDifference = Model.EndDate.ToDateTime(TimeOnly.MinValue) - today;
-            if (timeDifference.Days <= 0)
+            daysDifference = Model.EndDate.DayNumber - today.DayNumber;
+
+            if (daysDifference < 0)
             {
-                timeframeStatus = $"{Math.Abs(timeDifference.Days)} days overdue";
+                timeframeStatus = $"{daysDifference} days overdue";
                 timeframeCssClass = "warning";
             }
             else
             {
-                timeframeStatus = $"{timeDifference.Days} days left";
+                timeframeStatus = $"{daysDifference} days left";
                 timeframeCssClass = "active";
             }
             break;
 
         default:
-            timeDifference = today - Model.EndDate.ToDateTime(TimeOnly.MinValue);
             timeframeStatus = "Completed";
             timeframeCssClass = "closed";
             break;
     }
 
-
-
-
     string avatarPath = imageManager.GetPath(nameof(ProjectsController), Model.Avatar!);
-
-
 
     ProjectFormViewModel editModel = new ProjectFormViewModel()
     {
@@ -56,10 +51,16 @@
         Avatar = Model.Avatar
     };
 
+    AddMemberToProjectFormModel addMemberToProjectFormModel = new()
+    {
+        ProjectId = Model.Id,
+        Project = Model
+    };
 }
 
 
 <partial name="_EditProjectModal" model="@editModel" />
+<partial name="_AddMemberToProjectModal" model="@addMemberToProjectFormModel" />
 
 <div class="project-card" data-status="@Model.Status.StatusName">
     <header>
@@ -78,6 +79,10 @@
                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editProjectModal_@Model.Id"><i class="bi bi-pencil-fill"></i> Edit</a>
                 </li>
 
+                <li class="mt-2 mb-3">
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addMemberToProjectModal_@Model.Id"><i class="bi bi-person-plus-fill"></i> Add Member</a>
+                </li>
+
                 @if (Model.Status.StatusName == "Pending")
                 {
                     <li class="mt-2 mb-3">
@@ -91,7 +96,7 @@
                         <a class="dropdown-item delete" asp-action="CloseProject" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-stop-circle"></i> Set Completed</a>
                     </li>
                 }
-                
+
                 <hr />
                 <li>
                     <a class="dropdown-item delete" asp-action="Delete" asp-controller="Projects" asp-route-id="@Model.Id" asp-route-avatar="@Model.Avatar"><i class="bi bi-trash"></i> Delete Project</a>
@@ -109,9 +114,13 @@
             <p>@timeframeStatus</p>
         </div>
         <div class="members">
+            @foreach (var member in Model.Users)
+            {
+                <img src="@imageManager.GetPath(nameof(MembersController), member.Avatar!)">
+            }
+            @* <img src="~/images/profile.png">
             <img src="~/images/profile.png">
-            <img src="~/images/profile.png">
-            <img src="~/images/profile.png">
+            <img src="~/images/profile.png"> *@
         </div>
     </footer>
 </div>
