@@ -48,7 +48,8 @@
         Budget = Model.Budget,
         CustomerId = Model.Customer.Id,
         StatusId = Model.Status.Id,
-        Avatar = Model.Avatar
+        Avatar = Model.Avatar,
+        MemberIds = Model.Users.Select(u => u.Id).ToList()
     };
 
     AddMemberToProjectFormModel addMemberToProjectFormModel = new()
@@ -123,4 +124,5 @@
             <img src="~/images/profile.png"> *@
         </div>
     </footer>
+
 </div>

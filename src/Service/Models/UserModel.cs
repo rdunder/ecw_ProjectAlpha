@@ -1,5 +1,8 @@
 ﻿
 
+using Data.Entities;
+using Service.Dtos;
+
 namespace Service.Models;
 
 public class UserModel
@@ -14,5 +17,5 @@ public class UserModel
     public DateOnly? BirthDate { get; set; }
 
     UserAddressModel? Address { get; set; }
-    public string? RoleName { get; set; }
+    public string? RoleName { get; set; }   
 }

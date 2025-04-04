@@ -100,13 +100,12 @@
     </div>
 </div>
 
-@* <div class="col-md-12 form-group">
-    <label asp-for="StatusId"></label>
-    <select asp-for="StatusId" asp-items="@ViewBag.Statuses" class="form-control">
-        <option value="" disabled selected>-- Select a Status --</option>
-    </select>
-    <span asp-validation-for="StatusId" class="text-danger"></span>
-</div> *@
+<div class="form-group">
+    <label class="control-label">Select Members</label>
+    <div class="user-selection-container">
+        <select asp-for="MemberIds" id="memberSelect__@Model.Id" asp-items="@ViewBag.Users" class="memberSelectDropdown"></select>
+    </div>
+</div>
 
 <div class="col-md-12 form-group">
     <label asp-for="Budget" ></label>
@@ -125,4 +124,22 @@
 @await Html.PartialAsync("_ValidationScripts")
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
 
+
+        new TomSelect(document.querySelector("#memberSelect__@Model.Id"), {
+            plugins: ['remove_button'],
+            placeholder: 'Search and select members...',
+            persist: false,
+            maxItems: 3,
+            items: @Html.Raw(Json.Serialize(Model.MemberIds)),
+            load: function(query, callback) {
+                callback();
+            }
+        });
+
+    })
+
+    // items: SNABEL_A Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString()))),
+</script>

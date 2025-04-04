@@ -1,8 +1,8 @@
 ﻿@model AddMemberToProjectFormModel
 
 @{
-
 }
+
 
 <div class="modal fade" id="addMemberToProjectModal_@Model.ProjectId" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -12,13 +12,20 @@
                 <div class="d-flex justify-content-between mb-4">
                     <h3 class="modal-title fs-5" id="exampleModalLabel">Add Members</h3>
                     <button type="button" class="btn-modal-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-                </div>
-
-                <h6>ProjectId: @Model.ProjectId</h6>
-
-
+                </div> 
 
                 <form class="row g-3" novalidate method="post" asp-controller="Projects" asp-action="UpdateProjectMembers" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="control-label">Select Members</label>
+                        <div class="user-selection-container">
+                            <select asp-for="MemberIds" id="memberSelect_@Model.ProjectId" asp-items="@ViewBag.Users" class="memberSelectDropdown"></select>
+                        </div>
+                    </div>
+                    <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+                    <button type="submit" class="btn btn-blue mt-4">Add Members</button>
+                </form>
+
+                @* <form class="row g-3" novalidate method="post" asp-controller="Projects" asp-action="UpdateProjectMembers" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="control-label">Select Members</label>
                         <div class="user-selection-container">
@@ -26,23 +33,56 @@
                             {
                                 <div class="form-check mb-2">
                                     <input type="checkbox"
-                                        class="form-check-input"
-                                        id="user-@user.Value"
-                                        name="MemberIds"
-                                        value="@user.Value"
-                                        @((user.Selected || Model.Project.Users.Any(u => u.Id == Guid.Parse(user.Value))) ? "checked" : "") />
+                                           class="form-check-input"
+                                           id="user-@user.Value"
+                                           name="MemberIds"
+                                           value="@user.Value"
+                                    @((user.Selected || Model.Project.Users.Any(u => u.Id == Guid.Parse(user.Value))) ? "checked" : "") />
                                     <label class="form-check-label" for="user-@user.Value">
                                         @user.Text
                                     </label>
-                                </div>                               
+                                </div>
                             }
                         </div>
                     </div>
                     <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
                     <button type="submit" class="btn btn-blue mt-4">Add Members</button>
-                </form>    
-
+                </form> *@
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new TomSelect(document.querySelector("#memberSelect_@Model.ProjectId"), {
+            plugins: ['remove_button'],
+            placeholder: 'Search and select members...',
+            persist: false,
+            maxItems: 3,
+            items: @Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString()))),
+            load: function(query, callback) {
+                callback();
+            }
+        });        
+    })
+    
+
+        
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const memberFilter = document.getElementById('memberFilter');
+    //     const memberSelect = document.querySelector('select[name="MemberIds"]');
+    //     const options = Array.from(memberSelect.options);
+
+    //     memberFilter.addEventListener('input', function() {
+    //         const searchTerm = this.value.toLowerCase();
+
+    //         options.forEach(option => {
+    //             const match = option.text.toLowerCase().includes(searchTerm);
+    //             option.style.display = match ? '' : 'none';
+    //         });
+    //     });
+    // });    
+</script>
+

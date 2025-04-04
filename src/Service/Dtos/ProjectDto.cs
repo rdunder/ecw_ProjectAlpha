@@ -51,4 +51,5 @@ public class ProjectDto
     public string? Avatar { get; set; }
 
     public List<UserModel>? Users { get; set; } = [];
+    public List<Guid>? UsersIds { get; set; } = [];
 }

@@ -54,7 +54,7 @@ public class ProjectsController(
             .Select(u => new SelectListItem
             {
                 Value = u.Id.ToString(),
-                Text = $"{u.FirstName} {u.LastName} <{u.RoleName}>"
+                Text = $"{u.FirstName} {u.LastName}"
             }).ToList();
 
         ViewBag.CountAll = viewModel.Projects.Count();
@@ -84,15 +84,8 @@ public class ProjectsController(
         }
 
         //var admin = await _userService.GetByEmailAsync("admin@domain.com");
-        form.Users?.Add(new UserModel()
-        {
-            Id = Guid.Parse("F675BC3A-6C6E-4753-2A8E-08DD6706A340"),
-            FirstName = "Super",
-            LastName = "User",
-            PhoneNumber = "+46 743 897 356",
-            Avatar = "Members_Avatar_efbc4920-4bf9-4394-a187-589b59b194d2.PNG",
-            Email = "admin@domain.com"
-        });
+        //form.MemberIds?.Add(Guid.Parse("F675BC3A-6C6E-4753-2A8E-08DD6706A340"));
+        
         
         form.StatusId = await GetStatus(form);
 
@@ -130,7 +123,7 @@ public class ProjectsController(
         {
             _imageManager.DeleteImage(form.Avatar, nameof(ProjectsController));
             form.Avatar = await _imageManager.SaveImage(form.File, nameof(ProjectsController));
-        }
+        }        
 
         var result = await _projectService.UpdateAsync(form.Id, form);
         if (result) return Ok();
@@ -165,23 +158,8 @@ public class ProjectsController(
 
     public async Task<IActionResult> UpdateProjectMembers(AddMemberToProjectFormModel viewModel)
     {
-        _logger.LogInformation("###################################################################");
-        _logger.LogInformation("###################################################################");
-        _logger.LogInformation("--");
-        
-        _logger.LogInformation(viewModel.ProjectId.ToString());
-        _logger.LogInformation(viewModel.MemberIds.Count().ToString());
-
-        foreach (var memberId in viewModel.MemberIds) { _logger.LogInformation(memberId.ToString()); }
-
-        _logger.LogInformation("--");
-        _logger.LogInformation("###################################################################");
-        _logger.LogInformation("###################################################################");
-
         await _projectService.UpdateMemberList(viewModel.MemberIds, viewModel.ProjectId);
-
         return RedirectToAction("Index");
-
     }
 
 

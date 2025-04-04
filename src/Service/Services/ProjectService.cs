@@ -27,11 +27,11 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
         {
             var entity = ProjectFactory.Create(dto);
 
-            if (dto.Users != null)
+            if (dto.UsersIds != null)
             {
-                foreach (var user in dto.Users)
+                foreach (var userId in dto.UsersIds)
                 {
-                    var userEntity = await _usermManager.FindByIdAsync(user.Id.ToString());
+                    var userEntity = await _usermManager.FindByIdAsync(userId.ToString());
                     if (userEntity != null)
                     {
                         entity.Users.Add(userEntity);
@@ -104,16 +104,32 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
     public async Task<bool> UpdateAsync(Guid id, ProjectDto? dto)
     {
         if (dto is null || await _repo.AlreadyExistsAsync(x => x.Id == dto.Id) == false) return false;
-
+        
         await _repo.BeginTransactionAsync();
 
         try
         {
-            var entity = ProjectFactory.Create(dto);
-            entity.Id = dto.Id;
+            var entity =await  _repo.GetAsync(x => x.Id == id, query => query.Include(x => x.Users));
+            if (entity is null) return false;
+
+            ProjectFactory.Map(dto, entity);
+
+            entity.Users.Clear();
+            await _repo.SaveChangesAsync();
+
+            if (dto.UsersIds != null)
+            {
+                foreach (var userId in dto.UsersIds)
+                {
+                    var user = await _usermManager.FindByIdAsync(userId.ToString());
+                    if (user != null)
+                    {
+                        entity.Users.Add(user);
+                    }
+                }
+            }            
 
             _repo.Update(entity);
-
             await _repo.SaveChangesAsync();
             await _repo.CommitTransactionAsync();
             return true;

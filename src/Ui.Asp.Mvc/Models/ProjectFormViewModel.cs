@@ -42,7 +42,9 @@ public class ProjectFormViewModel
     public IFormFile? File { get; set; }
     public string? Avatar { get; set; }
 
-    public List<UserModel>? Users { get; set; } = [];
+    public List<UserModel>? Members { get; set; } = [];
+
+    public List<Guid>? MemberIds { get; set; } = [];
 
 
     public static implicit operator ProjectDto(ProjectFormViewModel form) =>
@@ -59,6 +61,7 @@ public class ProjectFormViewModel
             StatusId = form.StatusId,
             Budget = form.Budget,
             Avatar = form.Avatar,
-            Users = form.Users,
+            Users = form.Members,
+            UsersIds = form.MemberIds,
         };
 }

@@ -60,4 +60,17 @@ public static class ProjectFactory
     //        StatusId = model.StatusId,
     //        CustomerId = model.CustomerId,
     //    };
+
+    public static void Map(ProjectDto dto, ProjectEntity entity)
+    {
+        entity.Id = dto.Id;
+        entity.Name = dto.Name;
+        entity.Description = dto.Description;
+        entity.StartDate = dto.StartDate;
+        entity.EndDate = dto.EndDate;
+        entity.Budget = dto.Budget;
+        entity.Avatar = dto.Avatar;
+        entity.StatusId = dto.StatusId;
+        entity.CustomerId = dto.CustomerId;
+    }
 }
