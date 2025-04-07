@@ -26,10 +26,14 @@ public class ImageManager(IWebHostEnvironment env, IConfiguration config)
     
     public void DeleteImage(string avatar, string controller)
     {
-        var filePath = Path.Combine(
-            _env.WebRootPath, 
+        if (avatar.StartsWith(nameof(controller)))
+        {
+            var filePath = Path.Combine(
+            _env.WebRootPath,
             $"images{Path.DirectorySeparatorChar}{controller.Replace("Controller", "")}_Avatars{Path.DirectorySeparatorChar}{avatar}");
-        File.Delete(filePath);
+            File.Delete(filePath);
+        }
+        
     }
 
     public string GetPath(string controller, string avatar)

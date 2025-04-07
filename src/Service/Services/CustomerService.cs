@@ -72,9 +72,25 @@ public class CustomerService(ICustomerRepository repo) : ICustomerService
         }
     }
 
-    public Task<bool> UpdateAsync(Guid id, CustomerDto? dto)
+    public async Task<bool> UpdateAsync(Guid id, CustomerDto? dto)
     {
-        throw new NotImplementedException();
+        if (dto is null || await _repo.AlreadyExistsAsync(x => x.Id == dto.Id) == false) return false;
+        await _repo.BeginTransactionAsync();
+
+        try
+        {
+            var entity = CustomerFactory.Create(dto);
+            entity.Id = id;
+            _repo.Update(entity);
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex) 
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
     }
 
     public async Task<bool> DeleteAsync(Guid id)

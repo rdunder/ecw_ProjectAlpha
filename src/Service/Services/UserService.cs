@@ -11,15 +11,21 @@ using System.Security.Claims;
 
 namespace Service.Services;
 
-public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager) : IUserService
+public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, IUserAddressService userAddressService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly RoleManager<RoleEntity> _roleManager = roleManager;
+    private readonly IUserAddressService _userAddressService = userAddressService;
 
 
     public async Task<bool> CreateAsync(UserDto? dto)
     {
+        if (dto == null) return false;
         var entity = UserFactory.Create(dto);
+
+        if (dto.Address != null)
+            entity.Address = UserAddressFactory.Create(dto.Address);
+
         var result = await _userManager.CreateAsync(entity, dto.Password);
 
         if (dto.RoleName == null)
@@ -52,7 +58,7 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
             return null!;
         }
         catch (Exception ex) 
-        {
+        {            
             return null!;
         }
         
@@ -75,7 +81,7 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public async Task<IEnumerable<UserModel>> GetAllAsync()
     {
-        var userEntities = await _userManager.Users.ToListAsync();
+        var userEntities = await _userManager.Users.Include(u => u.Address).ToListAsync();
 
         foreach (var userEntity in userEntities)
         {
@@ -109,6 +115,9 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
             
             if (entity.RoleName != dto.RoleName && dto.RoleName != null)
                 await AddToRoleAsync(dto.Email, dto.RoleName);
+
+            if (dto.Address != null)
+                await _userAddressService.UpdateAsync(id, dto.Address);
 
             var result = await _userManager.UpdateAsync(entity);
             return result.Succeeded;
@@ -151,6 +160,9 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
     public async Task<UserModel> GetUser(ClaimsPrincipal claimsPrincipal)
     {
         var entity = await _userManager.GetUserAsync(claimsPrincipal);
+
+        if (entity == null) return null!;
+        
         var roles = await _userManager.GetRolesAsync(entity);
         entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
 

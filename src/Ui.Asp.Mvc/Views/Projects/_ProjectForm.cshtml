@@ -2,7 +2,7 @@
 
 @{
     // string avatar = Model.Avatar != string.Empty ? $"project_avatars/{Model.Avatar}" : string.Empty;
-
+    ViewBag.ProjectDescription = Model.Description;
 }
 
 <input asp-for="Id" hidden />
@@ -48,41 +48,33 @@
     <span asp-validation-for="CustomerId" class="text-danger"></span>
 </div>
 
-
-@*
-    Working on the Descrition Text Area, i have tried TinyMce and QuillJS
-    things to try:
-    Summernote
-    CKEditor
-*@
 <div class="col-md-12 form-group">
     <label asp-for="Description"></label>
-    <input asp-for="Description" class="form-control" autocomplete="off" />
+    <input asp-for="Description" id="descriptionInput__@Model.Id" hidden />
+    <div class="quill-wrapper">
+        <div id = "quillEditor__@Model.Id" class = "quill-editor"></div>
+        <div id = "quillToolbar__@Model.Id" class = "quill-toolbar">
+            <span class="ql-formats">
+                <button class="ql-bold" aria-pressed="false" aria-label=""></button>
+                <button class="ql-italic" aria-pressed="false" aria-label=""></button>
+                <button class="ql-underline" aria-pressed="false" aria-label=""></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-align" value="" aria-pressed="false" aria-label=""></button>
+                <button class="ql-align" value="center" aria-pressed="false" aria-label=""></button>
+                <button class="ql-align" value="right" aria-pressed="false" aria-label=""></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-list" value="bullet" aria-pressed="false" aria-label=""></button>
+                <button class="ql-list" value="ordered" aria-pressed="false" aria-label=""></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-link" aria-pressed="false" aria-label=""></button>
+            </span>
+        </div>
+    </div>    
     <span asp-validation-for="Description" class="text-danger"></span>
 </div>
-
-@* <div class="col-md-12 form-group">
-    <label asp-for="Description"></label>
-    <textarea asp-for="Description" id="richTextArea" class="form-control"></textarea>
-    <span asp-validation-for="Description" class="text-danger"></span>
-</div> *@
-
-
-@* <div class="col-md-12 form-group">
-    <label asp-for="Description"></label>
-
-    <div class="quill-wrapper">
-        <div id="quill-editor"></div>
-    </div>
-
-    <input type="hidden" asp-for="Description" id="description-input" />
-    <span asp-validation-for="Description" class="text-danger"></span>
-</div> *@
-
-
-
-
-
 
 <div class="form-group-horizontal">
     <div class="col-6 date-input-wrapper" >
@@ -114,20 +106,16 @@
 </div>
 
 
-@* <script src="https://cdn.tiny.cloud/1/lbjm2n85x08rdztajc4zpp79wy8v7sdj55r8xdkzrgwcypfe/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="~/js/richTextArea.js" asp-append-version="true" /> *@
-
-@* <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" ></script>
-<script src="~/js/quillEditor.js" defer></script> *@
 
 
 @await Html.PartialAsync("_ValidationScripts")
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-
+        // Things i tried with TomSelect.
+        // TomSelect will not init items from asp-items!!
+        // items: SNABEL_A Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString()))),
         new TomSelect(document.querySelector("#memberSelect__@Model.Id"), {
             plugins: ['remove_button'],
             placeholder: 'Search and select members...',
@@ -139,7 +127,13 @@
             }
         });
 
-    })
+        quillJsInit(
+            '#quillEditor__@Model.Id',
+            '#quillToolbar__@Model.Id',
+            '@Html.Raw(ViewBag.ProjectDescription ?? "")', 
+            '#descriptionInput__@Model.Id')
 
-    // items: SNABEL_A Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString()))),
+            
+
+    })    
 </script>

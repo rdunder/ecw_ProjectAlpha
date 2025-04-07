@@ -20,5 +20,5 @@ public class UserAddressDto
 
     [Display(Name = "Postal Code")]
     [Required(ErrorMessage = "You must enter a postal code")]
-    public int PostalCode { get; set; }
+    public int? PostalCode { get; set; }
 }

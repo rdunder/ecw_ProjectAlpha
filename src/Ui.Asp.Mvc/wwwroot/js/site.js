@@ -34,10 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-
     //  Handle submit forms from modals
     const modals = document.querySelectorAll('.modal')
-
     modals.forEach(modal => {
 
         const form = modal.querySelector('form')
@@ -90,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
+
     //  Hnadle Theme
     let savedTheme = localStorage.getItem("theme");
 
@@ -128,4 +127,50 @@ function ToggleTheme() {
     }
 }
 
+function quillJsInit(editorId, toolbarId, content, textAreaId) {
+    const textArea = document.querySelector(textAreaId);
+    const quill = new Quill(editorId, {
+        modules: {
+            toolbar: toolbarId
+        },
+        placeholder: 'Enter Description',
+        theme: 'snow'
+    })
 
+    console.log(content)
+
+    if (content)
+        quill.root.innerHTML = content
+
+    quill.on('text-change', () => {
+        textArea.value = quill.root.innerHTML;
+        console.log("changed")
+    })
+}
+
+
+//const quill = new Quill('#quill-editor', {
+//    modules: {
+//        toolbar:
+//            [
+//                ['bold', 'italic', 'underline'],
+//                ['align', { 'align': 'center' }, { 'align': 'right' }],
+//                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+//                ['link']
+//            ]
+//    },
+
+//    placeholder: 'Enter Descritption',
+//    theme: 'snow'
+//});
+
+
+//quill.on('text-change', (delta, oldDelta, source) => {
+//    if (source == 'api') {
+//        console.log('An API call triggered this change.');
+//    } else if (source == 'user') {
+//        console.log('A user action triggered this change.');
+//        console.log(quill.getSemanticHTML())
+//        document.querySelector('#description-input').value = quill.getSemanticHTML()
+//    }
+//});

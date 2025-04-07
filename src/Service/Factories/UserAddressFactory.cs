@@ -23,7 +23,7 @@ public static class UserAddressFactory
 
     public static UserAddressModel Create(UserAddressEntity entity) =>
         entity is null
-        ? throw new ArgumentNullException(nameof(entity))
+        ? new UserAddressModel()
         : new UserAddressModel()
         {
             UserEntityId = entity.UserEntityId,

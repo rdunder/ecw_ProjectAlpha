@@ -24,6 +24,7 @@ public class UserDto
 
     public string? RoleName { get; set; }
 
+    public UserAddressDto? Address { get; set; }
     
 
     public DateOnly? BirthDate { get; set; }

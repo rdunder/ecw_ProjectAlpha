@@ -33,11 +33,12 @@ public static class UserFactory
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 Email = entity.Email ?? "",
-                UserName = entity.UserName,
+                UserName = entity.UserName!,
                 PhoneNumber = entity.PhoneNumber ?? "",
                 RoleName = entity.RoleName,
                 Avatar = entity.Avatar,
                 BirthDate = entity.BirthDate,
+                Address = UserAddressFactory.Create(entity.Address!),
             };
 
     public static UserEntity Create(UserModel model) =>

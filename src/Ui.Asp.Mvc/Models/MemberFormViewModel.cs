@@ -49,13 +49,16 @@ public class MemberFormViewModel
 
 
     [Display(Name = "Street Address", Prompt = "Enter Street Address")]
+    [MinLength(4, ErrorMessage = "Address must be at least 4 characters")]
     public string? Address { get; set; }
 
     [Display(Name = "Postal Code", Prompt = "123")]
     [DataType(DataType.PostalCode)]
-    public int PostalCode { get; set; }
+    [Range(1, 999999, ErrorMessage = "Postal code cannot be 0")]
+    public int? PostalCode { get; set; }
 
     [Display(Name = "City", Prompt = "Enter City")]
+    [MinLength(2, ErrorMessage = "City must be at least 2 characters")]
     public string? City { get; set; }
 
 
@@ -75,5 +78,14 @@ public class MemberFormViewModel
 
             BirthDate = viewModel.BirthDate,
             Avatar = viewModel.Avatar,
+
+            Address = (viewModel.Address != null || viewModel.PostalCode >= 11111 || viewModel.City != null) 
+                ? new()
+                {
+                    Address = viewModel.Address,
+                    PostalCode = viewModel.PostalCode,
+                    City = viewModel.City
+                }
+                : null
         };
 }

@@ -1,5 +1,4 @@
 ﻿
-
 @{
     var user = await _userService.GetUser(User);
     var avatar = imageManager.GetPath(nameof(MembersController), user.Avatar);
@@ -9,7 +8,8 @@
 <div class="search">
     search
 </div>
-<nav class="topmenu-nav">
+<nav class="topmenu-nav">    
+
     <a href="#" class="topmenu-nav-item"><i class="bi bi-bell-fill"></i></a>
     <div class="vr"></div>
 

@@ -159,13 +159,14 @@ public class AuthController : Controller
         }
 
         var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+
         if (externalLoginInfo == null)
         {
             return RedirectToAction("Login");
         }
-
+        
         var signinResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
+   
         if (signinResult.Succeeded)
         {
             return LocalRedirect(returnUrl);

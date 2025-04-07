@@ -1,6 +1,7 @@
 ﻿
 
 using Data.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
@@ -68,9 +69,26 @@ public class UserAddressService(IUserAddressRepository repo) : IUserAddressServi
         }
     }
 
-    public Task<bool> UpdateAsync(Guid id, UserAddressDto? dto)
+    public async Task<bool> UpdateAsync(Guid id, UserAddressDto? dto)
     {
-        throw new NotImplementedException();
+        if (dto == null) return false;
+
+        await _repo.BeginTransactionAsync();
+
+        try
+        {
+            var entity = UserAddressFactory.Create(dto);
+            entity.UserEntityId = id;
+            _repo.Update(entity);
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex) 
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
     }
 
     public async Task<bool> DeleteAsync(Guid id)

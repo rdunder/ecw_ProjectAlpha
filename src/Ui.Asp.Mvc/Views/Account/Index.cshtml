@@ -1,7 +1,17 @@
-﻿
+﻿@{
+    var externalProvider = User.FindFirstValue(ClaimTypes.AuthenticationMethod);
+}
 
 <div>
-    <h1>User Claims</h1>
+    <h1>Account Management</h1>
+     @if (string.IsNullOrEmpty(externalProvider))
+    {
+        <h6>You are using a Local Account</h6>
+    }
+    else
+    {
+        <h6>You are loged in with: @externalProvider</h6>
+    }
 
     <div>
         <ul>

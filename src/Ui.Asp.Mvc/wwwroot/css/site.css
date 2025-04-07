@@ -397,20 +397,29 @@ input::-webkit-inner-spin-button {
 /* #endregion */
 
 /* #region || QuillJs Editor  */
+
 .quill-wrapper {
+    position: relative;
     background-color: var(--background-color-forms);
     color: var(--text-color);
     font-size: 1.1rem;
-    display: flex;
-    flex-direction: column-reverse;
     border: 1px solid var(--border-color);
     border-radius: 16px;
 }
 
+    .quill-wrapper:focus-within {
+        outline: 3px solid var(--clr-accent-10);
+    }
 
 .ql-toolbar.ql-snow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     border: none;
     border-top: 1px solid var(--border-color);
+    display: flex;
 }
 
 .ql-container {
@@ -429,6 +438,10 @@ input::-webkit-inner-spin-button {
 
 .ql-editor.ql-blank::before {
     color: var(--text-color-light);
+}
+
+.ql-snow .ql-formats {
+    display: flex;
 }
 
 /* #endregion */

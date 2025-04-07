@@ -1,10 +1,9 @@
-﻿
-
+﻿using Service.Dtos;
 using System.ComponentModel.DataAnnotations;
 
-namespace Service.Dtos;
+namespace Ui.Asp.Mvc.Models;
 
-public class CustomerDto
+public class CustomerFormViewModel
 {
     public Guid Id { get; set; }
 
@@ -17,4 +16,12 @@ public class CustomerDto
     [DataType(DataType.EmailAddress)]
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email need to be formatted as <name@domain.com>")]
     public string Email { get; set; } = null!;
+
+    public static implicit operator CustomerDto(CustomerFormViewModel form) =>
+        new CustomerDto
+        {
+            Id = form.Id,
+            CustomerName = form.CustomerName,
+            Email = form.Email,
+        };
 }
