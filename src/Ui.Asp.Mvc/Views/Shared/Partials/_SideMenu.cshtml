@@ -21,6 +21,11 @@
                 <i class="bi bi-people-fill"></i>
                 <span>Roles</span>
             </a>
+
+            <a class="nav-link @(Context.Request.Path == "/customers" ? "active" : "")" asp-controller="Customers" asp-action="Index">
+                <i class="bi bi-people-fill"></i>
+                <span>Customers</span>
+            </a>
         }        
     </nav>
 </div>

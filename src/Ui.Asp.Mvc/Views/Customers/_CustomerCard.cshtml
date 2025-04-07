@@ -1,0 +1,37 @@
+﻿@model CustomerModel
+
+@{
+}
+
+<div class="customer-card">
+    <header>
+        <div class="title">
+            <div>
+                <h6>@Model.CustomerName</h6>
+            </div>
+        </div>
+        <div class="menu">
+            <button class="menu-btn" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+
+            <ul class="dropdown-menu">
+                <li class="mt-2 mb-3">
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editCustomerModal_@Model.Id"><i class="bi bi-pencil-fill"></i> Edit Customer</a>
+                </li>
+                <hr />
+                <li>
+                    <a class="dropdown-item delete" asp-action="Delete" asp-controller="Projects" asp-route-id="@Model.Id" ><i class="bi bi-trash"></i> Delete Customer</a>
+                </li>
+            </ul>
+
+        </div>
+    </header>
+
+    <div class="customer-details">
+        <p>@Model.Email</p>
+    </div>
+
+    <footer>
+        <p>Currently 5 active projects</p>
+    </footer>
+
+</div>

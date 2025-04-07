@@ -1,0 +1,36 @@
+﻿@model CustomersViewModel
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<partial name="_AddCustomerModal" model="@Model.Form" />
+
+<section class="section-customers">
+    <div class="d-flex justify-content-between mb-5">
+        <h1>@ViewData["Title"]</h1>
+        <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
+    </div>
+
+    <div class="customers-container">
+        <table>
+            <tr class="table-header">
+                <th>Name</th>
+                <th>Email</th>
+                <th class="opt-header"><i class="bi bi-gear"></i></th>
+            </tr>
+            @* <tr><td></td><td></td><td></td></tr> *@
+        @foreach (var customer in Model.customers)
+        {
+            <tr>
+                <td>@customer.CustomerName</td>
+                <td>@customer.Email</td>
+                <td class="options">
+                    <a class="option-item" href="#" data-bs-toggle="modal" data-bs-target="#editCustomerModal_@customer.Id"><i class="bi bi-pencil-fill"></i></a>
+                    <a class="option-item delete" asp-action="Delete" asp-controller="Customers" asp-route-id="@customer.Id"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+        }
+        </table>
+    </div>
+</section>
+

@@ -1,33 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 using Ui.Asp.Mvc.Models;
 
-namespace Ui.Asp.Mvc.Controllers
+namespace Ui.Asp.Mvc.Controllers;
+
+public class CustomersController(ICustomerService customerService) : Controller
 {
-    public class CustomersController : Controller
+    private readonly ICustomerService _customerService = customerService;
+
+    public async Task<IActionResult> Index()
     {
-        public IActionResult Index()
+        var viewModel = new CustomersViewModel()
         {
-            return View();
-        }
+            customers = await _customerService.GetAllAsync(),
+        };
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync(CustomerFormViewModel form)
-        {
+        return View(viewModel);
+    }
 
-            return RedirectToAction("Index");
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync(CustomerFormViewModel form)
+    {
 
-        [HttpPost]
-        public async Task<IActionResult> EditAsync(CustomerFormViewModel form)
-        {
+        return RedirectToAction("Index");
+    }
 
-            return RedirectToAction("Index");
-        }
+    [HttpPost]
+    public async Task<IActionResult> EditAsync(CustomerFormViewModel form)
+    {
 
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
+        return RedirectToAction("Index");
+    }
 
-            return RedirectToAction("Index");
-        }
+    public async Task<IActionResult> DeleteAsync(Guid id)
+    {
+
+        return RedirectToAction("Index");
     }
 }

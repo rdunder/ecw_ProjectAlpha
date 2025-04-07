@@ -1,0 +1,52 @@
+﻿.customer-card {
+    background-color: var(--background-color-cards);
+    width: 350px;
+    height: 275px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0px 20px 30px -18px rgba(4, 15, 21, 0.10);
+}
+
+
+
+
+    .customer-card header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+        .customer-card header .title {
+            display: flex;
+            gap: 1em;
+            align-items: center;
+        }
+
+            
+
+        .customer-card header .menu .menu-btn {
+            border: none;
+            background-color: transparent;
+            color: var(--text-color-light);
+            font-size: 1.4rem;
+            font-weight: var(--font-weight-semibold);
+        }
+
+
+
+
+    .customer-card .customer-details {
+        display: block;
+        flex: 1;
+    }
+
+
+
+
+    .customer-card footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
