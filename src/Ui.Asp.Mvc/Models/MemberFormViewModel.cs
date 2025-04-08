@@ -1,4 +1,5 @@
-﻿using Service.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using Service.Dtos;
 using System.ComponentModel.DataAnnotations;
 using Ui.Asp.Mvc.Extensions;
 
@@ -10,6 +11,7 @@ public class MemberFormViewModel
 
     [Display(Name = "Project Avatar", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
+    [MaxFileSize(5, ErrorMessage = "Max filesize is 5 MB")]
     public IFormFile? File { get; set; }
     public string? Avatar { get; set; }
 
@@ -43,7 +45,7 @@ public class MemberFormViewModel
 
 
     [Display(Name = "Job Title")]
-    [Required(ErrorMessage = "You must select a Role")]
+    [Required(ErrorMessage = "You must select a Title")]
     [NotDefaultOption(ErrorMessage = "You need to make a selection")]
     public string RoleName { get; set; } = null!;
 

@@ -1,6 +1,7 @@
 ﻿using Service.Dtos;
 using Service.Models;
 using System.ComponentModel.DataAnnotations;
+using Ui.Asp.Mvc.Extensions;
 
 namespace Ui.Asp.Mvc.Models;
 
@@ -31,6 +32,7 @@ public class ProjectFormViewModel
 
     [Display(Name = "Customer", Prompt = "Select a customer")]
     [Required(ErrorMessage = "You must select a customer")]
+    [RequiredGuid(ErrorMessage = "You need to make a selection")]
     public Guid CustomerId { get; set; }
 
 

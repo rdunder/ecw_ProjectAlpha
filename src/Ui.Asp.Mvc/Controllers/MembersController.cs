@@ -17,6 +17,7 @@ public class MembersController(IUserService userService, IRoleService roleServic
     ILogger<MembersController> _logger = logger;
 
     [Route("/members")]
+    [AllowAnonymous]
     public async Task<IActionResult> IndexAsync()
     {
         MembersViewModel viewModel = new()
@@ -36,6 +37,7 @@ public class MembersController(IUserService userService, IRoleService roleServic
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAsync(MemberFormViewModel form)
     {        
 

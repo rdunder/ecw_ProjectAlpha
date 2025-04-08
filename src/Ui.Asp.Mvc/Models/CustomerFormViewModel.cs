@@ -11,7 +11,7 @@ public class CustomerFormViewModel
     [Required(ErrorMessage = "You must enter a name")]
     public string CustomerName { get; set; } = null!;
 
-    [Display(Name = "Email Address")]
+    [Display(Name = "Email Address", Prompt = "Enter Email")]
     [Required(ErrorMessage = "You must enter a valid Email Address")]
     [DataType(DataType.EmailAddress)]
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email need to be formatted as <name@domain.com>")]

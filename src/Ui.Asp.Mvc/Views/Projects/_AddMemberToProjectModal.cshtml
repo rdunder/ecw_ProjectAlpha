@@ -24,30 +24,7 @@
                     <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
                     <button type="submit" class="btn btn-blue mt-4">Add Members</button>
                 </form>
-
-                @* <form class="row g-3" novalidate method="post" asp-controller="Projects" asp-action="UpdateProjectMembers" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="control-label">Select Members</label>
-                        <div class="user-selection-container">
-                            @foreach (var user in (List<SelectListItem>)ViewBag.Users)
-                            {
-                                <div class="form-check mb-2">
-                                    <input type="checkbox"
-                                           class="form-check-input"
-                                           id="user-@user.Value"
-                                           name="MemberIds"
-                                           value="@user.Value"
-                                    @((user.Selected || Model.Project.Users.Any(u => u.Id == Guid.Parse(user.Value))) ? "checked" : "") />
-                                    <label class="form-check-label" for="user-@user.Value">
-                                        @user.Text
-                                    </label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
-                    <button type="submit" class="btn btn-blue mt-4">Add Members</button>
-                </form> *@
+                
             </div>
         </div>
     </div>
@@ -66,23 +43,6 @@
                 callback();
             }
         });        
-    })
-    
-
-        
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const memberFilter = document.getElementById('memberFilter');
-    //     const memberSelect = document.querySelector('select[name="MemberIds"]');
-    //     const options = Array.from(memberSelect.options);
-
-    //     memberFilter.addEventListener('input', function() {
-    //         const searchTerm = this.value.toLowerCase();
-
-    //         options.forEach(option => {
-    //             const match = option.text.toLowerCase().includes(searchTerm);
-    //             option.style.display = match ? '' : 'none';
-    //         });
-    //     });
-    // });    
+    })  
 </script>
 

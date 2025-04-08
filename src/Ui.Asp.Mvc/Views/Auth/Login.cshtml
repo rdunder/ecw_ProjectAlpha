@@ -15,8 +15,8 @@
         <div class="form-group">
             <input hidden name="returnUrl" value="@ViewBag.ReturnUrl" />
             <button class="btn btn-grey" type="submit" name="provider" value="Google">
-                <img src="~/images/google-icon.png" />
-                <span>Login with Google </span>
+                <i class="bi bi-google"></i>
+                <span>Continue with Google </span>
             </button>
         </div>
     </form>
@@ -25,22 +25,14 @@
         <div class="form-group">
             <input hidden name="returnUrl" value="@ViewBag.ReturnUrl" />
             <button class="btn btn-grey" type="submit" name="provider" value="GitHub">
-                <img src="~/images/google-icon.png" />
-                <span>Login with Github </span>
+                <i class="bi bi-github"></i>
+                <span>Continue with Github </span>
             </button>
         </div>
     </form>
 
     <form class="form-container" method="post" asp-controller="Auth" asp-action="Login" >
-        <h1>Login</h1>
-
-        <div class="form-group">
-            <button class="btn btn-grey ">
-                <img src="~/images/google-icon.png" />
-                <span>Login with Google </span>
-            </button>
-        </div>
-
+        
         <div class="form-divider-alt">
             <div class="line"></div>
             <p>OR</p>

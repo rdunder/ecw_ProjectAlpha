@@ -67,8 +67,8 @@ public class ProjectsController(
         return View(viewModel);
     }
 
-
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddAsync(ProjectFormViewModel form)
     {
         if (!ModelState.IsValid || form == null)
@@ -100,9 +100,9 @@ public class ProjectsController(
 
         return Ok();
     }
-    
-    
+        
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditAsync(ProjectFormViewModel form)
     {
         if (!ModelState.IsValid || form == null)
@@ -161,7 +161,6 @@ public class ProjectsController(
         await _projectService.UpdateMemberList(viewModel.MemberIds, viewModel.ProjectId);
         return RedirectToAction("Index");
     }
-
 
     private async Task<Guid> GetStatus(ProjectFormViewModel form)
     {

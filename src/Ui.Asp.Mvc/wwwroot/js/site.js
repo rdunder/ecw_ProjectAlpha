@@ -137,14 +137,11 @@ function quillJsInit(editorId, toolbarId, content, textAreaId) {
         theme: 'snow'
     })
 
-    console.log(content)
-
     if (content)
         quill.root.innerHTML = content
 
     quill.on('text-change', () => {
         textArea.value = quill.root.innerHTML;
-        console.log("changed")
     })
 }
 

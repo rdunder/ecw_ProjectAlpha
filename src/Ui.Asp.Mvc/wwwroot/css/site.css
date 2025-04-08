@@ -189,12 +189,18 @@ h6 {
     border: 1px solid var(--background-color-badges);
     background-color: var(--background-color-badges);
     font-weight: var(--font-weight-semibold);
+    margin-bottom: 1rem;
 }
 .btn-grey:hover {
     background-color: var(--clr-grey-300);
 }
 
 .btn-grey img {
+    position: absolute;
+    left: 1rem;
+}
+
+.btn-grey i {
     position: absolute;
     left: 1rem;
 }
@@ -354,6 +360,15 @@ input::-webkit-inner-spin-button {
     box-shadow: 0px 20px 30px -18px rgba(4, 15, 21, 0.10);
     padding: 6rem 2.5rem 1rem 2.5rem;
     border-radius: 16px;
+}
+
+.surface.login-form {
+
+}
+
+.surface h1 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .portal {

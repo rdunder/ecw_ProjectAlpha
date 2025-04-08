@@ -1,0 +1,28 @@
+﻿@model CustomerModel
+
+@{
+    var editForm = new CustomerFormViewModel
+    {
+        Id = Model.Id,
+        CustomerName = Model.CustomerName,
+        Email = Model.Email
+    };
+}
+
+<div class="tr content">
+    <p>@Model.CustomerName</p>
+    <p>@Model.Email</p>
+    <p class="table-options">
+        @if (User.IsInRole("Administrator"))
+        {
+            <a class="option-item" href="#" data-bs-toggle="modal" data-bs-target="#editCustomerModal_@Model.Id"><i class="bi bi-pencil-fill"></i></a>
+            <a class="option-item delete" asp-action="Delete" asp-controller="Customers" asp-route-id="@Model.Id"><i class="bi bi-trash"></i></a>
+        }
+        else
+        {
+            <a class="option-item disabled" href="#" data-bs-toggle="modal" data-bs-target="#editCustomerModal_@Model.Id"><i class="bi bi-pencil-fill"></i></a>
+            <a class="option-item delete disabled" asp-action="Delete" asp-controller="Customers" asp-route-id="@Model.Id"><i class="bi bi-trash"></i></a>
+        }
+    </p>
+    <partial name="_EditCustomerModal" model="@editForm" />
+</div>

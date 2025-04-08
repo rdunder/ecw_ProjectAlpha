@@ -32,7 +32,6 @@ public class AuthController : Controller
         _roleManager = roleManager;
         _logger = logger;
         _initService = initService;
-
         _userService = userService;
     }
 
@@ -43,6 +42,7 @@ public class AuthController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegisterAsync(RegisterViewModel viewModel)
     {
 
@@ -76,9 +76,6 @@ public class AuthController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Login");
     }
-
-
-
 
     [HttpGet]
     public async Task<IActionResult> LoginAsync()
@@ -133,6 +130,7 @@ public class AuthController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult ExternalSignin(string provider, string returnUrl = null!)
     {
 
