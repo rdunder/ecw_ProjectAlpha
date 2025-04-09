@@ -43,6 +43,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 //  Asp webapp specific services
 builder.Services.AddTransient<InitService>();
 builder.Services.AddScoped<ImageManager>();
+builder.Services.AddScoped<MailService>();
 
 
 

@@ -1,39 +1,37 @@
 ﻿using Data.Entities;
+using Mailjet.Client;
+using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json.Linq;
 using Service.Dtos;
 using Service.Interfaces;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
+using System.Text;
 using Ui.Asp.Mvc.Models.Auth;
 using Ui.Asp.Mvc.Services;
 
 namespace Ui.Asp.Mvc.Controllers;
 
-public class AuthController : Controller
+public class AuthController(
+    SignInManager<UserEntity> signInManager,
+    UserManager<UserEntity> userManager,
+    RoleManager<RoleEntity> roleManager,
+    ILogger<AuthController> logger,
+    InitService initService,
+    IUserService userService,
+    MailService mailService) : Controller
 {
-    private readonly SignInManager<UserEntity> _signInManager;
-    private readonly UserManager<UserEntity> _userManager;
-    private readonly RoleManager<RoleEntity> _roleManager;
-    private readonly ILogger<AuthController> _logger;
-    private readonly InitService _initService;
-
-    private readonly IUserService _userService;
-
-    public AuthController(
-        SignInManager<UserEntity> signInManager, 
-        UserManager<UserEntity> userManager, 
-        RoleManager<RoleEntity> roleManager, 
-        ILogger<AuthController> logger,
-        InitService initService,
-        IUserService userService)
-    {
-        _signInManager = signInManager;
-        _userManager = userManager;
-        _roleManager = roleManager;
-        _logger = logger;
-        _initService = initService;
-        _userService = userService;
-    }
+    private readonly SignInManager<UserEntity> _signInManager = signInManager;
+    private readonly UserManager<UserEntity> _userManager = userManager;
+    private readonly RoleManager<RoleEntity> _roleManager = roleManager;
+    private readonly ILogger<AuthController> _logger = logger;
+    private readonly InitService _initService = initService;
+    private readonly IUserService _userService = userService;
+    private readonly MailService _mailService = mailService;
 
     [HttpGet]
     public IActionResult Register()
@@ -45,7 +43,6 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegisterAsync(RegisterViewModel viewModel)
     {
-
         if (viewModel.Password == null)
         {
             string pwd = PasswordManager.CreatePassword();
@@ -59,6 +56,18 @@ public class AuthController : Controller
         {
             _logger.LogInformation("Modelstate is valid");
             var result = await _userService.CreateAsync(viewModel);
+
+            var emailConfirmLink = await CreateEmailConfirmLink(viewModel.Email);
+            var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
+            if (!string.IsNullOrEmpty(emailConfirmLink))
+            {
+                var emailResult = _mailService.SendEmail(msgBody, viewModel.Email);
+                TempData["EmailSentMessage"] = emailResult 
+                    ? "A confirmation Link has been sent to the registered Email"
+                    : "There was a problem sending the confirmation Link to the registered Email";
+            }
+
+            //  Display message if the mail was sent or not.
             return result ? RedirectToAction("Login") : View(viewModel);         
         }
         else
@@ -212,6 +221,27 @@ public class AuthController : Controller
         else
         {
             return RedirectToAction("Index", "Projects");
+        }
+    }
+
+    private async Task<string> CreateEmailConfirmLink(string email)
+    {
+        var entity = await _userManager.FindByEmailAsync(email);
+        if (entity == null)
+        {
+            return string.Empty;
+        }
+        else
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(entity);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var confirmationLink = Url.Action(
+                "ConfirmEmail", "Account",
+                values: new { userId = entity.Id, code },
+                protocol: Request.Scheme);
+
+            return string.IsNullOrEmpty(confirmationLink) ? string.Empty : confirmationLink;
         }
     }
 }

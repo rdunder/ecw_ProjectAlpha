@@ -1,0 +1,8 @@
+﻿.email-confirmation-message {
+    text-align: center;
+    background-color: var(--clr-green-15);
+    padding: 1rem 0.5rem;
+    border-radius: 16px;
+    color: var(--clr-dark-green);
+    margin-bottom: 2rem;
+}

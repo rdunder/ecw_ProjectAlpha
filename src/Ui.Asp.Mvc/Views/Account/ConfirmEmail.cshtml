@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Confirm Email";
+}
+
+<div class="surface">
+    <h1>@ViewData["Title"]</h1>
+    <div class="content">
+        <p>@ViewBag.StatusMessage</p>
+        <a asp-action="Login" asp-controller="Auth" class="btn btn-blue">Go to Login</a>
+    </div>
+</div>

@@ -9,6 +9,7 @@
 }
 
 <div class="surface login-form">
+    <p class="email-confirmation-message">@TempData["EmailSentMessage"]</p>
     <h1>Login</h1>
 
     <form class="form-container" method="post" novalidate asp-controller="Auth" asp-action="ExternalSignin">

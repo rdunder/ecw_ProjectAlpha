@@ -90,5 +90,26 @@ public class AccountController(IUserService userService) : Controller
         return RedirectToAction("Index", new { id = form.Id });
     }
 
-    
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmEmail(Guid userId, string code)
+    {
+        if (userId == Guid.Empty || code == null) return RedirectToAction("Auth", "Login");
+
+        // var result = await _userService.ConfirmEmail(userId, code)
+        var result = true;
+
+        
+        if (result)
+        {
+            ViewBag.StatusMessage = "Thank you for confirming your email.";
+            ViewBag.UserId = userId.ToString();
+            ViewBag.Code = code;
+        }
+        else
+        {
+            ViewBag.StatusMessage = "Error confirming your email. contact Admin!";
+        }
+
+        return View();
+    }
 }

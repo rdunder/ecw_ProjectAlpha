@@ -1,0 +1,16 @@
+﻿.surface {
+    width: 50vw;
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 3rem;
+}
+
+.content p {
+    overflow-wrap: break-word;
+}
