@@ -1,24 +1,35 @@
-﻿@{
-    var externalProvider = User.FindFirstValue(ClaimTypes.AuthenticationMethod);
+﻿@using Ui.Asp.Mvc.Models.Account
+@model AccountViewModel
+
+@{
+    ViewBag.ExternalProvider = User.FindFirstValue(ClaimTypes.AuthenticationMethod);
+    var avatar = imageManager.GetPath(nameof(MembersController), Model.MemberForm.Avatar!);
 }
 
-<div>
-    <h1>Account Management</h1>
-     @if (string.IsNullOrEmpty(externalProvider))
-    {
-        <h6>You are using a Local Account</h6>
-    }
-    else
-    {
-        <h6>You are loged in with: @externalProvider</h6>
-    }
-
-    <div>
-        <ul>
-            @foreach (var claim in User.Claims)
+<section class="surface section-account-management">
+    <header>        
+        <div>
+            <h1>@Model.MemberForm.FirstName @Model.MemberForm.LastName</h1>
+            <p>Assigned Role: <strong>@Model.MemberForm.RoleName</strong></p>
+            @if (string.IsNullOrEmpty(ViewBag.ExternalProvider))
             {
-                <li>@claim.Type : @claim.Value : @claim.ValueType</li>
+                <p>Logged in with: <strong>Local Account</strong></p>
             }
-        </ul>
-    </div>
-</div>
+            else
+            {
+                <p>Logged in with: <strong>@ViewBag.ExternalProvider</strong></p>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.ExternalProvider))
+            {
+                <p>Email: <strong>@Model.MemberForm.Email</strong></p>
+            }
+
+            <div>
+                <h3>@ViewBag.ErrorMessage</h3>
+            </div>
+        </div>
+        <img src="@avatar" alt="profile avatar." />
+    </header>
+    <partial name="_Forms" model="@Model" />
+
+</section>

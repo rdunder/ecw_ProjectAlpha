@@ -95,7 +95,9 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
 
     public async Task<UserModel> GetByIdAsync(Guid id)
     {
-        var entity = await _userManager.FindByIdAsync(id.ToString());
+        var entity = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
+        var roles = await _userManager.GetRolesAsync(entity);
+        entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
         return entity is null ? null! : UserFactory.Create(entity);
     }
 
@@ -103,7 +105,8 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
     public async Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
         if (dto is null) return false;
-        var entity = await _userManager.FindByIdAsync(id.ToString());
+        //var entity = await _userManager.FindByIdAsync(id.ToString());
+        var entity = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
 
         if (entity != null)
         {
@@ -112,12 +115,14 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
             entity.Email = dto.Email;
             entity.Avatar = dto.Avatar;
             entity.PhoneNumber = dto.PhoneNumber;
+            entity.BirthDate = dto.BirthDate;
             
             if (entity.RoleName != dto.RoleName && dto.RoleName != null)
                 await AddToRoleAsync(dto.Email, dto.RoleName);
 
-            if (dto.Address != null)
-                await _userAddressService.UpdateAsync(id, dto.Address);
+            if (dto.Address.Address != null && dto.Address.PostalCode != null! && dto.Address.City != null)
+                //await _userAddressService.UpdateAsync(id, dto.Address);
+                entity.Address = UserAddressFactory.Create(dto.Address);
 
             var result = await _userManager.UpdateAsync(entity);
             return result.Succeeded;
@@ -174,5 +179,16 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         var user = await _userManager.GetUserAsync(claimsPrincipal);
 
         return user is null ? "Display Name" : $"{user.FirstName} {user.LastName}";
+    }
+
+    public async Task<bool> UpdatePassword(Guid id, string currentPassword, string newPassword)
+    {
+        var entity = await _userManager.FindByIdAsync(id.ToString());
+        var result = await _userManager.ChangePasswordAsync(entity, currentPassword, newPassword);
+
+        if (result.Succeeded)
+            return true;
+
+        return false;
     }
 }

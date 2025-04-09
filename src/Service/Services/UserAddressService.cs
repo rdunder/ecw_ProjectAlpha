@@ -77,9 +77,18 @@ public class UserAddressService(IUserAddressRepository repo) : IUserAddressServi
 
         try
         {
-            var entity = UserAddressFactory.Create(dto);
-            entity.UserEntityId = id;
-            _repo.Update(entity);
+            var entity = UserAddressFactory.Create(dto);            
+
+            if (await _repo.AlreadyExistsAsync(a => a.UserEntityId == id) == false)
+            {
+                await _repo.CreateAsync(entity);                
+            }
+            else
+            {
+                entity.UserEntityId = id;
+                _repo.Update(entity);
+            }
+
             await _repo.SaveChangesAsync();
             await _repo.CommitTransactionAsync();
             return true;
@@ -112,4 +121,6 @@ public class UserAddressService(IUserAddressRepository repo) : IUserAddressServi
             return false;
         }
     }
+
+
 }

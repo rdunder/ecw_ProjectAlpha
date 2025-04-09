@@ -70,10 +70,12 @@
         <span asp-validation-for="RoleName" class="text-danger"></span>
     </div>
 
-    <div class="col-md-6 date-input-wrapper">
+    <div class="col-md-6">
         <label asp-for="BirthDate" class="col-form-label"></label>
-        <input asp-for="BirthDate" type="date" class="form-control" />
-        <i class="bi bi-calendar"></i>
+        <div class="date-input-wrapper">
+            <input asp-for="BirthDate" type="date" class="form-control" />
+            <i class="bi bi-calendar"></i>
+        </div>
         <span asp-validation-for="BirthDate" class="text-danger"></span>
 
     </div>

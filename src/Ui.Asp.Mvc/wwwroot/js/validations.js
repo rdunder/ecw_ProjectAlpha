@@ -3,10 +3,10 @@
     if (!form) return;
 
     const fields = form.querySelectorAll("input[data-val='true']");
-
+    console.log(fields.length)
     fields.forEach(field => {
         field.addEventListener("input", () => {
-            console.log(field);
+            
             validateField(field);
         })
     })

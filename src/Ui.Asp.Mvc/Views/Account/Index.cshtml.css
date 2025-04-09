@@ -1,0 +1,36 @@
+﻿.section-account-management {
+    padding: 3rem 4rem;
+    max-width: 900px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.section-account-management header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-account-management header h1 {
+    margin: 0;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.section-account-management img {
+    width: 150px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+@media (width < 900px) {
+    .section-account-management {
+        padding: 2rem 1rem;
+    }
+
+    .section-account-management img {
+        width: 100px;
+    }
+}

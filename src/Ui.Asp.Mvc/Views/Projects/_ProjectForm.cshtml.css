@@ -50,5 +50,8 @@
         cursor: pointer;
     }
 
+.date-input-wrapper .bi-calendar {
+    right: 40px;
+}
 
 

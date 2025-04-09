@@ -15,4 +15,5 @@ public interface IUserService : IService<UserModel, UserDto>
     public Task<UserEntity> CreateExternalAsync(UserDto? dto, ExternalLoginInfo loginInfo);
     public Task<UserModel> GetUser(ClaimsPrincipal claimsPrincipal);
     public Task<string> GetDisplayName(ClaimsPrincipal claimsPrincipal);
+    public Task<bool> UpdatePassword(Guid id, string currentPassword, string newPassword);
 }

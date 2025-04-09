@@ -293,8 +293,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     .date-input-wrapper .bi-calendar {
         position: absolute;
-        right: 40px;
-        top: 33px;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
         pointer-events: none;
         color: var(--text-color-light);
     }

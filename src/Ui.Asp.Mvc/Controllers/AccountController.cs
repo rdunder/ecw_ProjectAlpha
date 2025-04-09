@@ -1,13 +1,94 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Dtos;
+using Service.Interfaces;
+using Service.Models;
+using Ui.Asp.Mvc.Models;
+using Ui.Asp.Mvc.Models.Account;
 
 namespace Ui.Asp.Mvc.Controllers;
 
 [Authorize]
-public class AccountController : Controller
+public class AccountController(IUserService userService) : Controller
 {
-    public IActionResult Index()
+    private readonly IUserService _userService = userService;
+
+    public async Task<IActionResult> Index(Guid id)
     {
-        return View();
+        var user = await _userService.GetByIdAsync(id);
+
+        var viewModel = new AccountViewModel
+        {
+            CurrentUser = user,
+
+            MemberForm = new()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                BirthDate = user.BirthDate,
+                Avatar = user.Avatar,
+                Address = user.Address.Address,
+                PostalCode = user.Address.PostalCode,
+                City = user.Address.City,
+                RoleName = user.RoleName!
+            },
+
+            ChangePasswordForm = new()
+            {
+                Id = user.Id
+            }
+            
+        };
+        ViewBag.ErrorMessage = "hello hello";
+
+        return View(viewModel);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Index(MemberFormViewModel form)
+    {
+        var viewModel = new AccountViewModel
+        {
+            MemberForm = form,
+            ChangePasswordForm = new() { Id = form.Id }            
+        };
+
+        if (!ModelState.IsValid)
+            return View(viewModel);        
+
+        var result = await _userService.UpdateAsync(form.Id, form);
+
+        if (result)
+            return RedirectToAction("Index");
+
+        ViewBag.ErrorMessage = "Profile information failed to update";
+        return View(form);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdatePassword(ChangePasswordFormModel form)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", new { id = form.Id });
+
+        var result = await _userService.UpdatePassword(form.Id, form.OldPassword, form.NewPassword);
+        
+        if (result)
+        {
+            ViewBag.ErrorMessage = "Password Successfully updated";
+            return RedirectToAction("Index", new { id = form.Id });
+
+        }
+
+
+        ViewBag.ErrorMessage = "Failed to update password";
+        return RedirectToAction("Index", new { id = form.Id });
+    }
+
+    
 }

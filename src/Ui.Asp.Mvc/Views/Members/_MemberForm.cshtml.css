@@ -39,16 +39,10 @@
     }
 
 
-.date-input-wrapper {
-    position: relative;
-}
+
 
     
 
-    .date-input-wrapper .bi-calendar {
-        position: absolute;
-        right: 40px;
-        top: 33px;
-        pointer-events: none;
-        color: var(--text-color-light);
-    }
+.date-input-wrapper .bi-calendar {
+    right: 40px;
+}

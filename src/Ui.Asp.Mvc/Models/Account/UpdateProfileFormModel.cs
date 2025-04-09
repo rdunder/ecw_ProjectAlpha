@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Service.Dtos;
+﻿using Service.Dtos;
 using System.ComponentModel.DataAnnotations;
 using Ui.Asp.Mvc.Extensions;
 
-namespace Ui.Asp.Mvc.Models;
+namespace Ui.Asp.Mvc.Models.Account;
 
-public class MemberFormViewModel
+public class UpdateProfileFormModel
 {
     public Guid Id { get; set; }
 
@@ -39,16 +38,7 @@ public class MemberFormViewModel
     [RegularExpression(@"^(?:\+46\s?|0)\d(?:[\s]?\d){8,11}$", ErrorMessage = "Phonenumber needs to be formatted as:\n+46 701231234 OR\n0701231234")]
     public string? PhoneNumber { get; set; }
 
-
     public DateOnly? BirthDate { get; set; }
-
-
-
-    [Display(Name = "Job Title")]
-    [Required(ErrorMessage = "You must select a Title")]
-    [NotDefaultOption(ErrorMessage = "You need to make a selection")]
-    public string RoleName { get; set; } = null!;
-
 
     [Display(Name = "Street Address", Prompt = "Enter Street Address")]
     [MinLength(4, ErrorMessage = "Address must be at least 4 characters")]
@@ -63,30 +53,24 @@ public class MemberFormViewModel
     [MinLength(2, ErrorMessage = "City must be at least 2 characters")]
     public string? City { get; set; }
 
-
-
-
-    public static implicit operator UserDto(MemberFormViewModel viewModel) =>
-        viewModel is null
+    public static implicit operator UserDto(UpdateProfileFormModel form) =>
+        form is null
         ? null!
         : new UserDto
         {
-            Id = viewModel.Id,
-            FirstName = viewModel.FirstName,
-            LastName = viewModel.LastName,
-            Email = viewModel.Email,
-            PhoneNumber = viewModel.PhoneNumber,
-            RoleName = viewModel.RoleName,
+            FirstName = form.FirstName,
+            LastName = form.LastName,
+            Email = form.Email,
+            PhoneNumber = form.PhoneNumber,
+            BirthDate = form.BirthDate,
+            Avatar = form.Avatar,
 
-            BirthDate = viewModel.BirthDate,
-            Avatar = viewModel.Avatar,
-
-            Address = (viewModel.Address != null || viewModel.PostalCode >= 10000 || viewModel.City != null) 
+            Address = (form.Address != null || form.PostalCode >= 10000 || form.City != null)
                 ? new()
                 {
-                    Address = viewModel.Address,
-                    PostalCode = viewModel.PostalCode,
-                    City = viewModel.City
+                    Address = form.Address,
+                    PostalCode = form.PostalCode,
+                    City = form.City
                 }
                 : null
         };
