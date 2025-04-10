@@ -1,0 +1,112 @@
+﻿
+
+.admin-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.left-panel {
+    position: relative;
+    width: 50%;
+    background: linear-gradient(135deg, #4b0082, #7a16d8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+    overflow: hidden;
+}
+
+    .left-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('/images/AdminBackground.png') center center;
+        background-size: cover;
+        filter: blur(40px) brightness(0.7);
+        z-index: 0;
+    }
+
+.left-panel-content {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 4rem;
+}
+
+.welcome-text {
+    font-family: "Poppins", sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.panel-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: #FF9F43;
+    margin-bottom: 1.5rem;
+}
+
+.panel-description {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.right-panel {
+    width: 50%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+
+
+@media (max-width: 900px) {
+    .admin-wrapper {
+        flex-direction: column;
+        overflow: initial;
+    }
+
+    .left-panel, .right-panel {
+        width: 100%;
+        
+    }
+
+    .left-panel {
+        height: 40%;
+    }
+
+    .right-panel {
+        height: 60%;
+    }
+
+    .welcome-text, .panel-title {
+        font-size: 3.5rem;
+    }
+}

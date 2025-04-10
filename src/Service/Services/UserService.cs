@@ -2,16 +2,21 @@
 
 using Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 using System.Security.Claims;
+using System.Text;
 
 namespace Service.Services;
 
-public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, IUserAddressService userAddressService) : IUserService
+public class UserService(
+    UserManager<UserEntity> userManager, 
+    RoleManager<RoleEntity> roleManager, 
+    IUserAddressService userAddressService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly RoleManager<RoleEntity> _roleManager = roleManager;
@@ -101,28 +106,35 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
         return entity is null ? null! : UserFactory.Create(entity);
     }
 
-
     public async Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
         if (dto is null) return false;
         //var entity = await _userManager.FindByIdAsync(id.ToString());
-        var entity = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
+        var entity = await _userManager.Users
+            .Include(u => u.Address)
+            .FirstOrDefaultAsync(u => u.Id == id);
 
         if (entity != null)
         {
+            var roles = await _userManager.GetRolesAsync(entity);
+
             entity.FirstName = dto.FirstName;
             entity.LastName = dto.LastName;
             entity.Email = dto.Email;
             entity.Avatar = dto.Avatar;
             entity.PhoneNumber = dto.PhoneNumber;
             entity.BirthDate = dto.BirthDate;
-            
+            entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
+
             if (entity.RoleName != dto.RoleName && dto.RoleName != null)
                 await AddToRoleAsync(dto.Email, dto.RoleName);
 
-            if (dto.Address.Address != null && dto.Address.PostalCode != null! && dto.Address.City != null)
-                //await _userAddressService.UpdateAsync(id, dto.Address);
-                entity.Address = UserAddressFactory.Create(dto.Address);
+            if (entity.Address != null && dto.Address != null)
+            {
+                if (dto.Address.Address != null && dto.Address.PostalCode != null! && dto.Address.City != null)
+                    //await _userAddressService.UpdateAsync(id, dto.Address);
+                    entity.Address = UserAddressFactory.Create(dto.Address);
+            }
 
             var result = await _userManager.UpdateAsync(entity);
             return result.Succeeded;
@@ -190,5 +202,16 @@ public class UserService(UserManager<UserEntity> userManager, RoleManager<RoleEn
             return true;
 
         return false;
+    }
+    
+    public async Task<bool> ConfirmEmail(Guid userId, string code)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null) return false;
+
+        code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+
+        var result = await _userManager.ConfirmEmailAsync(user, code);
+        return result.Succeeded;
     }
 }

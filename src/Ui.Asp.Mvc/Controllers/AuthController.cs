@@ -61,13 +61,11 @@ public class AuthController(
             var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
             if (!string.IsNullOrEmpty(emailConfirmLink))
             {
-                var emailResult = _mailService.SendEmail(msgBody, viewModel.Email);
-                TempData["EmailSentMessage"] = emailResult 
+                var emailResult = await _mailService.SendEmail(msgBody, viewModel.Email);
+                TempData["Message"] = emailResult 
                     ? "A confirmation Link has been sent to the registered Email"
                     : "There was a problem sending the confirmation Link to the registered Email";
             }
-
-            //  Display message if the mail was sent or not.
             return result ? RedirectToAction("Login") : View(viewModel);         
         }
         else
@@ -113,7 +111,7 @@ public class AuthController(
 
         return View();
     }
-
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = null)
@@ -137,6 +135,36 @@ public class AuthController(
 
         return View(viewModel);
     }
+
+    public IActionResult AdminLogin()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AdminLogin(LoginViewModel viewModel, string returnUrl = null)
+    {
+        if (!ModelState.IsValid) return View(viewModel);
+
+        var user = await _userManager.FindByEmailAsync(viewModel.Email);
+
+        if (user != null)
+        {
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+
+            if (isAdmin)
+            {
+                await _signInManager.SignOutAsync();
+                var result = await _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, viewModel.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded) return RedirectToLocal("/");
+            }
+        }
+
+        ModelState.AddModelError(string.Empty, "You sure you are ADMIN");
+        return View(viewModel);
+    }
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -227,21 +255,17 @@ public class AuthController(
     private async Task<string> CreateEmailConfirmLink(string email)
     {
         var entity = await _userManager.FindByEmailAsync(email);
-        if (entity == null)
-        {
-            return string.Empty;
-        }
-        else
-        {
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(entity);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        if (entity == null) return string.Empty;
+        
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync(entity);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-            var confirmationLink = Url.Action(
-                "ConfirmEmail", "Account",
-                values: new { userId = entity.Id, code },
-                protocol: Request.Scheme);
+        var confirmationLink = Url.Action(
+            "ConfirmEmail", "Account",
+            values: new { userId = entity.Id, code },
+            protocol: Request.Scheme);
 
-            return string.IsNullOrEmpty(confirmationLink) ? string.Empty : confirmationLink;
-        }
+        return string.IsNullOrEmpty(confirmationLink) ? string.Empty : confirmationLink;
+        
     }
 }

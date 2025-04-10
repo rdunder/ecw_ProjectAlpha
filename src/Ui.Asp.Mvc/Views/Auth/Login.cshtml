@@ -4,12 +4,17 @@
 @{
     Layout = "_AuthLayout";
     ViewData["Title"] = "Login";
+    var emailSentMessage = TempData["Message"] as string ?? "";
 
     var errorCount = ViewData.ModelState.Values.SelectMany(v => v.Errors).Count();
 }
 
 <div class="surface login-form">
-    <p class="email-confirmation-message">@TempData["EmailSentMessage"]</p>
+    @if (!string.IsNullOrEmpty(emailSentMessage))
+    {
+        <p class="email-confirmation-message">@TempData["Message"]</p>
+
+    }
     <h1>Login</h1>
 
     <form class="form-container" method="post" novalidate asp-controller="Auth" asp-action="ExternalSignin">
@@ -58,7 +63,7 @@
                     <input asp-for="RememberMe" />
                     <label asp-for="RememberMe"></label>
                 </div>
-                <p><a asp-action="ForgotPassword">Forgot password?</a></p>
+                <p><a asp-controller="Account" asp-action="RequestPasswordReset">Forgot password?</a></p>
             </div>
         </div>
 

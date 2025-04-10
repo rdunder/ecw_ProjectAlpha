@@ -59,13 +59,14 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(opt =>
 
 builder.Services.ConfigureApplicationCookie(opt =>
 {
-    opt.AccessDeniedPath = "/Auth/Login";
+    opt.LoginPath = "/Auth/Login";
+    opt.AccessDeniedPath = "/Auth/AdminLogin";
+
     opt.Cookie.Name = "AlphaAuthCookie";
     opt.Cookie.HttpOnly = true;
     opt.Cookie.SameSite = SameSiteMode.None;
     opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     opt.ExpireTimeSpan = TimeSpan.FromMinutes(720);
-    opt.LoginPath = "/Auth/Login";
     opt.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
     opt.SlidingExpiration = true;
 });

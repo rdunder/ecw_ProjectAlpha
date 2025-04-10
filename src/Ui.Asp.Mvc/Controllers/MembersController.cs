@@ -17,7 +17,6 @@ public class MembersController(IUserService userService, IRoleService roleServic
     ILogger<MembersController> _logger = logger;
 
     [Route("/members")]
-    [AllowAnonymous]
     public async Task<IActionResult> IndexAsync()
     {
         MembersViewModel viewModel = new()
