@@ -59,7 +59,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }                    
             });
         });
-    });   
+    });
+
+    const topbarSearch = document.querySelector("#topbar-search");
+    topbarSearch.addEventListener("input", (e) => {
+            console.log(`@Model.Projects.Count() ${e.target.value}`)
+    })
 
 
 });
