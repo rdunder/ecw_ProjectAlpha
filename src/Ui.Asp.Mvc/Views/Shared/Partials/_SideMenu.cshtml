@@ -10,7 +10,7 @@
             <span>Projects</span>
         </a>
         
-        @if (!User.IsInRole("Trainee"))
+        @if (!User.IsInRole("Viewer"))
         {
             <a class="nav-link @(Context.Request.Path == "/members" ? "active" : "")" asp-controller="Members" asp-action="Index">
                 <i class="bi bi-people-fill"></i> 
@@ -20,6 +20,11 @@
             <a class="nav-link @(Context.Request.Path == "/customers" ? "active" : "")" asp-controller="Customers" asp-action="Index">
                 <i class="bi bi-person-vcard-fill"></i>
                 <span>Customers</span>
+            </a>
+
+            <a class="nav-link @(Context.Request.Path == "/jobtitles" ? "active" : "")" asp-controller="JobTitles" asp-action="Index">
+                <i class="bi bi-person-vcard-fill"></i>
+                <span>Job Titles</span>
             </a>
         }        
     </nav>

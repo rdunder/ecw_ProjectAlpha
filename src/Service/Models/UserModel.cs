@@ -17,5 +17,7 @@ public class UserModel
     public DateOnly? BirthDate { get; set; }
 
     public UserAddressModel? Address { get; set; }
-    public string? RoleName { get; set; }   
+    public string? RoleName { get; set; }
+    public string? Title { get; set; }
+    public Guid JobTitleId { get; set; }
 }

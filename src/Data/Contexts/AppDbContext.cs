@@ -13,6 +13,7 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEnti
     public DbSet<ProjectEntity> Projects { get; set; }
     public DbSet<StatusEntity> Statuses { get; set; }
     public DbSet<UserAddressEntity> UserAddresses { get; set; }
+    public DbSet<JobTitleEntity> JobTitles { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

@@ -22,6 +22,7 @@ public static class UserFactory
                 PhoneNumber = dto.PhoneNumber,
                 Avatar = dto.Avatar,
                 BirthDate = dto.BirthDate,
+                JobTitleId = dto.JobTitleId,
             };
 
     public static UserModel Create(UserEntity entity) =>
@@ -39,6 +40,8 @@ public static class UserFactory
                 Avatar = entity.Avatar,
                 BirthDate = entity.BirthDate,
                 Address = UserAddressFactory.Create(entity.Address!),
+                Title = entity.JobTitle != null ? entity.JobTitle.Title : "",
+                JobTitleId = entity.JobTitleId,
             };
 
     public static UserEntity Create(UserModel model) =>

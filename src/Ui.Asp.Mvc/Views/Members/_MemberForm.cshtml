@@ -65,20 +65,28 @@
     <div class="col-md-6">
         <label asp-for="RoleName" class="col-form-label"></label>
         <select asp-for="RoleName" asp-items="@ViewBag.Roles" class="form-control">
-            <option value="" disabled selected>-- Select Job Title</option>
+            <option value="" disabled selected>-- Select Role</option>
         </select>
         <span asp-validation-for="RoleName" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label asp-for="BirthDate" class="col-form-label"></label>
-        <div class="date-input-wrapper">
-            <input asp-for="BirthDate" type="date" class="form-control" />
-            <i class="bi bi-calendar"></i>
-        </div>
-        <span asp-validation-for="BirthDate" class="text-danger"></span>
-
+        <label asp-for="JobTitleId" class="col-form-label"></label>
+        <select asp-for="JobTitleId" asp-items="@ViewBag.JobTitles" class="form-control">
+            <option value="" disabled selected>-- Select Job Title</option>
+        </select>
+        <span asp-validation-for="RoleName" class="text-danger"></span>
     </div>
+</div>
+
+<div class="col-md-12 form-group">
+    <label asp-for="BirthDate" class="col-form-label"></label>
+    <div class="date-input-wrapper">
+        <input asp-for="BirthDate" type="date" class="form-control" />
+        <i class="bi bi-calendar"></i>
+    </div>
+    <span asp-validation-for="BirthDate" class="text-danger"></span>
+
 </div>
 
 <div class="col-md-12 form-group">

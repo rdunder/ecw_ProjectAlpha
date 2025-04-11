@@ -44,10 +44,15 @@ public class MemberFormViewModel
 
 
 
-    [Display(Name = "Job Title")]
+    [Display(Name = "Role")]
     [Required(ErrorMessage = "You must select a Title")]
     [NotDefaultOption(ErrorMessage = "You need to make a selection")]
     public string RoleName { get; set; } = null!;
+
+
+    [Display(Name = "Job Title")]
+    [NotDefaultOption(ErrorMessage = "You need to make a selection")]
+    public Guid JobTitleId { get; set; }
 
 
     [Display(Name = "Street Address", Prompt = "Enter Street Address")]
@@ -80,6 +85,7 @@ public class MemberFormViewModel
 
             BirthDate = viewModel.BirthDate,
             Avatar = viewModel.Avatar,
+            JobTitleId = viewModel.JobTitleId,
 
             Address = (viewModel.Address != null || viewModel.PostalCode >= 10000 || viewModel.City != null) 
                 ? new()

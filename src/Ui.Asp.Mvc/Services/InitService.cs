@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Service.Dtos;
 using Service.Interfaces;
 using Service.Models;
+using System.Runtime.CompilerServices;
 
 namespace Ui.Asp.Mvc.Services;
 
@@ -12,6 +13,7 @@ public class InitService(
      IRoleService roleService,
      IStatusService statusService,
      IUserAddressService userAddressService,
+     IJobTitleService jobTitleService,
      IUserService userService)
 {
 
@@ -20,18 +22,17 @@ public class InitService(
     private readonly IRoleService _roleService = roleService;
     private readonly IStatusService _statusService = statusService;
     private readonly IUserAddressService _userAddressService = userAddressService;
+    private readonly IJobTitleService _jobTitleService = jobTitleService;
     private readonly IUserService _userService = userService;
 
     public async Task InitCreate()
     {
         await CreateStatuses();
         await CreateRoles();
+        await CreateJobTitles();
+
         await CreateCustomers();
-
-        await CreateUsers();
-        await AddAdminRole();
-
-        await CreateProjects();
+        await CreateAdmin();
     }
 
     private async Task CreateStatuses()
@@ -42,12 +43,27 @@ public class InitService(
     }
     private async Task CreateRoles()
     {
-        await _roleService.CreateAsync(new RoleDto() { RoleName = "Trainee" });
-        await _roleService.CreateAsync(new RoleDto() { RoleName = "Fullstack Developer" });
-        await _roleService.CreateAsync(new RoleDto() { RoleName = "Frontend Developer" });
-        await _roleService.CreateAsync(new RoleDto() { RoleName = "Backend Developer" });
+        await _roleService.CreateAsync(new RoleDto() { RoleName = "Viewer" });
+        await _roleService.CreateAsync(new RoleDto() { RoleName = "User" });
+        await _roleService.CreateAsync(new RoleDto() { RoleName = "Manager" });
         await _roleService.CreateAsync(new RoleDto() { RoleName = "Administrator" });
     }
+
+    private async Task CreateJobTitles()
+    {
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Guest" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Trainee" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Fullstack Developer" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Frontend Developer" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Backend Developer" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Designer" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Project Manager" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Team Lead" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Scrum Master" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Product Owner" });
+        await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Sys Admin" });
+    }
+
     private async Task CreateCustomers()
     {
         await _customerService.CreateAsync(new CustomerDto()
@@ -55,21 +71,12 @@ public class InitService(
             CustomerName = "Test Customer 01",
             Email = "test.customer.1@domain.com"
         });
-
-        await _customerService.CreateAsync(new CustomerDto()
-        {
-            CustomerName = "Test Customer 02",
-            Email = "test.customer.2@domain.com"
-        });
-
-        await _customerService.CreateAsync(new CustomerDto()
-        {
-            CustomerName = "Test Customer 03",
-            Email = "test.customer.3@domain.com"
-        });
     }
-    private async Task CreateUsers()
+    private async Task CreateAdmin()
     {
+        var titles = await _jobTitleService.GetAllAsync();
+        Guid t = titles.FirstOrDefault(t => t.Title == "Sys Admin").Id;
+
         var admin = new UserDto()
         {
             FirstName = "Super",
@@ -77,53 +84,10 @@ public class InitService(
             Email = "admin@domain.com",
             PhoneNumber = "+46 743 897 356",
             Password = "Password123!",
-        };
-
-        var user = new UserDto()
-        {
-            FirstName = "Olle",
-            LastName = "Dörpen",
-            Email = "olle@domain.com",
-            PhoneNumber = "+46 765 829 356",
-            Password = "Password123!",     
+            JobTitleId = t,
         };
 
         var adminResult = await _userService.CreateAsync(admin);
-        var userResult = await _userService.CreateAsync(user);
-    }
-    private async Task AddAdminRole()
-    {
-        var admin = new UserModel()
-        {
-            FirstName = "Super",
-            LastName = "User",
-            Email = "admin@domain.com",
-            PhoneNumber = "+46 743 897 356",
-        };
-
-        var result = await _userService.AddToRoleAsync("admin@domain.com", "Administrator");
-    }
-    private async Task CreateProjects()
-    {
-        var customers = await _customerService.GetAllAsync();
-        var customerId = customers.FirstOrDefault().Id;
-
-        var statuses = await _statusService.GetAllAsync();
-        var statusId = statuses.FirstOrDefault().Id;
-
-        var project = new ProjectDto()
-        {
-            Name = "Test Project",
-            Description = "Description for Test Project",
-            StartDate = DateOnly.FromDateTime(DateTime.Now),
-            EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-            Budget = 850,
-
-            StatusId = statusId,
-            CustomerId = customerId
-        };
-
-        await _projectService.CreateAsync(project);
-
+        var adToRoleResult = await _userService.AddToRoleAsync("admin@domain.com", "Administrator");
     }
 }

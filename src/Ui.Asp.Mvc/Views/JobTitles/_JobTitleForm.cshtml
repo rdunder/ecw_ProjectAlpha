@@ -1,0 +1,13 @@
+﻿@model JobTitlesFormViewModel
+
+@{
+
+}
+
+<div class="form-group">
+    <label asp-for="Title" class="col-form-label"></label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+
+@await Html.PartialAsync("_ValidationScripts")

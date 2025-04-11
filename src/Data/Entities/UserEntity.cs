@@ -15,6 +15,7 @@ public class UserEntity : IdentityUser<Guid>
     public string LastName { get; set; } = null!;
 
     [MaxLength(20)]
+    [ProtectedPersonalData]
     public override string? PhoneNumber { get; set; }
 
     [PersonalData]
@@ -24,11 +25,18 @@ public class UserEntity : IdentityUser<Guid>
     public DateOnly? BirthDate { get; set; }
 
 
+    public Guid JobTitleId { get; set; }
+    public JobTitleEntity? JobTitle { get; set; }
+
 
     public ICollection<ProjectEntity> Projects { get; set; } = [];
+
     public UserAddressEntity? Address { get; set; }
 
 
     [NotMapped]
     public string? RoleName { get; set; }
+
+    [NotMapped]
+    public string? Title {  get; set; }
 }

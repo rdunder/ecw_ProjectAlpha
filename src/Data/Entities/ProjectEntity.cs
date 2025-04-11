@@ -21,6 +21,9 @@ public class ProjectEntity
     public DateOnly EndDate { get; set; }
 
     [Required]
+    public DateOnly DateCreated { get; set; }
+
+    [Required]
     public decimal Budget { get; set; }
 
     public string? Avatar { get; set; }

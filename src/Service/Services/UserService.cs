@@ -35,7 +35,7 @@ public class UserService(
 
         if (dto.RoleName == null)
         {
-            await _userManager.AddToRoleAsync(entity, "Trainee");
+            await _userManager.AddToRoleAsync(entity, "Viewer");
         }
         else
         {
@@ -86,7 +86,7 @@ public class UserService(
 
     public async Task<IEnumerable<UserModel>> GetAllAsync()
     {
-        var userEntities = await _userManager.Users.Include(u => u.Address).ToListAsync();
+        var userEntities = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).ToListAsync();
 
         foreach (var userEntity in userEntities)
         {
@@ -125,6 +125,7 @@ public class UserService(
             entity.PhoneNumber = dto.PhoneNumber;
             entity.BirthDate = dto.BirthDate;
             entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
+            entity.JobTitleId = dto.JobTitleId;
 
             if (entity.RoleName != dto.RoleName && dto.RoleName != null)
                 await AddToRoleAsync(dto.Email, dto.RoleName);

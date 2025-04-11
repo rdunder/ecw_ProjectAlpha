@@ -15,6 +15,7 @@
         PhoneNumber = Model.PhoneNumber,
         RoleName = Model.RoleName,
         BirthDate = Model.BirthDate,
+        JobTitleId = Model.JobTitleId,
 
         Address = Model.Address.Address,
         PostalCode = Model.Address.PostalCode,
@@ -52,7 +53,7 @@
 
     <h4>@Model.FirstName @Model.LastName</h4>
 
-    <p class="title">@Model.RoleName</p>
+    <p class="title">@Model.Title</p>
 
     <p class="contact">@Model.Email</p>
     <p class="contact">@(Model.PhoneNumber.Length > 5 ? Model.PhoneNumber : "070xxxxxxx")</p>

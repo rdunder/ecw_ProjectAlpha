@@ -31,12 +31,15 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserAddressService, UserAddressService>();
+builder.Services.AddScoped<IJobTitleService, JobTitleService>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 
 
@@ -71,16 +74,17 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true;
 });
 
-builder.Services.AddAuthorization(opt =>
-{
-    opt.AddPolicy("Admins", policy => policy.RequireRole("Administrator"));
-    opt.AddPolicy("Managers", policy => policy.RequireRole("Administrator", "Manager"));
-    opt.AddPolicy("Authorized", policy => policy.RequireRole(
-        "Administrator", 
-        "Fullstack Developer", 
-        "Frontend Developer",
-        "Backend Developer"));
-});
+//  Decided not to use policies for authorization
+//builder.Services.AddAuthorization(opt =>
+//{
+//    opt.AddPolicy("Admins", policy => policy.RequireRole("Administrator"));
+//    opt.AddPolicy("Managers", policy => policy.RequireRole("Administrator", "Manager"));
+//    opt.AddPolicy("Authorized", policy => policy.RequireRole(
+//        "Administrator", 
+//        "Fullstack Developer", 
+//        "Frontend Developer",
+//        "Backend Developer"));
+//});
 
 builder.Services.Configure<CookiePolicyOptions>(opt =>
 {

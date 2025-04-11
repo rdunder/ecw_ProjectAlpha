@@ -1,0 +1,30 @@
+﻿@model JobTitlesViewModel
+
+@{
+    ViewData["Title"] = "Job Titles";
+}
+
+<partial name="_AddJobTitleModal" model="@Model.Form" />
+
+<section class="section-jobtitles">
+    <div class="d-flex justify-content-between mb-5">
+        <h1>@ViewData["Title"]</h1>
+        @if (User.IsInRole("Administrator"))
+        {
+            <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addJobTitleModal">Add Job Title</button>
+        }
+    </div>
+
+    <div class="jobtitle-container">
+        <div class="tr header">
+            <p>Title Name</p>
+            <p>ID</p>
+            <p><i class="bi bi-gear"></i></p>
+        </div>
+
+        @foreach (var title in Model.JobTitles)
+        {
+            <partial name="_JobTitleTableRow" model="title" />
+        }
+    </div>
+</section>

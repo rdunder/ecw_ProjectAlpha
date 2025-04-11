@@ -9,12 +9,18 @@ using Ui.Asp.Mvc.Services;
 namespace Ui.Asp.Mvc.Controllers;
 
 [Authorize(Roles = "Administrator")]
-public class MembersController(IUserService userService, IRoleService roleService, ImageManager imageManager, ILogger<MembersController> logger) : Controller
+public class MembersController(
+                    IUserService userService, 
+                    IRoleService roleService, 
+                    IJobTitleService jobTitleService,
+                    ImageManager imageManager,
+                    ILogger<MembersController> logger) : Controller
 {
-    IUserService _userService = userService;
-    IRoleService _roleService = roleService;
-    ImageManager _imageManager = imageManager;
-    ILogger<MembersController> _logger = logger;
+    private readonly IUserService _userService = userService;
+    private readonly IRoleService _roleService = roleService;
+    private readonly IJobTitleService _jobTitleService = jobTitleService;
+    private readonly ImageManager _imageManager = imageManager;
+    private readonly ILogger<MembersController> _logger = logger;
 
     [Route("/members")]
     public async Task<IActionResult> IndexAsync()
@@ -22,7 +28,8 @@ public class MembersController(IUserService userService, IRoleService roleServic
         MembersViewModel viewModel = new()
         {
             Roles = await _roleService.GetAllAsync(),
-            Members = await _userService.GetAllAsync()
+            Members = await _userService.GetAllAsync(),
+            JobTitles = await _jobTitleService.GetAllAsync(),
         };
 
         ViewBag.Roles = viewModel.Roles
@@ -30,6 +37,13 @@ public class MembersController(IUserService userService, IRoleService roleServic
             {
                 Value = r.Name,
                 Text = r.Name
+            });
+
+        ViewBag.JobTitles = viewModel.JobTitles
+            .Select(r => new SelectListItem
+            {
+                Value = r.Id.ToString(),
+                Text = r.Title
             });
 
         return View(viewModel);
@@ -56,6 +70,7 @@ public class MembersController(IUserService userService, IRoleService roleServic
         {
             form.Avatar = await _imageManager.SaveImage(form.File, nameof(MembersController));
         }
+
 
         UserDto dto = form;
         dto.Password = PasswordManager.CreatePassword();
