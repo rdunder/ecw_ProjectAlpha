@@ -4,6 +4,7 @@ using Data.Entities;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
@@ -19,7 +20,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
 
     public async Task<bool> CreateAsync(ProjectDto? dto)
     {
-        if (dto == null) return false;        
+        if (dto == null) return false;
 
         await _repo.BeginTransactionAsync();
 
@@ -48,15 +49,17 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
             await _repo.RollbackTransactionAsync();
             return false;
         }
-    }   
+    }
 
     public async Task<IEnumerable<ProjectModel>> GetAllAsync()
     {
         var projects = new List<ProjectModel>();
 
+        
+
         try
         {
-            var entities = await _repo.GetAllAsync(query => 
+            var entities = await _repo.GetAllAsync(query =>
                 query
                     .Include(x => x.Status)
                     .Include(x => x.Customer)
@@ -104,12 +107,12 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
     public async Task<bool> UpdateAsync(Guid id, ProjectDto? dto)
     {
         if (dto is null || await _repo.AlreadyExistsAsync(x => x.Id == dto.Id) == false) return false;
-        
+
         await _repo.BeginTransactionAsync();
 
         try
         {
-            var entity =await  _repo.GetAsync(x => x.Id == id, query => query.Include(x => x.Users));
+            var entity = await _repo.GetAsync(x => x.Id == id, query => query.Include(x => x.Users));
             if (entity is null) return false;
 
             ProjectFactory.Map(dto, entity);
@@ -127,7 +130,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
                         entity.Users.Add(user);
                     }
                 }
-            }            
+            }
 
             _repo.Update(entity);
             await _repo.SaveChangesAsync();
@@ -212,7 +215,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
         {
             await _repo.RollbackTransactionAsync();
             return false;
-        }        
+        }
     }
 
     public async Task<bool> UpdateMemberList(List<Guid> memberIds, Guid projectId)
@@ -227,7 +230,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
                );
 
         await _repo.BeginTransactionAsync();
-        projectEntity.Users.Clear();       
+        projectEntity.Users.Clear();
 
         await _repo.SaveChangesAsync();
 
@@ -252,7 +255,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
             await _repo.RollbackTransactionAsync();
             return false;
         }
-        
+
     }
 
     private async Task CheckStatus(ProjectEntity entity)

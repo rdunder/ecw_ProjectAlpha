@@ -5,12 +5,12 @@ using Data.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Configuration;
 
 public abstract class BaseRepository<TEntity>(AppDbContext context)
     : IBaseRepository<TEntity> where TEntity : class
 
 {
-
     protected readonly AppDbContext _context = context;
     protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
     private IDbContextTransaction? _transaction;
