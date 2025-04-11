@@ -70,6 +70,7 @@ public class CustomersController(ICustomerService customerService) : Controller
 
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
+        var result = _customerService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }

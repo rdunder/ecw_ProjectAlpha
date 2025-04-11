@@ -44,7 +44,8 @@ public class AccountController(
                 Address = user.Address.Address,
                 PostalCode = user.Address.PostalCode,
                 City = user.Address.City,
-                RoleName = user.RoleName!
+                RoleName = user.RoleName!,
+                JobTitleId = user.JobTitleId,
             },
 
             ChangePasswordForm = new()

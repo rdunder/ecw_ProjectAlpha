@@ -69,6 +69,7 @@ public class JobTitlesController(IJobTitleService jobTitleService) : Controller
 
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
+        var result = await _jobTitleService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }

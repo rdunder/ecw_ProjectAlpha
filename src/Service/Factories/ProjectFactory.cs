@@ -19,6 +19,7 @@ public static class ProjectFactory
             Description = dto.Description,
             StartDate = dto.StartDate,
             EndDate = dto.EndDate,
+            DateCreated = dto.DateCreated,
             Budget = dto.Budget,
             Avatar = dto.Avatar,
 
@@ -36,6 +37,7 @@ public static class ProjectFactory
             Description = entity.Description,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
+            DateCreated = entity.DateCreated,
             Budget = entity.Budget,
             Avatar = entity.Avatar,
 
@@ -68,6 +70,7 @@ public static class ProjectFactory
         entity.Description = dto.Description;
         entity.StartDate = dto.StartDate;
         entity.EndDate = dto.EndDate;
+        entity.DateCreated = dto.DateCreated;
         entity.Budget = dto.Budget;
         entity.Avatar = dto.Avatar;
         entity.StatusId = dto.StatusId;

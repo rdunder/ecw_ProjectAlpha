@@ -16,11 +16,13 @@ namespace Service.Services;
 public class UserService(
     UserManager<UserEntity> userManager, 
     RoleManager<RoleEntity> roleManager, 
-    IUserAddressService userAddressService) : IUserService
+    IUserAddressService userAddressService,
+    IJobTitleService jobTitleService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly RoleManager<RoleEntity> _roleManager = roleManager;
     private readonly IUserAddressService _userAddressService = userAddressService;
+    private readonly IJobTitleService _jobTitleService = jobTitleService;
 
 
     public async Task<bool> CreateAsync(UserDto? dto)
@@ -31,11 +33,21 @@ public class UserService(
         if (dto.Address != null)
             entity.Address = UserAddressFactory.Create(dto.Address);
 
+        if (dto.JobTitleId == Guid.Empty)
+        {
+            if (await _jobTitleService.Exists("Guest") == false)
+                await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Guest" });
+
+            var title = await _jobTitleService.GetByTitleNameAsync("Guest");
+            entity.JobTitleId = title != null ? title.Id : throw new ArgumentNullException("Job Title Guest is not precsent in the database");
+        }
+
         var result = await _userManager.CreateAsync(entity, dto.Password);
 
-        if (dto.RoleName == null)
+        if (dto.RoleName == null || dto.JobTitleId == Guid.Empty)
         {
             await _userManager.AddToRoleAsync(entity, "Viewer");
+            
         }
         else
         {
@@ -49,15 +61,21 @@ public class UserService(
     {
         if (dto == null) return null!;
 
-        var entity = UserFactory.Create(dto);
+        var entity = UserFactory.Create(dto);        
 
         try
         {
+            if (await _jobTitleService.Exists("Guest") == false)
+                await _jobTitleService.CreateAsync(new JobTitleDto() { Title = "Guest" });
+
+            var title = await _jobTitleService.GetByTitleNameAsync("Guest");
+            entity.JobTitleId = title != null ? title.Id : throw new ArgumentNullException("Job Title Guest is not precsent in the database");
+
             var result = await _userManager.CreateAsync(entity);
             if (result.Succeeded)
             {
                 await _userManager.AddLoginAsync(entity, loginInfo);
-                await _userManager.AddToRoleAsync(entity, "Trainee");
+                await _userManager.AddToRoleAsync(entity, "Viewer");
                 return entity;
             }
             return null!;
@@ -214,5 +232,10 @@ public class UserService(
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
         return result.Succeeded;
+    }
+
+    private async Task SetRoleAndTitleAsync()
+    {
+
     }
 }

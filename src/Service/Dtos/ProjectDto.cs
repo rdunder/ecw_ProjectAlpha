@@ -28,6 +28,9 @@ public class ProjectDto
     [Required(ErrorMessage = "You must enter a ending date")]
     public DateOnly EndDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
+    [Required]
+    public DateOnly DateCreated { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
     [Display(Name = "Budget", Prompt = "$ Enter Budget")]
     [Required(ErrorMessage = "You must enter a budget")]
     public decimal Budget { get; set; }

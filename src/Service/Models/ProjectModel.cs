@@ -12,6 +12,7 @@ public class ProjectModel
     public string Description { get; set; } = null!;
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
+    public DateOnly DateCreated { get; set; }
     public decimal Budget { get; set; }
     public string? Avatar { get; set; }
 

@@ -67,9 +67,42 @@ public class JobTitleService(IJobTitleRepository jobTitleRepository) : IJobTitle
         }
     }
 
-    public Task<bool> UpdateAsync(Guid id, JobTitleDto? dto)
+    public async Task<JobTitleModel> GetByTitleNameAsync(string titleName)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var entity = await _repo.GetAsync(x => x.Title == titleName);
+
+            if (entity != null)
+                return JobTitleFactory.Create(entity);
+
+            return null!;
+        }
+        catch (Exception ex)
+        {
+            return null!;
+        }
+    }
+
+    public async Task<bool> UpdateAsync(Guid id, JobTitleDto? dto)
+    {
+        if (dto is null || await _repo.AlreadyExistsAsync(x => x.Id == dto.Id) == false) return false;
+        await _repo.BeginTransactionAsync();
+
+        try
+        {
+            var entity = JobTitleFactory.Create(dto);
+            entity.Id = id;
+            _repo.Update(entity);
+            await _repo.SaveChangesAsync();
+            await _repo.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            await _repo.RollbackTransactionAsync();
+            return false;
+        }
     }
 
     public async Task<bool> DeleteAsync(Guid id)
@@ -92,5 +125,10 @@ public class JobTitleService(IJobTitleRepository jobTitleRepository) : IJobTitle
             await _repo.RollbackTransactionAsync();
             return false;
         }
+    }
+
+    public async Task<bool> Exists(string titleName)
+    {
+        return await _repo.AlreadyExistsAsync(x => x.Title == titleName);
     }
 }

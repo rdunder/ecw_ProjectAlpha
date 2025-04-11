@@ -199,7 +199,16 @@ public class AuthController(
         {
             return RedirectToAction("Login");
         }
-        
+
+        //_logger.LogInformation("###############################################################################################");
+
+        //foreach (var claim in externalLoginInfo.Principal.Claims)
+        //{
+        //    _logger.LogInformation($"{claim}");
+        //}
+
+        //_logger.LogInformation("###############################################################################################");
+
         var signinResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
    
         if (signinResult.Succeeded)
@@ -217,21 +226,11 @@ public class AuthController(
                 Avatar = externalLoginInfo.Principal.FindFirstValue("picture")
             };
 
-
-            _logger.LogInformation("###############################################################################################");
-
-            foreach (var claim in externalLoginInfo.Principal.Claims)
-            {
-                _logger.LogInformation($"{claim}");
-            }
-
-            _logger.LogInformation("###############################################################################################");
-
-
             UserEntity entity = await _userService.CreateExternalAsync(dto, externalLoginInfo);
             if (entity != null)
             {
-                await _signInManager.SignInAsync(entity, isPersistent: false);
+                //await _signInManager.SignInAsync(entity, isPersistent: false);
+                await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
                 return LocalRedirect(returnUrl);
             }
 
