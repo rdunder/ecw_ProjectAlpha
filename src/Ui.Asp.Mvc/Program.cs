@@ -12,6 +12,7 @@ using Ui.Asp.Mvc.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Ui.Asp.Mvc.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("LocalDb") ?? throw new ArgumentNullException($"Failed to get connectionstring:\n{nameof(args)}");
@@ -22,6 +23,8 @@ builder.Services.AddControllersWithViews()
         opt.JsonSerializerOptions.WriteIndented = true;
         opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(connectionString));
@@ -126,15 +129,7 @@ builder.Services.AddAuthentication(opt =>
 
             return Task.CompletedTask;
         };
-    }); 
-    
-
-
-    
-
-
-
-
+    });
 
 var app = builder.Build();
 
@@ -155,5 +150,6 @@ app.MapControllerRoute(
     pattern: "{controller=Projects}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

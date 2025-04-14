@@ -33,6 +33,8 @@ public class UserEntity : IdentityUser<Guid>
 
     public UserAddressEntity? Address { get; set; }
 
+    public ICollection<NotificationDismissedEntity> DismissedNotifications { get; set; } = [];
+
 
     [NotMapped]
     public string? RoleName { get; set; }

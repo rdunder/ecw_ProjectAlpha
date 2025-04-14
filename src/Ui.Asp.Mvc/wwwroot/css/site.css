@@ -212,6 +212,10 @@ h6 {
     font-size: 1.2rem;
 }
 
+.btn-close {
+    color: var(--text-color-light);
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -402,6 +406,25 @@ input::-webkit-inner-spin-button {
         padding: 1rem;
     }
 
+}
+
+.topmenu-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+}
+
+    .topmenu-nav .topmenu-nav-item {
+        font-size: 1.3rem;
+        color: var(--text-color);
+    }
+
+.dropdown-menu {
+    border-radius: 16px;
+    padding: 0.8rem;
+    border: none;
+    background-color: var(--background-color-forms);
+    color: var(--text-color)
 }
 
 @media (width < 900px) {

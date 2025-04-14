@@ -1,4 +1,6 @@
 ﻿
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     //  Handle image previews
@@ -102,8 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
-
-
 
 function setTheme(theme) {
     if (theme === "theme-light") {

@@ -1,0 +1,53 @@
+﻿
+
+@{
+
+}
+
+
+<a href="#"
+   class="topmenu-nav-item"
+   id="notificationDropdown"
+   data-bs-toggle="dropdown"
+   data-bs-auto-close="outside"
+   aria-expanded="false">
+    <i class="bi bi-bell-fill"></i>
+    <div class="dot dot-red"></div>
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
+    <header class="notification-header">
+        <p class="notifications-title">Notifications</p>
+        <span class="notification-number">88</span>
+    </header>
+
+    <hr />
+
+    <div id="notificationsContainer">
+
+        <div class="notification-item" data-id="">
+            <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
+            <div class="content">
+                <div class="message">Project Was Added</div>
+                <div class="time">2 days ago</div>
+            </div>            
+            <button class="btn-close" onclick="dismissNotification()"></button>
+        </div>
+
+        <div class="notification-item" data-id="">
+            <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
+            <div class="content">
+                <div class="message">Member Was Added</div>
+                <div class="time">2 days ago</div>
+            </div>
+            <button class="btn-close" onclick="dismissNotification()"></button>
+        </div>
+
+    </div>
+
+</ul>
+
+
+
+<script>
+</script>

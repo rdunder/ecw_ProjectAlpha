@@ -62,8 +62,6 @@ public class ProjectsController(
         ViewBag.CountStarted = viewModel.Projects.Count(p => p.Status.StatusName == "Active");
         ViewBag.CountCompleted = viewModel.Projects.Count(p => p.Status.StatusName == "Closed");
 
-
-
         return View(viewModel);
     }
 
@@ -81,11 +79,7 @@ public class ProjectsController(
                 );
 
             return BadRequest(new {success = false, errors});
-        }
-
-        //var admin = await _userService.GetByEmailAsync("admin@domain.com");
-        //form.MemberIds?.Add(Guid.Parse("F675BC3A-6C6E-4753-2A8E-08DD6706A340"));
-        
+        }        
         
         form.StatusId = await GetStatus(form);
 
@@ -127,10 +121,10 @@ public class ProjectsController(
 
         var result = await _projectService.UpdateAsync(form.Id, form);
         if (result) return Ok();
-
-        _logger.LogInformation("\n############################################\n");
-        _logger.LogInformation("There was errors updating");
-        _logger.LogInformation("\n############################################\n");
+       
+        _logger.LogWarning("\n############################################\n");
+        _logger.LogWarning("There was errors updating");
+        _logger.LogWarning("\n############################################\n");
 
         return Ok("There was errors when updating project");
     }
