@@ -16,7 +16,6 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEnti
     public DbSet<JobTitleEntity> JobTitles { get; set; }
 
     public DbSet<NotificationEntity> Notifications { get; set; }
-    public DbSet<NotificationTypeEntity> NotificationTypes { get; set; }
     public DbSet<NotificationDismissedEntity> DismissedNotifications { get; set; }
 
 

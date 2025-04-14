@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 
 namespace Data.Entities;
 
+public enum NotificationType
+{
+    User = 1,
+    Project = 2
+}
+
 public enum NotificationTargetGroup
 {
-    All         = 0,
-    Users       = 1,
-    Managers    = 2,
-    Admins      = 3
+    All         = 1,
+    Users       = 2,
+    Managers    = 3,
+    Admins      = 4
 }
 
 public class NotificationEntity
@@ -22,19 +28,10 @@ public class NotificationEntity
     public string Message { get; set; } = null!;
     public DateTime Created { get; set; }
 
-    public int TypeId { get; set; }
-    public NotificationTypeEntity Type { get; set; }
-}
-
-public class NotificationTypeEntity
-{
-    [Key]
-    public int Id { get; set; }
-    public string Type { get; set; } = null!;
     public NotificationTargetGroup TargetGroup { get; set; }
-    public string Icon { get; set; } = null!;
+    public NotificationType Type { get; set; }
 
-    public ICollection<NotificationEntity>? Notifications { get; set; }
+    public string Icon { get; set; } = null!;
 }
 
 public class NotificationDismissedEntity
@@ -42,10 +39,8 @@ public class NotificationDismissedEntity
     [Key]
     public int Id { get; set; }
 
-
     public Guid UserId { get; set; }
     public UserEntity User { get; set; } = null!;
-
 
     public Guid NotificationId { get; set; }
     public NotificationEntity Notification { get; set; } = null!;

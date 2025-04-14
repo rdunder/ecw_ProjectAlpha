@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories;
 
-internal class NotificationRepository(AppDbContext context) :
+public class NotificationRepository(AppDbContext context) :
     BaseRepository<NotificationEntity>(context), INotificationRepository
 {
 }
