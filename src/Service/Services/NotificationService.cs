@@ -1,4 +1,6 @@
-﻿using Data.Interfaces;
+﻿using Data.Entities;
+using Data.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
@@ -9,11 +11,11 @@ namespace Service.Services;
 public class NotificationService(
     INotificationRepository notificationRepository,
     INotificationDismissedRepository dismissedRepo,
-    IUserService userService) : INotificationService
+    UserManager<UserEntity> userManager) : INotificationService
 {
     private readonly INotificationRepository _repo = notificationRepository;
     private readonly INotificationDismissedRepository _dismissedRepo = dismissedRepo;
-    private readonly IUserService _userService = userService;
+    private readonly UserManager<UserEntity> _userManager = userManager;
 
 
     public async Task<bool> AddNotificationAsync(NotificationDto dto)
@@ -38,8 +40,62 @@ public class NotificationService(
         }
     }
 
-    //public async Task<IEnumerable<NotificationModel>> GetNotificationsAsync(Guid userId, int take = 10)
-    //{
+    public async Task<IEnumerable<NotificationModel>> GetNotificationsAsync(Guid userId, int take = 10)
+    {
+        var user = _userManager.Users.Where(x => x.Id == userId).FirstOrDefault();
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var targetGroups = new List<NotificationTargetGroup>()
+        {
+            NotificationTargetGroup.All
+        };
 
-    //}
+        switch (userRoles.FirstOrDefault())
+        {
+            case "User":
+                targetGroups.Add(NotificationTargetGroup.Users);
+                break;
+
+            case "Manager":
+                targetGroups.Add(NotificationTargetGroup.Managers);
+                break;
+
+            case "Administrator":
+                targetGroups.Add(NotificationTargetGroup.Admins);
+                break;
+        }
+
+        var dismissedIds = await _dismissedRepo.GetDismissedNotificationIdsAsync(userId);
+
+        var notifications = await _repo.GetAllAsync(notification => 
+            notification
+                .Where(n => !dismissedIds.Contains(n.Id) && targetGroups.Contains(n.TargetGroup))
+                .OrderByDescending(n => n.Created)
+                .Take(take));
+
+        return notifications.Select(n => NotificationFactory.Create(n));
+    }
+
+    public async Task DismissNotificationAsync(Guid notificationId, Guid userId)
+    {
+        if (await _dismissedRepo.AlreadyExistsAsync(x => x.NotificationId == notificationId && x.UserId == userId)) 
+            return;
+
+        var entity = new NotificationDismissedEntity
+        {
+            UserId = userId,
+            NotificationId = notificationId,
+        };
+
+        await _dismissedRepo.BeginTransactionAsync();
+        try
+        {
+            await _dismissedRepo.CreateAsync(entity);
+            await _dismissedRepo.SaveChangesAsync();
+            await _dismissedRepo.CommitTransactionAsync();
+        }
+        catch (Exception ex)
+        {
+            await _dismissedRepo.RollbackTransactionAsync();
+        }
+    }
 }

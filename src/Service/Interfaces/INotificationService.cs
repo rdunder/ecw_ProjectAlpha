@@ -12,5 +12,5 @@ public interface INotificationService
 {
     public Task<bool> AddNotificationAsync(NotificationDto dto);
     public Task<IEnumerable<NotificationModel>> GetNotificationsAsync(Guid userId, int take);
-
+    public Task DismissNotificationAsync(Guid notificationId, Guid userId);
 }

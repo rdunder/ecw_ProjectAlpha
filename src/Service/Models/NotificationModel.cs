@@ -13,5 +13,4 @@ public class NotificationModel
     public NotificationType Type { get; set; }
     public string TypeName => Type.ToString();
     public string Icon { get; set; } = null!;
-    public bool IsDismissed { get; set; }
 }
