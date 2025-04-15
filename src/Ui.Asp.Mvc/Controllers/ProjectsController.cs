@@ -2,11 +2,15 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Service.Dtos;
 using Service.Interfaces;
 using Service.Models;
+using System.Security.Claims;
+using Ui.Asp.Mvc.Hubs;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Services;
+using Data.Entities;
 
 namespace Ui.Asp.Mvc.Controllers;
 
@@ -17,7 +21,9 @@ public class ProjectsController(
     IStatusService statusService,
     IUserService userService,
     ImageManager imageManager,
-    ILogger<ProjectsController> logger) : Controller
+    ILogger<ProjectsController> logger,
+    INotificationService notificationService,
+    IHubContext<NotificationHub> notificationsHub) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly ICustomerService _customerService = customerService;
@@ -25,6 +31,8 @@ public class ProjectsController(
     private readonly IUserService _userService = userService;
     private readonly ImageManager _imageManager = imageManager;
     private readonly ILogger<ProjectsController> _logger = logger;
+    private readonly INotificationService _notificationService = notificationService;
+    private readonly IHubContext<NotificationHub> _notificationsHub = notificationsHub;
 
     public async Task<IActionResult> IndexAsync()
     {
@@ -62,7 +70,11 @@ public class ProjectsController(
         ViewBag.CountStarted = viewModel.Projects.Count(p => p.Status.StatusName == "Active");
         ViewBag.CountCompleted = viewModel.Projects.Count(p => p.Status.StatusName == "Closed");
 
-
+        _logger.LogWarning("######################################################################");
+        _logger.LogWarning("######################################################################");
+        _logger.LogWarning(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        _logger.LogWarning("######################################################################");
+        _logger.LogWarning("######################################################################");
 
         return View(viewModel);
     }
@@ -81,11 +93,7 @@ public class ProjectsController(
                 );
 
             return BadRequest(new {success = false, errors});
-        }
-
-        //var admin = await _userService.GetByEmailAsync("admin@domain.com");
-        //form.MemberIds?.Add(Guid.Parse("F675BC3A-6C6E-4753-2A8E-08DD6706A340"));
-        
+        }        
         
         form.StatusId = await GetStatus(form);
 
@@ -96,7 +104,20 @@ public class ProjectsController(
 
         var result = await _projectService.CreateAsync(form);
         if (result)
+        {
+            var notification = new NotificationDto
+            {
+                Message = $"Project was added",
+                Icon = "/images/NotificationIcons/ProjectNotification.png",
+                TargetGroup = NotificationTargetGroup.All,
+                Type = NotificationType.Project
+            };
+
+            await _notificationService.CreateNotificationAsync(notification);
+            await _notificationsHub.Clients.Group("All").SendAsync("ReceiveNotification", notification);
+
             return Ok();
+        }
 
         return Ok();
     }
@@ -127,10 +148,10 @@ public class ProjectsController(
 
         var result = await _projectService.UpdateAsync(form.Id, form);
         if (result) return Ok();
-
-        _logger.LogInformation("\n############################################\n");
-        _logger.LogInformation("There was errors updating");
-        _logger.LogInformation("\n############################################\n");
+       
+        _logger.LogWarning("\n############################################\n");
+        _logger.LogWarning("There was errors updating");
+        _logger.LogWarning("\n############################################\n");
 
         return Ok("There was errors when updating project");
     }

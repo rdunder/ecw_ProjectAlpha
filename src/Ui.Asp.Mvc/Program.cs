@@ -12,6 +12,7 @@ using Ui.Asp.Mvc.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Ui.Asp.Mvc.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("LocalDb") ?? throw new ArgumentNullException($"Failed to get connectionstring:\n{nameof(args)}");
@@ -23,6 +24,8 @@ builder.Services.AddControllersWithViews()
         opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
+builder.Services.AddSignalR();
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(connectionString));
 
@@ -32,6 +35,8 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IUserAddressRepository, UserAddressRepository>();
 builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationDismissedRepository, NotificationDismissedRepository>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
@@ -39,6 +44,7 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserAddressService, UserAddressService>();
 builder.Services.AddScoped<IJobTitleService, JobTitleService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -126,15 +132,7 @@ builder.Services.AddAuthentication(opt =>
 
             return Task.CompletedTask;
         };
-    }); 
-    
-
-
-    
-
-
-
-
+    });
 
 var app = builder.Build();
 
@@ -155,5 +153,6 @@ app.MapControllerRoute(
     pattern: "{controller=Projects}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

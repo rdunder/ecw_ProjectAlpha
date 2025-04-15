@@ -1,18 +1,15 @@
 ﻿using Data.Entities;
-using Mailjet.Client;
-using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json.Linq;
 using Service.Dtos;
 using Service.Interfaces;
-using System.Net.Mail;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Ui.Asp.Mvc.Models.Auth;
 using Ui.Asp.Mvc.Services;
+using Ui.Asp.Mvc.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Ui.Asp.Mvc.Controllers;
 
@@ -23,7 +20,9 @@ public class AuthController(
     ILogger<AuthController> logger,
     InitService initService,
     IUserService userService,
-    MailService mailService) : Controller
+    MailService mailService,
+    INotificationService notificationService,
+    IHubContext<NotificationHub> notificationsHub) : Controller
 {
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
     private readonly UserManager<UserEntity> _userManager = userManager;
@@ -32,6 +31,9 @@ public class AuthController(
     private readonly InitService _initService = initService;
     private readonly IUserService _userService = userService;
     private readonly MailService _mailService = mailService;
+
+    private readonly INotificationService _notificationService = notificationService;
+    private readonly IHubContext<NotificationHub> _notificationsHub = notificationsHub;
 
     [HttpGet]
     public IActionResult Register()
@@ -57,6 +59,7 @@ public class AuthController(
             _logger.LogInformation("Modelstate is valid");
             var result = await _userService.CreateAsync(viewModel);
 
+            #region Send confirm email
             var emailConfirmLink = await CreateEmailConfirmLink(viewModel.Email);
             var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
             if (!string.IsNullOrEmpty(emailConfirmLink))
@@ -66,6 +69,22 @@ public class AuthController(
                     ? "A confirmation Link has been sent to the registered Email"
                     : "There was a problem sending the confirmation Link to the registered Email";
             }
+            #endregion
+
+            #region Send notification to admins
+            var notification = new NotificationDto
+            {
+                Message = $"{viewModel.FirstName} {viewModel.LastName} Added",
+                Icon = "/images/NotificationIcons/MemberNotification.png",
+                TargetGroup = NotificationTargetGroup.Admins,
+                Type = NotificationType.User
+            };
+
+            await _notificationService.CreateNotificationAsync(notification);
+            await _notificationsHub.Clients.Group("Administrator").SendAsync("ReceiveNotification", notification);
+            #endregion
+
+
             return result ? RedirectToAction("Login") : View(viewModel);         
         }
         else
@@ -200,15 +219,7 @@ public class AuthController(
             return RedirectToAction("Login");
         }
 
-        //_logger.LogInformation("###############################################################################################");
-
-        //foreach (var claim in externalLoginInfo.Principal.Claims)
-        //{
-        //    _logger.LogInformation($"{claim}");
-        //}
-
-        //_logger.LogInformation("###############################################################################################");
-
+        
         var signinResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
    
         if (signinResult.Succeeded)
@@ -231,8 +242,36 @@ public class AuthController(
             {
                 //await _signInManager.SignInAsync(entity, isPersistent: false);
                 await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+                #region Send confirm email 
+                var emailConfirmLink = await CreateEmailConfirmLink(entity.Email);
+                var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
+                if (!string.IsNullOrEmpty(emailConfirmLink))
+                {
+                    var emailResult = await _mailService.SendEmail(msgBody, entity.Email);
+                    TempData["Message"] = emailResult
+                        ? "A confirmation Link has been sent to the registered Email"
+                        : "There was a problem sending the confirmation Link to the registered Email";
+                }
+                #endregion
+
+                #region Send notification to admins
+                var notification = new NotificationDto
+                {
+                    Message = $"{entity.FirstName} {entity.LastName} Added",
+                    Icon = "/images/NotificationIcons/MemberNotification.png",
+                    TargetGroup = NotificationTargetGroup.Admins,
+                    Type = NotificationType.User
+                };
+
+                await _notificationService.CreateNotificationAsync(notification);
+                await _notificationsHub.Clients.Group("Administrator").SendAsync("ReceiveNotification", notification);
+                #endregion
+
                 return LocalRedirect(returnUrl);
             }
+
+            
 
 
             return View("Login");

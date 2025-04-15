@@ -15,6 +15,9 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEnti
     public DbSet<UserAddressEntity> UserAddresses { get; set; }
     public DbSet<JobTitleEntity> JobTitles { get; set; }
 
+    public DbSet<NotificationEntity> Notifications { get; set; }
+    public DbSet<NotificationDismissedEntity> DismissedNotifications { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
