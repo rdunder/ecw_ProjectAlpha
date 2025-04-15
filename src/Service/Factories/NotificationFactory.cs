@@ -15,10 +15,12 @@ public static class NotificationFactory
         ? throw new ArgumentNullException(nameof(dto))
         : new NotificationEntity
         {
+            Id = dto.Id,
             Message = dto.Message,
             TargetGroup = dto.TargetGroup,
             Type = dto.Type,
             Icon = dto.Icon,
+            Created = dto.Created,
         };
 
     public static NotificationModel Create(NotificationEntity entity) =>

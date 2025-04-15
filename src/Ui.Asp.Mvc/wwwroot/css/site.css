@@ -485,3 +485,83 @@ input::-webkit-inner-spin-button {
 
 /* #endregion */
 
+/* #region || Notification Dropdown  */
+#notificationDropdown {
+    position: relative;
+}
+
+    #notificationDropdown .dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background-color: var(--text-color-light);
+    }
+
+    #notificationDropdown .dot-red {
+        background-color: var(--clr-red);
+    }
+
+
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+    .notification-header .notifications-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+
+    .notification-header .notification-number {
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        color: var(--clr-grey-100);
+        background-color: var(--clr-red);
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+#notificationsContainer {
+}
+
+    #notificationsContainer .notification-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.1rem 1rem;
+        border-radius: 16px;
+    }
+
+        #notificationsContainer .notification-item:hover {
+            background-color: var(--background-color);
+        }
+
+        #notificationsContainer .notification-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        #notificationsContainer .notification-item .time {
+            font-size: 0.9rem;
+            color: var(--text-color-light);
+        }
+
+        #notificationsContainer .notification-item .btn-close {
+            margin-left: 2rem;
+        }
+
+
+/* #endregion */

@@ -1,6 +1,7 @@
 ﻿using Data.Entities;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
@@ -18,12 +19,11 @@ public class NotificationService(
     private readonly UserManager<UserEntity> _userManager = userManager;
 
 
-    public async Task<bool> AddNotificationAsync(NotificationDto dto)
+    public async Task<bool> CreateNotificationAsync(NotificationDto dto)
     {
         if (dto == null) return false;
 
         var entity = NotificationFactory.Create(dto);
-        entity.Created = DateTime.UtcNow;
 
         await _repo.BeginTransactionAsync();
         try
@@ -66,7 +66,7 @@ public class NotificationService(
 
         var dismissedIds = await _dismissedRepo.GetDismissedNotificationIdsAsync(userId);
 
-        var notifications = await _repo.GetAllAsync(notification => 
+        var notifications = await _repo.GetAllAsync(notification =>
             notification
                 .Where(n => !dismissedIds.Contains(n.Id) && targetGroups.Contains(n.TargetGroup))
                 .OrderByDescending(n => n.Created)
@@ -77,7 +77,7 @@ public class NotificationService(
 
     public async Task DismissNotificationAsync(Guid notificationId, Guid userId)
     {
-        if (await _dismissedRepo.AlreadyExistsAsync(x => x.NotificationId == notificationId && x.UserId == userId)) 
+        if (await _dismissedRepo.AlreadyExistsAsync(x => x.NotificationId == notificationId && x.UserId == userId))
             return;
 
         var entity = new NotificationDismissedEntity
@@ -98,4 +98,6 @@ public class NotificationService(
             await _dismissedRepo.RollbackTransactionAsync();
         }
     }
+
+
 }

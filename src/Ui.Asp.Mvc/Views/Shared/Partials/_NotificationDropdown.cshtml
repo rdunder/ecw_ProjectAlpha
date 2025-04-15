@@ -1,53 +1,70 @@
 ﻿
 
 @{
-
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+    var notifications = await _notificationService.GetNotificationsAsync(Guid.Parse(userId));
 }
 
 
 <a href="#"
-   class="topmenu-nav-item"
-   id="notificationDropdown"
-   data-bs-toggle="dropdown"
-   data-bs-auto-close="outside"
-   aria-expanded="false">
+class="topmenu-nav-item"
+id="notificationDropdown"
+data-bs-toggle="dropdown"
+data-bs-auto-close="outside"
+aria-expanded="false">
     <i class="bi bi-bell-fill"></i>
-    <div class="dot dot-red"></div>
+    @if (notifications.Count() > 0)
+    {
+        <div class="dot dot-red"></div>
+    }
 </a>
 
 <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
     <header class="notification-header">
         <p class="notifications-title">Notifications</p>
-        <span class="notification-number">88</span>
+        <span class="notification-number">@notifications.Count()</span>
     </header>
 
     <hr />
 
     <div id="notificationsContainer">
-
-        <div class="notification-item" data-id="">
-            <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
-            <div class="content">
-                <div class="message">Project Was Added</div>
-                <div class="time">2 days ago</div>
-            </div>            
-            <button class="btn-close" onclick="dismissNotification()"></button>
-        </div>
-
-        <div class="notification-item" data-id="">
-            <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
-            <div class="content">
-                <div class="message">Member Was Added</div>
-                <div class="time">2 days ago</div>
+        @foreach (var notification in notifications)
+        {
+            <div class="notification-item" data-id="@notification.Id">
+                <img class="avatar" src="@notification.Icon" />
+                <div class="content">
+                    <div class="message">@notification.Message</div>
+                    <div class="time" data-created="@notification.Created.ToString("s")">@notification.Created.TimeAgo()</div>
+                </div>
+                <button class="btn-close" onclick="dismissNotification('@notification.Id')"></button>
             </div>
-            <button class="btn-close" onclick="dismissNotification()"></button>
-        </div>
-
+        }
     </div>
-
 </ul>
 
 
 
-<script>
-</script>
+
+
+
+@* <div id="notificationsContainer">
+
+    <div class="notification-item" data-id="">
+        <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
+        <div class="content">
+            <div class="message">Project Was Added</div>
+            <div class="time">2 days ago</div>
+        </div>
+        <button class="btn-close" onclick="dismissNotification()"></button>
+    </div>
+
+    <div class="notification-item" data-id="">
+        <img class="avatar" src="~/images/Members_DefaultAvatar.png" />
+        <div class="content">
+            <div class="message">Member Was Added</div>
+            <div class="time">2 days ago</div>
+        </div>
+        <button class="btn-close" onclick="dismissNotification()"></button>
+    </div>
+
+</div> *@
