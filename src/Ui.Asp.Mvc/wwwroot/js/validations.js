@@ -2,8 +2,12 @@
     const form = document.querySelector("form");
     if (!form) return;
 
+    console.log(form)
+
     const fields = form.querySelectorAll("input[data-val='true']");
-    console.log(fields.length)
+
+    console.log("how many fields: " + fields.length)
+
     fields.forEach(field => {
         field.addEventListener("input", () => {
             

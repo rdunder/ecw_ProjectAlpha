@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <form class="form-container" novalidate method="post" asp-controller="Auth" asp-action="Register">
+    <form class="form-container form-register-container" novalidate method="post" asp-controller="Auth" asp-action="Register">
         
         <div class="form-divider-alt">
             <div class="line"></div>
@@ -90,3 +90,23 @@
 </div>
 
 @await Html.PartialAsync("_ValidationScripts")
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector(".form-register-container");
+        if (!form) return;
+
+        console.log(form)
+
+        const fields = form.querySelectorAll("input[data-val='true']");
+
+        console.log("how many fields: " + fields.length)
+
+        fields.forEach(field => {
+            field.addEventListener("input", () => {
+
+                validateField(field);
+            })
+        })
+    })
+</script>
