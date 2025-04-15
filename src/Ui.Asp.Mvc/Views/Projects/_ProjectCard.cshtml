@@ -88,14 +88,14 @@
                 @if (Model.Status.StatusName == "Pending")
                 {
                     <li class="mt-2 mb-3">
-                        <a class="dropdown-item delete" asp-action="StartProject" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-play-circle"></i> Start Project</a>
+                        <a class="dropdown-item project-start" asp-action="StartProject" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-play-circle"></i> Start Project</a>
                     </li>
                 }
 
                 @if (Model.Status.StatusName == "Active")
                 {
                     <li class="mt-2 mb-3">
-                        <a class="dropdown-item delete" asp-action="CloseProject" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-stop-circle"></i> Set Completed</a>
+                        <a class="dropdown-item project-close" asp-action="CloseProject" asp-controller="Projects" asp-route-id="@Model.Id"><i class="bi bi-stop-circle"></i> Set Completed</a>
                     </li>
                 }
 

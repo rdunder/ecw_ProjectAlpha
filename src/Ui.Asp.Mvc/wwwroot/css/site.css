@@ -59,6 +59,8 @@
     --background-color-forms: var(--clr-surface);
     --background-color-badges: var(--clr-grey-200);
     --background-color-cards: #ffffff90;
+    --bootstrap-btn-close-filter: invert(48%) sepia(12%) saturate(789%) hue-rotate(182deg) brightness(94%) contrast(88%);
+    
 }
 /* #endregion */
 
@@ -90,6 +92,7 @@
     --background-color-forms: #202123;
     --background-color-badges: var(--clr-dark-100);
     --background-color-cards: #20212380;
+    --bootstrap-btn-close-filter: invert(70%) sepia(7%) saturate(11%) hue-rotate(314deg) brightness(90%) contrast(85%);
 }
 
 /* #endregion */
@@ -212,9 +215,6 @@ h6 {
     font-size: 1.2rem;
 }
 
-.btn-close {
-    color: var(--text-color-light);
-}
 
 .form-container {
     display: flex;
@@ -419,13 +419,7 @@ input::-webkit-inner-spin-button {
         color: var(--text-color);
     }
 
-.dropdown-menu {
-    border-radius: 16px;
-    padding: 0.8rem;
-    border: none;
-    background-color: var(--background-color-forms);
-    color: var(--text-color)
-}
+
 
 @media (width < 900px) {
     .portal {
@@ -564,4 +558,85 @@ input::-webkit-inner-spin-button {
         }
 
 
+/* #endregion */
+
+/* #region || Bootstrap overrides */
+.dropdown-menu {
+    border-radius: 16px;
+    padding: 0.8rem;
+    border: none;
+    background-color: var(--background-color-forms);
+    color: var(--text-color)
+}
+
+.dropdown-item {
+    color: var(--text-color-light);
+    border-radius: 8px;
+}
+
+.dropdown-item.project-start i{
+    color: var(--clr-green);
+}
+
+.dropdown-item.project-close i {
+    color: var(--clr-red);
+}
+
+.dropdown-item.delete {
+    color: var(--clr-red);
+}
+
+    .dropdown-item.delete:hover {
+        color: var(--clr-dark-red);
+        background-color: var(--clr-red-15);
+    }
+
+.dropdown-item:hover {
+    color: var(--text-color);
+    background-color: var(--background-color-badges);
+}
+
+.btn-close {
+    filter: var(--bootstrap-btn-close-filter);
+}
+/* #endregion */
+
+/* #region || Tom Select */
+.full .ts-control {
+    background-color: var(--background-color-forms);
+    border: 1px solid var(--border-color);
+}
+
+.ts-control {
+    background-color: var(--background-color-forms);
+    border: 1px solid var(--border-color);
+}
+
+.ts-wrapper.multi .ts-control > div {
+    background-color: var(--background-color-badges);
+    color: var(--text-color);
+}
+
+.ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
+    border: 1px solid var(--clr-red);
+    font-size: 1.2rem;  
+    background-color: var(--clr-dark-red);
+    color: var(--clr-grey-100);
+    margin-left: 10px;
+}
+
+.ts-control, .ts-control input, .ts-dropdown {
+    color: var(--text-color);
+    background-color: var(--background-color-forms);
+}
+
+.ts-dropdown .option:hover {
+    background-color: var(--background-color-badges);
+    color: var(--text-color);
+}
+
+.ts-dropdown .active {
+    background-color: var(--background-color-badges);
+    color: var(--text-color);
+}
 /* #endregion */
