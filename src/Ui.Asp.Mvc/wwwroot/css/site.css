@@ -348,11 +348,34 @@ input::-webkit-inner-spin-button {
     color: var(--clr-dark-red);
 }
 
+.topbar-search-container {
+    position: relative;
+    width: 100%;
+}
+
+.topbar-search-container i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    border: none;
+}
+
+#topbar-search {
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+#topbar-search:focus {
+    outline: 1px solid var(--clr-accent);
+}
 /* #endregion */
-
 /* #region || components  */
-
-
 .center-screen {
     display: flex;
     justify-content: center;
