@@ -22,4 +22,50 @@
     }
 </div>
 
+<script>
+    //  Claude AI has been helpful with setting up this script
+    //  By providing AI with a starting point and discussing with AI to come up with the best solution.
+    //  I have then modified and reviewed to make sure it works as intended.
+    document.addEventListener('DOMContentLoaded', function() {
+        const memberCards = document.querySelectorAll('.member-card');
+        const topbarSearch = document.querySelector("#topbar-search");
+
+        if (topbarSearch && memberCards.length > 0) {
+            topbarSearch.addEventListener("input", (e) => {
+                applyFilters(e.target.value);
+            });
+        }
+
+        function applyFilters(searchQuery) {
+            searchQuery = (searchQuery || '').toLowerCase();
+
+            memberCards.forEach(card => {
+
+                const searchableElements = [
+                    card.querySelector('.member-card-name'),
+                    card.querySelector('.title'),
+                    card.querySelector('.member-card-email'),
+                ];
+
+                let matchesSearch = searchQuery === '';
+
+                if (!matchesSearch) {
+                    for (const element of searchableElements) {
+                        if (element && element.textContent.toLowerCase().includes(searchQuery)) {
+                            matchesSearch = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (matchesSearch) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+
 

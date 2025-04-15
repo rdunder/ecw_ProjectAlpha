@@ -51,11 +51,11 @@
         <img class="avatar" src="@avatarPath"/>
     </div>
 
-    <h4>@Model.FirstName @Model.LastName</h4>
+    <h4 class="member-card-name">@Model.FirstName @Model.LastName</h4>
 
     <p class="title">@Model.Title</p>
 
-    <p class="contact">@Model.Email</p>
+    <p class="contact member-card-email">@Model.Email</p>
     <p class="contact">@(Model.PhoneNumber.Length > 5 ? Model.PhoneNumber : "070xxxxxxx")</p>
 
     <div class="msg-btn-container">

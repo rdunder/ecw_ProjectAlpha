@@ -36,39 +36,71 @@ else
 }
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const filterLinks = document.querySelectorAll('.filter-link');
-    const projectCards = document.querySelectorAll('.project-card');
+    //  Claude AI has been helpful with setting up this script
+    //  By providing AI with a starting point and discussing with AI to come up with the best solution.
+    //  I have then modified and reviewed to make sure it works as intended.
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterLinks = document.querySelectorAll('.filter-link');
+        const projectCards = document.querySelectorAll('.project-card');
 
-    filterLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
+        if (filterLinks.length > 0) {
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    filterLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    const status = this.getAttribute('data-status');
 
-            filterLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-
-            const status = this.getAttribute('data-status');
-            
-            projectCards.forEach(card => {
-                const projectStatus = card.getAttribute('data-status');               
-
-                if (status === 'ALL' || status === projectStatus) {                    
-                    card.style.display = '';
-                }
-                else {
-                    card.style.display = 'none';
-                }                    
+                    if (projectCards.length > 0) {
+                        applyFilters(status, document.querySelector("#topbar-search")?.value || '');
+                    }
+                });
             });
-        });
+        }
+
+        const topbarSearch = document.querySelector("#topbar-search");
+        if (topbarSearch && projectCards.length > 0) {
+            topbarSearch.addEventListener("input", (e) => {
+                const activeFilter = document.querySelector('.filter-link.active');
+                const status = activeFilter ? activeFilter.getAttribute('data-status') : 'ALL';
+
+                applyFilters(status, e.target.value);
+            });
+        }
+
+        function applyFilters(status, searchQuery) {
+            searchQuery = (searchQuery || '').toLowerCase();
+
+            projectCards.forEach(card => {
+                const projectStatus = card.getAttribute('data-status') || '';
+
+                const searchableElements = [
+                    card.querySelector('.project-title'),
+                    card.querySelector('.project-description'),
+                    card.querySelector('.project-client'),
+                ];
+
+                const matchesStatus = (status === 'ALL' || status === projectStatus);
+
+                let matchesSearch = searchQuery === '';
+
+                if (!matchesSearch) {
+                    for (const element of searchableElements) {
+                        if (element && element.textContent.toLowerCase().includes(searchQuery)) {
+                            matchesSearch = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (matchesStatus && matchesSearch) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     });
-
-    const topbarSearch = document.querySelector("#topbar-search");
-    topbarSearch.addEventListener("input", (e) => {
-            console.log(`@Model.Projects.Count() ${e.target.value}`)
-    })
-
-
-});
 </script>
 
 
