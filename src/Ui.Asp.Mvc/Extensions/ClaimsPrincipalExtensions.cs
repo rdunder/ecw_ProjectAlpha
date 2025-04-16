@@ -4,14 +4,25 @@ namespace Ui.Asp.Mvc.Extensions;
 
 public static class ClaimsPrincipalExtensions
 {
-    //  Tried to add provider as claim but i failed
     public static string? GetExternalLoginProvider(this ClaimsPrincipal principal)
     {
-        var providerClaim = principal.FindFirst("LoginProvider");
-        return providerClaim?.Value;
+        return principal.FindFirstValue(ClaimTypes.AuthenticationMethod);
     }
 
-    //  added fullname as a claim, but never used it
     public static string? GetFullName(this ClaimsPrincipal user)
-       => $"{user?.FindFirst("FirstName")?.Value} {user?.FindFirst("LastName")?.Value}";
+    {
+        var firstName = user?.FindFirstValue(ClaimTypes.GivenName) ??
+                    user?.FindFirstValue("given_name") ??
+                    user?.FindFirstValue("FirstName") ??
+                    user?.FindFirstValue("name.first") ??
+                    string.Empty;
+
+        var lastName = user?.FindFirstValue(ClaimTypes.Surname) ??
+                       user?.FindFirstValue("family_name") ??
+                       user?.FindFirstValue("LastName") ??
+                       user?.FindFirstValue("name.last") ??
+                       string.Empty;
+
+        return $"{firstName} {lastName}".Trim();
+    }
 }

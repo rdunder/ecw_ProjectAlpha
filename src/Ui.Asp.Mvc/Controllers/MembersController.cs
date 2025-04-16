@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Dtos;
 using Service.Interfaces;
+using Service.Services;
+using System.Text;
+using Ui.Asp.Mvc.Extensions;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Services;
 
@@ -14,12 +17,16 @@ public class MembersController(
                     IRoleService roleService, 
                     IJobTitleService jobTitleService,
                     ImageManager imageManager,
+                    IMailService mailService,
+                    LinkGenerationService linkGenerationService,
                     ILogger<MembersController> logger) : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly IRoleService _roleService = roleService;
     private readonly IJobTitleService _jobTitleService = jobTitleService;
     private readonly ImageManager _imageManager = imageManager;
+    private readonly IMailService _mailService = mailService;
+    private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
     private readonly ILogger<MembersController> _logger = logger;
 
     [Route("/members")]
@@ -78,7 +85,26 @@ public class MembersController(
         var result = await _userService.CreateAsync(dto);
 
         if (result)
+        {
+            #region Send confirm email
+            var emailConfirmLink = await _linkGenerationService.CreateEmailConfirmLink(dto.Email);
+            var msgBody = new StringBuilder()
+                        .Append($"<strong>Admin has registered you on Alpha Project Panel</strong>")
+                        .Append($"<p>If you have any questions, contact Admin by email: {User.Identity.Name}</p>")
+                        .Append($"<p>Please Confirm your email with this link:</p>")
+                        .Append($"{emailConfirmLink}");
+
+            if (!string.IsNullOrEmpty(emailConfirmLink))
+            {
+                var emailResult = await _mailService.SendEmail(msgBody.ToString(), dto.Email);
+                TempData["Message"] = emailResult
+                    ? "A confirmation Link has been sent to the registered Email"
+                    : "There was a problem sending the confirmation Link to the registered Email";
+            }
+            #endregion
+
             return Ok();
+        }
 
         return Ok();
     }
