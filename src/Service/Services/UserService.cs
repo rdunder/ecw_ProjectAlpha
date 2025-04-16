@@ -104,7 +104,8 @@ public class UserService(
 
     public async Task<IEnumerable<UserModel>> GetAllAsync()
     {
-        var userEntities = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).ToListAsync();
+        var userEntities = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).OrderBy(u => u.LastName).ToListAsync();
+        
 
         foreach (var userEntity in userEntities)
         {
