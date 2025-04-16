@@ -20,7 +20,8 @@ public class AuthController(
     ILogger<AuthController> logger,
     InitService initService,
     IUserService userService,
-    MailService mailService,
+    IMailService mailService,
+    LinkGenerationService linkGenerationService,
     INotificationService notificationService,
     IHubContext<NotificationHub> notificationsHub) : Controller
 {
@@ -30,7 +31,8 @@ public class AuthController(
     private readonly ILogger<AuthController> _logger = logger;
     private readonly InitService _initService = initService;
     private readonly IUserService _userService = userService;
-    private readonly MailService _mailService = mailService;
+    private readonly IMailService _mailService = mailService;
+    private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
 
     private readonly INotificationService _notificationService = notificationService;
     private readonly IHubContext<NotificationHub> _notificationsHub = notificationsHub;
@@ -60,11 +62,15 @@ public class AuthController(
             var result = await _userService.CreateAsync(viewModel);
 
             #region Send confirm email
-            var emailConfirmLink = await CreateEmailConfirmLink(viewModel.Email);
-            var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
+            var emailConfirmLink = await _linkGenerationService.CreateEmailConfirmLink(viewModel.Email);
+            var msgBody = new StringBuilder()
+                        .Append("<strong>If you did not request this information, please do NOT click the link</strong>")
+                        .Append($"<p>Please Confirm your email with this link:</p>")
+                        .Append($"{emailConfirmLink}");
+
             if (!string.IsNullOrEmpty(emailConfirmLink))
             {
-                var emailResult = await _mailService.SendEmail(msgBody, viewModel.Email);
+                var emailResult = await _mailService.SendEmail(msgBody.ToString(), viewModel.Email);
                 TempData["Message"] = emailResult 
                     ? "A confirmation Link has been sent to the registered Email"
                     : "There was a problem sending the confirmation Link to the registered Email";
@@ -239,20 +245,31 @@ public class AuthController(
 
             UserEntity entity = await _userService.CreateExternalAsync(dto, externalLoginInfo);
             if (entity != null)
-            {
+            {                
                 //await _signInManager.SignInAsync(entity, isPersistent: false);
                 await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
                 #region Send confirm email 
-                var emailConfirmLink = await CreateEmailConfirmLink(entity.Email);
-                var msgBody = $"Please Confirm your email with this link:\n{emailConfirmLink}";
-                if (!string.IsNullOrEmpty(emailConfirmLink))
+                try
                 {
-                    var emailResult = await _mailService.SendEmail(msgBody, entity.Email);
-                    TempData["Message"] = emailResult
-                        ? "A confirmation Link has been sent to the registered Email"
-                        : "There was a problem sending the confirmation Link to the registered Email";
+                    var emailConfirmLink = await _linkGenerationService.CreateEmailConfirmLink(entity.Email);
+                    var msgBody = new StringBuilder()
+                        .Append("<strong>If you did not request this information, please do NOT click the link</strong>")
+                        .Append($"<p>Please Confirm your email with this link:</p>")
+                        .Append($"{emailConfirmLink}");
+
+                    if (!string.IsNullOrEmpty(emailConfirmLink))
+                    {
+                        var emailResult = await _mailService.SendEmail(msgBody.ToString(), entity.Email);
+                        TempData["Message"] = emailResult
+                            ? "A confirmation Link has been sent to the registered Email"
+                            : "There was a problem sending the confirmation Link to the registered Email";
+                    }
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning($"Email with confirmEmail Link was not sent: {ex.Message}");
+                }                
                 #endregion
 
                 #region Send notification to admins
@@ -269,9 +286,7 @@ public class AuthController(
                 #endregion
 
                 return LocalRedirect(returnUrl);
-            }
-
-            
+            }          
 
 
             return View("Login");
@@ -288,22 +303,5 @@ public class AuthController(
         {
             return RedirectToAction("Index", "Projects");
         }
-    }
-
-    private async Task<string> CreateEmailConfirmLink(string email)
-    {
-        var entity = await _userManager.FindByEmailAsync(email);
-        if (entity == null) return string.Empty;
-        
-        var code = await _userManager.GenerateEmailConfirmationTokenAsync(entity);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-        var confirmationLink = Url.Action(
-            "ConfirmEmail", "Account",
-            values: new { userId = entity.Id, code },
-            protocol: Request.Scheme);
-
-        return string.IsNullOrEmpty(confirmationLink) ? string.Empty : confirmationLink;
-        
     }
 }

@@ -25,6 +25,7 @@ builder.Services.AddControllersWithViews()
     });
 
 builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(connectionString));
@@ -45,14 +46,15 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserAddressService, UserAddressService>();
 builder.Services.AddScoped<IJobTitleService, JobTitleService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMailService, MailService>();
+
 
 
 //  Asp webapp specific services
 builder.Services.AddTransient<InitService>();
 builder.Services.AddScoped<ImageManager>();
-builder.Services.AddScoped<MailService>();
+builder.Services.AddScoped<LinkGenerationService>();
 
 
 

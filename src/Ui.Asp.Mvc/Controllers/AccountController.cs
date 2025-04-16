@@ -18,11 +18,13 @@ namespace Ui.Asp.Mvc.Controllers;
 public class AccountController(
     IUserService userService, 
     UserManager<UserEntity> userManager,
-    MailService mailService) : Controller
+    IMailService mailService,
+    LinkGenerationService linkGenerationService) : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly UserManager<UserEntity> _userManager = userManager;
-    private readonly MailService _mailService = mailService;
+    private readonly IMailService _mailService = mailService;
+    private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
 
     public async Task<IActionResult> Index(Guid id)
     {
@@ -141,11 +143,16 @@ public class AccountController(
         if (!ModelState.IsValid)
             return View(form);
 
-        var paswordResetLink = await CreatePasswordResetLink(form.Email);
+        var paswordResetLink = await _linkGenerationService.CreatePasswordResetLink(form.Email);
         if (!string.IsNullOrEmpty(paswordResetLink))
         {
-            var msgBody = $"Click this link to reset your password: {paswordResetLink}";
-            var emailResult = await _mailService.SendEmail(msgBody, form.Email);
+            //var msgBody = $"Click this link to reset your password: {paswordResetLink}";
+            var msgBody = new StringBuilder()
+                        .Append("<strong>If you did not request this information, please do NOT click the link</strong>")
+                        .Append($"<p>Click the link to reset your password:</p>")
+                        .Append($"{paswordResetLink}");
+
+            var emailResult = await _mailService.SendEmail(msgBody.ToString(), form.Email);
 
             ViewBag.EmailSent = emailResult ? true : false;
         }
@@ -191,22 +198,5 @@ public class AccountController(
         return RedirectToAction("Login", "Auth");
     }
 
-
-    private async Task<string> CreatePasswordResetLink(string email)
-    {
-        var entity = await _userManager.FindByEmailAsync(email);
-        if (entity == null) return string.Empty;
-
-        var code = await _userManager.GeneratePasswordResetTokenAsync(entity);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-        var callbackUrl = Url.Action(
-                "ResetPassword", "Account",
-                values: new { userId = entity.Id, code },
-                protocol: Request.Scheme);
-
-
-        return string.IsNullOrEmpty(callbackUrl) ? string.Empty : callbackUrl;
-    }
     #endregion
 }
