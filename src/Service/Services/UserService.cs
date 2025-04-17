@@ -119,7 +119,7 @@ public class UserService(
 
     public async Task<UserModel> GetByIdAsync(Guid id)
     {
-        var entity = await _userManager.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
+        var entity = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).FirstOrDefaultAsync(u => u.Id == id);
         var roles = await _userManager.GetRolesAsync(entity);
         entity.RoleName = roles.FirstOrDefault() ?? string.Empty;
         return entity is null ? null! : UserFactory.Create(entity);

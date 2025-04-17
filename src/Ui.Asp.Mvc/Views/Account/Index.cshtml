@@ -10,19 +10,25 @@
     <header>        
         <div>
             <h1>@Model.MemberForm.FirstName @Model.MemberForm.LastName</h1>
-            <p>Assigned Role: <strong>@Model.MemberForm.RoleName</strong></p>
+            
             @if (string.IsNullOrEmpty(ViewBag.ExternalProvider))
             {
-                <p>Logged in with: <strong>Local Account</strong></p>
+                <p><i class="bi bi-person-circle"></i> <strong>Local Account</strong></p>
             }
             else
             {
-                <p>Logged in with: <strong>@ViewBag.ExternalProvider</strong></p>
+                <p><i class="bi bi-person-circle"></i> <strong>@ViewBag.ExternalProvider</strong></p>
             }
             @if (!string.IsNullOrEmpty(ViewBag.ExternalProvider))
             {
-                <p>Email: <strong>@Model.MemberForm.Email</strong></p>
+                <p><i class="bi bi-envelope"></i>  <strong>@Model.MemberForm.Email</strong></p>
             }
+
+            <div class="accountpage-titles">
+                <p><i class="bi bi-person-vcard"></i><strong>@Model.CurrentUser.Title</strong></p>
+                <p><i class="bi bi-key-fill"></i><strong>@Model.CurrentUser.RoleName</strong></p>
+            </div>
+
 
             <div>
                 <h3>@ViewBag.ErrorMessage</h3>

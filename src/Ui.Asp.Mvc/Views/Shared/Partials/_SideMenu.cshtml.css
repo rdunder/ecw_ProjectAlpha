@@ -51,7 +51,7 @@
         color: var(--clr-accent);
     }
 
-@media (width < 900px) {
+@media (width < 1200px) {
     .sidemenu-container .logo span {
         display: none;
     }

@@ -454,7 +454,7 @@ input::-webkit-inner-spin-button {
 
 
 
-@media (width < 900px) {
+@media (width < 1200px) {
     .portal {
         grid-template-columns: auto 1fr;
     }

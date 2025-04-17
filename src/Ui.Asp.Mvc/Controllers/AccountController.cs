@@ -56,7 +56,7 @@ public class AccountController(
             }
             
         };
-        ViewBag.ErrorMessage = "hello hello";
+        ViewBag.ErrorMessage = "";
 
         return View(viewModel);
     }

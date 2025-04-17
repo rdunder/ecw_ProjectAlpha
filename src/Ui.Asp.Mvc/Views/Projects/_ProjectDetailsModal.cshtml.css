@@ -145,3 +145,10 @@
     }
 
 /* #endregion ||  */
+
+
+@media (width < 992px) {
+    .modal-body {
+        flex-direction: column;
+    }
+}

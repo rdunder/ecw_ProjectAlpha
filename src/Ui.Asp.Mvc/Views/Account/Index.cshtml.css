@@ -25,12 +25,35 @@
     border-radius: 50%;
 }
 
+    .section-account-management header p {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 0.5rem;
+    }
+
+.accountpage-titles {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.accountpage-titles p {
+    padding: 3px 15px;
+    background-color: var(--clr-purple-15);
+    color: var(--clr-dark-purple);
+    border-radius: 16px;
+    font-size: 0.9rem;
+
+    display: flex;
+    gap: 0.5rem;
+}
+
 @media (width < 900px) {
     .section-account-management {
         padding: 2rem 1rem;
     }
 
-    .section-account-management img {
-        width: 100px;
-    }
+        .section-account-management img {
+            width: 100px;
+        }
 }
