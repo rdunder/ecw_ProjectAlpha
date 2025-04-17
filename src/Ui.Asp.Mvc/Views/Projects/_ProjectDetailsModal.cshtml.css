@@ -74,7 +74,8 @@
 }
 
 .right-panel-content {
-
+    width: 100%;
+    padding-right: 1rem;
 }
 
 .card {
@@ -112,117 +113,35 @@
 }
 
 
-/* Project Details Modal Styles */
-/*.modal-header {
-    border-bottom: none;
-    padding: 1rem 1.5rem;
+/* #region || Team Member Item */
+.team-tab-item-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
+.team-tab-item {
+    display: flex;
+    flex-direction: column;
+}
 
-
-.project-avatar-placeholder, .customer-logo-placeholder, .user-avatar-placeholder {
+.team-tab-item-information {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #e9ecef;
-    color: #495057;
-    font-weight: bold;
-    font-size: 1.25rem;
+    gap: 1rem;
 }
 
-.customer-logo, .customer-logo-placeholder {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-}
-
-.user-avatar, .user-avatar-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.status-badge {
-    padding: 0.35rem 0.75rem;
-    border-radius: 50px;
-    font-weight: 500;
-    font-size: 0.8rem;
-}
-
-.detail-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
+.team-tab-item-titles {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6c757d;
+    gap: 1rem;
+    padding-block: 1rem;
 }
 
-.detail-label {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-.detail-value {
-    font-weight: 500;
-}
-
-.timeline {
-    position: relative;
-    padding-left: 30px;
-}
-
-.timeline-item {
-    position: relative;
-    padding-bottom: 1.5rem;
-}
-
-    .timeline-item:last-child {
-        padding-bottom: 0;
+    .team-tab-item-titles p {
+        padding: 3px 15px;
+        background-color: var(--clr-purple-15);
+        color: var(--clr-dark-purple);
+        border-radius: 16px;
     }
 
-.timeline-marker {
-    position: absolute;
-    left: -30px;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.timeline-item.completed .timeline-marker {
-    color: #198754;
-}
-
-.timeline-item.in-progress .timeline-marker {
-    color: #0d6efd;
-}
-
-.timeline-item.pending .timeline-marker {
-    color: #6c757d;
-}
-
-.timeline-title {
-    font-weight: 500;
-}
-
-.timeline-date {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-.nav-tabs .nav-link {
-    border: none;
-    color: #6c757d;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-}
-
-    .nav-tabs .nav-link.active {
-        color: #0d6efd;
-        border-bottom: 2px solid #0d6efd;
-        background-color: transparent;
-    }*/
+/* #endregion ||  */

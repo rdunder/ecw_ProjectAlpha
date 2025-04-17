@@ -21,9 +21,9 @@
             <!-- Header with Close Button -->
             <div class="modal-header d-flex align-items-center">
                 <div class="d-flex align-items-center">
-                    
+
                     <img src="@ViewBag.AvatarPath" alt="@Model.Name" class="project-avatar me-3" />
-                    
+
                     <div>
                         <h5 class="modal-title fs-4 fw-bold mb-0">@Model.Name</h5>
                         <span class="status @ViewBag.TimeFrameCssClass">@Model.Status.StatusName</span>
@@ -32,7 +32,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            
+
             <div class="modal-body p-0">
 
                 <!-- Left Panel -->
@@ -68,18 +68,18 @@
 
                 <!-- Right Panel -->
                 <div class="right-panel-content">
-                                   
+
                     <!-- Tab Navigation -->
                     <ul class="nav nav-tabs nav-fill" id="projectDetailsTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="overview-tab_@Model.Id" data-bs-toggle="tab" data-bs-target="#overview_@Model.Id"
-                                    type="button" role="tab" aria-controls="overview" aria-selected="true">
+                            type="button" role="tab" aria-controls="overview" aria-selected="true">
                                 Overview
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="team-tab_@Model.Id" data-bs-toggle="tab" data-bs-target="#team_@Model.Id"
-                                    type="button" role="tab" aria-controls="team" aria-selected="false">
+                            type="button" role="tab" aria-controls="team" aria-selected="false">
                                 Team
                             </button>
                         </li>
@@ -95,11 +95,29 @@
                                 <p>@Html.Raw(Model.Description)</p>
                             </div>
                         </div>
-                        
+
                         <!-- Team Tab -->
                         <div class="tab-pane fade" id="team_@Model.Id" role="tabpanel" aria-labelledby="team-tab">
-                            <div>
-                                <h6>Team Members</h6>
+                            <div class="team-tab-item-container">
+                                <h6 class="mb-4">Team Members</h6>
+                                @foreach (var member in Model.Users)
+                                {
+                                    <div class="team-tab-item">
+                                        <div class="team-tab-item-information">
+                                            <img class="user-avatar" src="@imageManager.GetPath(nameof(MembersController), member.Avatar!)" />
+                                            <div>
+                                                <strong>@member.FirstName @member.LastName</strong>
+                                                <p>@member.Email</p>
+                                                <p>@member.PhoneNumber</p>
+                                            </div>
+                                        </div>
+                                        <div class="team-tab-item-titles">
+                                            <p><i class="bi bi-person-vcard"></i> @member.Title</p>
+                                            <p><i class="bi bi-key-fill"></i> @member.RoleName</p>
+                                        </div>
+                                    </div>
+                                }
+                                
                             </div>
                         </div>
 

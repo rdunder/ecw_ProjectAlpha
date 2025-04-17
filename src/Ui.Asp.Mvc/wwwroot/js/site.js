@@ -3,8 +3,9 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const resultDuplicateIds = findDuplicateIds();
-    console.log(resultDuplicateIds);
+    //  Uncomment these lines if you want to check for duplicate Id's in HTML
+    //const resultDuplicateIds = findDuplicateIds();
+    //console.log(resultDuplicateIds);
 
     //  Handle image previews
     document.querySelectorAll(".image-preview-container").forEach(pc => {

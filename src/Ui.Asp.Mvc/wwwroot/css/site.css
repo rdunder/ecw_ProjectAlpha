@@ -49,6 +49,7 @@
     --clr-green-15: #31D48215;
     --clr-dark-green: #24B26B;
     --clr-purple: #826AF9;
+    --clr-purple-15: #826AF915;
     --clr-dark-purple: #634CD4;
     /* Theme variables */
     --text-color: var(--clr-body-dark);
@@ -60,7 +61,6 @@
     --background-color-badges: var(--clr-grey-200);
     --background-color-cards: #ffffff90;
     --bootstrap-btn-close-filter: invert(48%) sepia(12%) saturate(789%) hue-rotate(182deg) brightness(94%) contrast(88%);
-    
 }
 /* #endregion */
 
