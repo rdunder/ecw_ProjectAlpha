@@ -1,8 +1,9 @@
-﻿const signalRConnection = new signalR.HubConnectionBuilder()
+﻿//#region || SignalR Notification Hub
+const notificationConnection = new signalR.HubConnectionBuilder()
     .withUrl("/notificationHub")
     .build()
 
-signalRConnection.on("ReceiveNotification", function (notification) {
+notificationConnection.on("ReceiveNotification", function (notification) {
 
     const container = document.querySelector("#notificationsContainer")
 
@@ -24,11 +25,11 @@ signalRConnection.on("ReceiveNotification", function (notification) {
     updateNotificationCount()
 })
 
-signalRConnection.on("NotificationDismissed", function (notificationId) {
+notificationConnection.on("NotificationDismissed", function (notificationId) {
     removeNotification(notificationId)
 })
 
-signalRConnection.start().catch(err => console.error(`SignalR failed to start: ${err}`))
+notificationConnection.start().catch(err => console.error(`SignalR failed to start: ${err}`))
 
 function updateRelativeTimes() {
     const now = new Date()
@@ -100,4 +101,18 @@ async function dismissNotification(notificationId) {
     }
 }
 
+//#endregion
 
+//#region || SignalR Presence Hub
+const presenceSignalRConnection = new signalR.HubConnectionBuilder()
+    .withUrl("/presenceHub")
+    .build()
+
+presenceSignalRConnection.on("UserConnected", (userId) => {
+
+})
+
+presenceSignalRConnection.on("UserDisconnected", (userId) => {
+
+})
+//#endregion
