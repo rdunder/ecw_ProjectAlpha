@@ -6,7 +6,7 @@
     bool isAuthorized = true;
 }
 
-@if (false)
+@if (!isAuthorized)
 {
     <h4>Contact your Administrator to get access to projects ...</h4>
 }
@@ -99,7 +99,7 @@ else
                     card.style.display = 'none';
                 }
             });
-        }
+        }        
     });
 </script>
 

@@ -3,6 +3,9 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const resultDuplicateIds = findDuplicateIds();
+    console.log(resultDuplicateIds);
+
     //  Handle image previews
     document.querySelectorAll(".image-preview-container").forEach(pc => {
         const fileInput = pc.querySelector("input[type='file']");
@@ -39,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //  Handle submit forms from modals
     const modals = document.querySelectorAll('.modal')
     modals.forEach(modal => {
-
+        if (modal.classList.contains("not-validate")) return
         const form = modal.querySelector('form')
 
         form.addEventListener('submit', async (e) => {

@@ -336,8 +336,17 @@ input::-webkit-inner-spin-button {
     width: 550px;
 }
 
+.modal-content {
+    background-color: var(--background-color-forms);
+}
+
 .modal-body {
     background-color: var(--background-color-forms);
+}
+
+.modal .card {
+    background-color: var(--background-color-forms);
+    color: var(--text-color);
 }
 
 .validation-summary-errors ul {
@@ -375,6 +384,7 @@ input::-webkit-inner-spin-button {
     outline: 1px solid var(--clr-accent);
 }
 /* #endregion */
+
 /* #region || components  */
 .center-screen {
     display: flex;
@@ -481,7 +491,9 @@ input::-webkit-inner-spin-button {
 .ql-container {
     font-family: "Nunito", sans-serif;
     font-size: 1rem;
-    min-height: 200px;
+    height: 200px;
+    overflow-y: auto;
+    padding-bottom: 50px;
 }
 
     .ql-container.ql-snow {
@@ -499,6 +511,10 @@ input::-webkit-inner-spin-button {
 .ql-snow .ql-formats {
     display: flex;
 }
+
+
+
+
 
 /* #endregion */
 

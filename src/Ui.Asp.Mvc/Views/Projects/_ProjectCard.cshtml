@@ -1,7 +1,7 @@
 ﻿@model ProjectModel
 
 
-@{    
+@{
     var today = DateOnly.FromDateTime(DateTime.Now);
     int daysDifference;
     string timeframeStatus = "";
@@ -36,7 +36,9 @@
             break;
     }
 
-    string avatarPath = imageManager.GetPath(nameof(ProjectsController), Model.Avatar!);
+    ViewBag.AvatarPath = imageManager.GetPath(nameof(ProjectsController), Model.Avatar!);
+    ViewBag.TimeFrameStatus = timeframeStatus;
+    ViewBag.TimeFrameCssClass = timeframeCssClass;
 
     ProjectFormViewModel editModel = new ProjectFormViewModel()
     {
@@ -58,16 +60,19 @@
         ProjectId = Model.Id,
         Project = Model
     };
+
+    //  data-bs-toggle="modal" data-bs-target="#projectDetailsModal_@Model.Id"
 }
 
 
 <partial name="_EditProjectModal" model="@editModel" />
 <partial name="_AddMemberToProjectModal" model="@addMemberToProjectFormModel" />
+<partial name="_ProjectDetailsModal" model="@Model" />
 
-<div class="project-card" data-status="@Model.Status.StatusName">
+<div class="project-card" id="projectCard_@Model.Id" data-status="@Model.Status.StatusName" >
     <header>
         <div class="title">
-            <img class="project-avatar" src="@avatarPath" />
+            <img class="project-avatar" src="@ViewBag.AvatarPath" />
             <div>
                 <h6 class="project-title">@Model.Name</h6>
                 <p class="project-client">@Model.Customer.CustomerName</p>
@@ -124,3 +129,16 @@
     </footer>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('#projectCard_@Model.Id').addEventListener('click', (e) => {
+        
+        if (!e.target.closest('.menu')) {
+            const modalId = `#projectDetailsModal_${"@Model.Id"}`;
+            const modal = new bootstrap.Modal(document.querySelector(modalId));
+            modal.show();
+        }
+    })
+});
+</script>
