@@ -12,4 +12,5 @@ public class NotificationDto
     public string Icon { get; set; } = null!;
     public NotificationTargetGroup TargetGroup { get; set; }
     public NotificationType Type { get; set; }
+    public string? TypeName { get; set; }
 }

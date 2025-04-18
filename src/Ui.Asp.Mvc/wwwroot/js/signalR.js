@@ -4,6 +4,7 @@ const notificationConnection = new signalR.HubConnectionBuilder()
     .build()
 
 notificationConnection.on("ReceiveNotification", function (notification) {
+    
 
     const container = document.querySelector("#notificationsContainer")
 
@@ -14,6 +15,7 @@ notificationConnection.on("ReceiveNotification", function (notification) {
         `
         <img class="icon" src="${notification.icon}" />
         <div class="content">
+            <div class="type">${notification.typeName}</div>
             <div class="message">${notification.message}</div>
             <div class="time" data-created="${new Date(notification.created).toISOString()}">${notification.created}</div>
         </div>

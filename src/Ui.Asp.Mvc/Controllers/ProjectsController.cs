@@ -11,6 +11,7 @@ using Ui.Asp.Mvc.Hubs;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Services;
 using Data.Entities;
+using System.Runtime.CompilerServices;
 
 namespace Ui.Asp.Mvc.Controllers;
 
@@ -99,17 +100,7 @@ public class ProjectsController(
         var result = await _projectService.CreateAsync(form);
         if (result)
         {
-            var notification = new NotificationDto
-            {
-                Message = $"Project was added",
-                Icon = "/images/NotificationIcons/ProjectNotification.png",
-                TargetGroup = NotificationTargetGroup.All,
-                Type = NotificationType.Project
-            };
-
-            await _notificationService.CreateNotificationAsync(notification);
-            await _notificationsHub.Clients.Group("All").SendAsync("ReceiveNotification", notification);
-
+            await SendNotification($"{form.Name} added");       
             return Ok();
         }
 
@@ -141,7 +132,11 @@ public class ProjectsController(
         }        
 
         var result = await _projectService.UpdateAsync(form.Id, form);
-        if (result) return Ok();
+        if (result)
+        {
+            await SendNotification($"{form.Name} updated");
+            return Ok();
+        }
        
         _logger.LogWarning("\n############################################\n");
         _logger.LogWarning("There was errors updating");
@@ -150,23 +145,33 @@ public class ProjectsController(
         return Ok("There was errors when updating project");
     }
 
-    public async Task<IActionResult> DeleteAsync(Guid id, string avatar)
+    public async Task<IActionResult> DeleteAsync(Guid id, string avatar, string name)
     {
         if (!string.IsNullOrEmpty(avatar))
             _imageManager.DeleteImage(avatar, nameof(ProjectsController));
+        try
+        {
+            await _projectService.DeleteAsync(id);
+            await SendNotification($"{name} Deleted");
+        }
+        catch
+        {
+
+        }
         
-        await _projectService.DeleteAsync(id);
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> StartProject(Guid id)
+    public async Task<IActionResult> StartProject(Guid id, string name)
     {
         var project = await _projectService.StartProjectAsync(id);
+        await SendNotification($"{name} Manually started");
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> CloseProject(Guid id)
+    public async Task<IActionResult> CloseProject(Guid id, string name)
     {
+        await SendNotification($"{name} Completed");
         var project = await _projectService.CloseProjectAsync(id);
         return RedirectToAction("Index");
     }
@@ -190,6 +195,20 @@ public class ProjectsController(
             return statuses.FirstOrDefault(s => s.StatusName == "Active")!.Id;
     }
 
+    private async Task SendNotification(string message)
+    {
+        var notification = new NotificationDto
+        {
+            Message = message,
+            Icon = "/images/NotificationIcons/ProjectNotification.png",
+            TargetGroup = NotificationTargetGroup.All,
+            Type = NotificationType.Project,
+            TypeName = NotificationType.Project.ToString()
+        };
+
+        await _notificationService.CreateNotificationAsync(notification);
+        await _notificationsHub.Clients.Group("All").SendAsync("ReceiveNotification", notification);
+    }
 
 }
 
