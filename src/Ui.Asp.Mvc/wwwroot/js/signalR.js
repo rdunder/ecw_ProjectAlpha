@@ -29,7 +29,7 @@ notificationConnection.on("NotificationDismissed", function (notificationId) {
     removeNotification(notificationId)
 })
 
-notificationConnection.start().catch(err => console.error(`SignalR failed to start: ${err}`))
+notificationConnection.start().catch(err => console.error(`notificationHUB SignalR failed to start: ${err}`))
 
 function updateRelativeTimes() {
     const now = new Date()
@@ -108,11 +108,42 @@ const presenceSignalRConnection = new signalR.HubConnectionBuilder()
     .withUrl("/presenceHub")
     .build()
 
-presenceSignalRConnection.on("UserConnected", (userId) => {
+const currentOnlineUsers = new Set()
 
+presenceSignalRConnection.on("UserConnected", (userId) => {
+    currentOnlineUsers.add(userId)
+    updateOnlineUsersFeedback(userId, true)
 })
 
 presenceSignalRConnection.on("UserDisconnected", (userId) => {
+    currentOnlineUsers.delete(userId)
+    updateOnlineUsersFeedback(userId, false);
 
 })
+
+presenceSignalRConnection.on("OnlineUsers", (users) => {
+    users.forEach(id => {
+        currentOnlineUsers.add(id)
+        updateOnlineUsersFeedback(id, true)
+    })    
+})
+
+presenceSignalRConnection.start().catch(err => console.error(`presenceHUB SignalR failed to start: ${err}`))
+
+
+function updateOnlineUsersFeedback(userId, isOnline) {
+    const userCard = document.querySelector(`.member-card[data-user-id="${userId}"]`)
+    const presenceDot = userCard.querySelector(".presence-status")
+
+    const presenceCount = document.querySelector('.presence-status-count')
+    presenceCount.textContent = `Online: ${currentOnlineUsers.size}`
+
+    if (isOnline) {
+        presenceDot.classList.remove('presence-offline')
+        presenceDot.classList.add('presence-online')
+    } else {
+        presenceDot.classList.remove('presence-online')
+        presenceDot.classList.add('presence-offline')
+    }
+}
 //#endregion

@@ -143,9 +143,9 @@ public class MembersController(
         var result = await _userService.UpdateAsync(form.Id, form);
         if (result) return Ok();
 
-        _logger.LogInformation("\n############################################\n");
-        _logger.LogInformation("There was errors updating");
-        _logger.LogInformation("\n############################################\n");
+        _logger.LogWarning("\n############################################\n");
+        _logger.LogWarning("There was errors updating");
+        _logger.LogWarning("\n############################################\n");
 
         return Ok("There was errors when updating project");
     }

@@ -7,7 +7,10 @@
 <partial name="_AddMemberModal" model="@Model.form" />
 
 <div class="d-flex justify-content-between mb-5">
-    <h1>@ViewData["Title"]</h1>
+    <div>
+        <h1>@ViewData["Title"]</h1>
+        <span class="presence-status-count"></span>
+    </div>
     @if (User.IsInRole("Administrator"))
     {
         <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member</button>
@@ -23,7 +26,7 @@
 </div>
 
 <script>
-    //  Claude AI has been helpful with setting up this script
+    //  Claude AI has been helpful with setting up this script for the top bar search functionality
     //  By providing AI with a starting point and discussing with AI to come up with the best solution.
     //  I have then modified and reviewed to make sure it works as intended.
     document.addEventListener('DOMContentLoaded', function() {

@@ -67,3 +67,24 @@
         width: 100%;
         margin-top: 1rem;
     }
+
+.msg-btn-container {
+    position: relative;
+}
+    .msg-btn-container .presence-status {
+        position: absolute;
+        top: 11px;
+        left: -3px;
+        z-index: 10;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+        .msg-btn-container .presence-status.presence-online {
+            background-color: var(--clr-dark-green);
+        }
+
+        .msg-btn-container .presence-status.presence-offline {
+            background-color: var(--clr-dark-red);
+        }

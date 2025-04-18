@@ -25,7 +25,7 @@
 
 <partial name="_EditMemberModal" model="@editModel" />
 
-<div class="member-card">
+<div class="member-card" data-user-id="@Model.Id">
     @if (User.IsInRole("Administrator"))
     {
         <div class="menu">
@@ -59,6 +59,7 @@
     <p class="contact">@(Model.PhoneNumber.Length > 5 ? Model.PhoneNumber : "070xxxxxxx")</p>
 
     <div class="msg-btn-container">
+        <div class="presence-status presence-offline"></div>
         <button class="btn btn-grey">Message</button>
     </div>
 

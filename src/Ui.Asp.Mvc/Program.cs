@@ -156,5 +156,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<PresenceHub>("/presenceHub");
 
 app.Run();

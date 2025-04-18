@@ -113,10 +113,8 @@ public class AuthController(
     public async Task<IActionResult> LoginAsync()
     {
 
-        //  If the app is started for the first time, this will be added:
+        //  If the app is started for the first time, the initservice will run:
         #region
-        //  User: admin@domain.com with password: Password123! and add the Administrator role to that user
-        //  Roles: Trainee, Fullstack Developer, Frontend Developer, Backend Developer and Administrator
 
         if (await _roleManager.RoleExistsAsync("Administrator") == false)
         {

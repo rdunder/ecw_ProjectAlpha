@@ -70,12 +70,6 @@ public class ProjectsController(
         ViewBag.CountStarted = viewModel.Projects.Count(p => p.Status.StatusName == "Active");
         ViewBag.CountCompleted = viewModel.Projects.Count(p => p.Status.StatusName == "Closed");
 
-        _logger.LogWarning("######################################################################");
-        _logger.LogWarning("######################################################################");
-        _logger.LogWarning(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        _logger.LogWarning("######################################################################");
-        _logger.LogWarning("######################################################################");
-
         return View(viewModel);
     }
 
@@ -186,14 +180,14 @@ public class ProjectsController(
     private async Task<Guid> GetStatus(ProjectFormViewModel form)
     {
         var statuses = await _statusService.GetAllAsync();
+
         var today = DateOnly.FromDateTime(DateTime.Now);
         var startDate = form.StartDate;
-        //var startDateTimeDiff = form.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now;
 
         if (startDate > today)
-            return statuses.FirstOrDefault(s => s.StatusName == "Pending").Id;
+            return statuses.FirstOrDefault(s => s.StatusName == "Pending")!.Id;
         else
-            return statuses.FirstOrDefault(s => s.StatusName == "Active").Id;
+            return statuses.FirstOrDefault(s => s.StatusName == "Active")!.Id;
     }
 
 
