@@ -1,9 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
-
-namespace Service.Models;
-
+﻿namespace Service.Models;
 public class JobTitleModel
 {
     public Guid Id { get; set; }

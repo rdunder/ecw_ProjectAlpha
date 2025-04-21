@@ -46,8 +46,7 @@ public class UserService(
 
         if (dto.RoleName == null || dto.JobTitleId == Guid.Empty)
         {
-            await _userManager.AddToRoleAsync(entity, "Viewer");
-            
+            await _userManager.AddToRoleAsync(entity, "Viewer");            
         }
         else
         {
@@ -106,7 +105,6 @@ public class UserService(
     {
         var userEntities = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).OrderBy(u => u.LastName).ToListAsync();
         
-
         foreach (var userEntity in userEntities)
         {
             var roles = await _userManager.GetRolesAsync(userEntity);
@@ -128,7 +126,7 @@ public class UserService(
     public async Task<bool> UpdateAsync(Guid id, UserDto? dto)
     {
         if (dto is null) return false;
-        //var entity = await _userManager.FindByIdAsync(id.ToString());
+
         var entity = await _userManager.Users
             .Include(u => u.Address)
             .FirstOrDefaultAsync(u => u.Id == id);
@@ -152,7 +150,6 @@ public class UserService(
             if (entity.Address != null && dto.Address != null)
             {
                 if (dto.Address.Address != null && dto.Address.PostalCode != null! && dto.Address.City != null)
-                    //await _userAddressService.UpdateAsync(id, dto.Address);
                     entity.Address = UserAddressFactory.Create(dto.Address);
             }
 
@@ -235,8 +232,4 @@ public class UserService(
         return result.Succeeded;
     }
 
-    private async Task SetRoleAndTitleAsync()
-    {
-
-    }
 }

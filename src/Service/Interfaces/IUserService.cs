@@ -1,13 +1,10 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Service.Dtos;
 using Service.Models;
 using System.Security.Claims;
 
 namespace Service.Interfaces;
-
 public interface IUserService : IService<UserModel, UserDto>
 {
     public Task<bool> AddToRoleAsync(string email, string roleName);

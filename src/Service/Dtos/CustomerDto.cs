@@ -1,9 +1,6 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
-
 public class CustomerDto
 {
     public Guid Id { get; set; }

@@ -1,11 +1,8 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Entities;
 using Service.Dtos;
 using Service.Models;
 
 namespace Service.Factories;
-
 public static class UserFactory
 {
     public static UserDto Create() => new UserDto();

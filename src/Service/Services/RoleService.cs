@@ -1,6 +1,4 @@
-﻿
-
-using Data.Contexts;
+﻿using Data.Contexts;
 using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +8,6 @@ using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
-
 public class RoleService(RoleManager<RoleEntity> roleManager, AppDbContext context) : IRoleService
 {
     private readonly AppDbContext _context = context;
@@ -25,11 +22,9 @@ public class RoleService(RoleManager<RoleEntity> roleManager, AppDbContext conte
             try
             {
                 var entity = RoleFactory.Create(dto);
-                var result = await _roleManager.CreateAsync(entity);
-                
+                var result = await _roleManager.CreateAsync(entity);                
 
                 await transaction.CommitAsync();
-
                 return result.Succeeded ? true : false;
             }
             catch (Exception ex)

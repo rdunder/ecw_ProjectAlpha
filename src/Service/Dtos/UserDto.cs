@@ -1,8 +1,5 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
-
 namespace Service.Dtos;
-
 public class UserDto
 {
     public Guid Id { get; set; }

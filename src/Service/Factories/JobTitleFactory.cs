@@ -1,12 +1,8 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Entities;
 using Service.Dtos;
 using Service.Models;
-using System.Runtime.InteropServices;
 
 namespace Service.Factories;
-
 public static class JobTitleFactory
 {
     public static JobTitleDto Create() => new JobTitleDto();

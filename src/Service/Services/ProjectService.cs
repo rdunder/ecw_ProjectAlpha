@@ -1,17 +1,13 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
-
 public class ProjectService(IProjectRepository repo, IStatusRepository statusRepo, UserManager<UserEntity> usermManager) : IProjectService
 {
     private readonly IProjectRepository _repo = repo;
@@ -53,9 +49,7 @@ public class ProjectService(IProjectRepository repo, IStatusRepository statusRep
 
     public async Task<IEnumerable<ProjectModel>> GetAllAsync()
     {
-        var projects = new List<ProjectModel>();
-
-        
+        var projects = new List<ProjectModel>();        
 
         try
         {

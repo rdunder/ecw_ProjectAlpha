@@ -1,10 +1,7 @@
-﻿
-
-using Service.Dtos;
+﻿using Service.Dtos;
 using Service.Models;
 
 namespace Service.Interfaces;
-
 public interface IRoleService : IService<RoleModel, RoleDto>
 {
 }

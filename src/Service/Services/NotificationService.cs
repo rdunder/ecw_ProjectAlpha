@@ -2,14 +2,12 @@
 using Data.Enums;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
-
 public class NotificationService(
     INotificationRepository notificationRepository,
     INotificationDismissedRepository dismissedRepo,

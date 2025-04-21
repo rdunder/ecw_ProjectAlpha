@@ -1,11 +1,8 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Entities;
 using Service.Dtos;
 using Service.Models;
 
 namespace Service.Factories;
-
 public static class ProjectFactory
 {
     public static ProjectDto Create() => new ProjectDto();
@@ -45,23 +42,6 @@ public static class ProjectFactory
             Customer = CustomerFactory.Create(entity.Customer),
             Users = entity.Users.Select(u => UserFactory.Create(u))
         };
-
-    //public static ProjectEntity Create(ProjectModel model) =>
-    //    model is null
-    //    ? throw new ArgumentNullException(nameof(model))
-    //    : new ProjectEntity()
-    //    {
-    //        Id = model.Id,
-    //        Name = model.Name,
-    //        Description = model.Description,
-    //        StartDate = model.StartDate,
-    //        EndDate = model.EndDate,
-    //        Budget = model.Budget,
-    //        Avatar = model.Avatar,
-
-    //        StatusId = model.StatusId,
-    //        CustomerId = model.CustomerId,
-    //    };
 
     public static void Map(ProjectDto dto, ProjectEntity entity)
     {

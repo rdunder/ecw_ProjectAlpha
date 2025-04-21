@@ -1,13 +1,10 @@
-﻿
-
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
-
 public class JobTitleService(IJobTitleRepository jobTitleRepository) : IJobTitleService
 {
     private readonly IJobTitleRepository _repo = jobTitleRepository;

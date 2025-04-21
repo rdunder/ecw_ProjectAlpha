@@ -1,6 +1,4 @@
-﻿
-
-using Mailjet.Client;
+﻿using Mailjet.Client;
 using Mailjet.Client.Resources;
 using Mailjet.Client.TransactionalEmails;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Service.Interfaces;
 
 namespace Service.Services;
-
 public class MailService(IConfiguration conf, ILogger<MailService> logger) : IMailService
 {
     private readonly IConfiguration _conf = conf;

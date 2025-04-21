@@ -1,13 +1,10 @@
-﻿
-
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Service.Dtos;
 using Service.Factories;
 using Service.Interfaces;
 using Service.Models;
 
 namespace Service.Services;
-
 public class CustomerService(ICustomerRepository repo) : ICustomerService
 {
     private readonly ICustomerRepository _repo = repo;

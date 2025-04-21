@@ -1,10 +1,7 @@
-﻿
-
-using Service.Dtos;
+﻿using Service.Dtos;
 using Service.Models;
 
 namespace Service.Interfaces;
-
 public interface IProjectService : IService<ProjectModel, ProjectDto>
 {
     public Task<bool> CloseProjectAsync(Guid id);

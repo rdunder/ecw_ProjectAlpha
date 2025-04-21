@@ -1,10 +1,4 @@
-﻿
-
-using Data.Entities;
-using Service.Dtos;
-
-namespace Service.Models;
-
+﻿namespace Service.Models;
 public class UserModel
 {
     public Guid Id { get; set; }

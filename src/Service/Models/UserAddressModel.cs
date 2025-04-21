@@ -1,11 +1,6 @@
-﻿
-
-using Data.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using Data.Entities;
 
 namespace Service.Models;
-
 public class UserAddressModel
 {
     public Guid UserEntityId { get; set; }

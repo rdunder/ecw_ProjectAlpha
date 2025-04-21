@@ -1,7 +1,4 @@
-﻿
-
-namespace Service.Interfaces;
-
+﻿namespace Service.Interfaces;
 public interface IService<TModel, TDto>
 {
     public Task<bool> CreateAsync(TDto? dto);

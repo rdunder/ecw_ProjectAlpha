@@ -1,12 +1,8 @@
-﻿
-
-using Data.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Service.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
-
 public class ProjectDto
 {
     public Guid Id { get; set; }

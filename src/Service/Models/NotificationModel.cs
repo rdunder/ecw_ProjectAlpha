@@ -1,7 +1,6 @@
 ﻿using Data.Enums;
 
 namespace Service.Models;
-
 public class NotificationModel
 {
     public Guid Id { get; set; }

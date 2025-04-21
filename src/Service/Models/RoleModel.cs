@@ -1,7 +1,4 @@
-﻿
-
-namespace Service.Models;
-
+﻿namespace Service.Models;
 public class RoleModel
 {
     public Guid Id { get; set; }

@@ -1,11 +1,6 @@
-﻿
-
-using Data.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
-
 public class UserAddressDto
 {
     public Guid UserEntityId { get; set; }

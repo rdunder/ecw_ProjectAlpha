@@ -1,10 +1,4 @@
-﻿
-
-using Data.Entities;
-using System.ComponentModel.DataAnnotations;
-
-namespace Service.Models;
-
+﻿namespace Service.Models;
 public class ProjectModel
 {
     public Guid Id { get; set; }
@@ -16,14 +10,9 @@ public class ProjectModel
     public decimal Budget { get; set; }
     public string? Avatar { get; set; }
 
-
-    //public Guid StatusId { get; set; }
     public StatusModel Status { get; set; } = null!;
 
-
-    //public Guid CustomerId { get; set; }
     public CustomerModel Customer { get; set; } = null!;
-
 
     public IEnumerable<UserModel>? Users { get; set; } = [];
 }

@@ -1,7 +1,5 @@
-﻿namespace Service.Interfaces
+﻿namespace Service.Interfaces;
+public interface IMailService
 {
-    public interface IMailService
-    {
-        Task<bool> SendEmail(string messageBody, string recipientEmail);
-    }
+    Task<bool> SendEmail(string messageBody, string recipientEmail);
 }

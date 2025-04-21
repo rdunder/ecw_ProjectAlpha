@@ -1,10 +1,6 @@
-﻿
-
-using Data.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using Data.Entities;
 
 namespace Service.Models;
-
 public class StatusModel
 {
     public Guid Id { get; set; }

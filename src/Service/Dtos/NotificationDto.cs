@@ -1,7 +1,6 @@
 ﻿using Data.Enums;
 
 namespace Service.Dtos;
-
 public class NotificationDto
 {
     public Guid Id { get; set; } = Guid.NewGuid();

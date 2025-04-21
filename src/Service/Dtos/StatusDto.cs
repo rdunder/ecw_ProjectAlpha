@@ -1,9 +1,6 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Service.Dtos;
-
 public class StatusDto
 {
     [Display(Name = "Status Name")]
