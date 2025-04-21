@@ -10,8 +10,8 @@ using System.Security.Claims;
 using Ui.Asp.Mvc.Hubs;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Services;
-using Data.Entities;
 using System.Runtime.CompilerServices;
+using Data.Enums;
 
 namespace Ui.Asp.Mvc.Controllers;
 

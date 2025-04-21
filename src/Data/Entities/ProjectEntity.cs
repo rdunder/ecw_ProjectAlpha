@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities;
 
@@ -28,10 +26,8 @@ public class ProjectEntity
 
     public string? Avatar { get; set; }
 
-
     public Guid StatusId { get; set; }
     public StatusEntity Status { get; set; } = null!;
-
 
     public Guid CustomerId { get; set; }
     public CustomerEntity Customer { get; set; } = null!;

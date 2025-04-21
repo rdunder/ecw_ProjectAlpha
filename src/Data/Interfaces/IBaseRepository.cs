@@ -1,9 +1,6 @@
-﻿
-
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Data.Interfaces;
-
 public interface IBaseRepository<TEntity> where TEntity : class
 {
     Task CreateAsync(TEntity entity);

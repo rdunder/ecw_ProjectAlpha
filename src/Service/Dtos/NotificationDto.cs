@@ -1,6 +1,4 @@
-﻿
-
-using Data.Entities;
+﻿using Data.Enums;
 
 namespace Service.Dtos;
 

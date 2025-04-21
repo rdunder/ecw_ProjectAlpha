@@ -1,7 +1,4 @@
-﻿
-
-using Data.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,16 +11,14 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<UserEnti
     public DbSet<StatusEntity> Statuses { get; set; }
     public DbSet<UserAddressEntity> UserAddresses { get; set; }
     public DbSet<JobTitleEntity> JobTitles { get; set; }
-
     public DbSet<NotificationEntity> Notifications { get; set; }
     public DbSet<NotificationDismissedEntity> DismissedNotifications { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-       builder.Entity<UserEntity>()
+        builder.Entity<UserEntity>()
             .HasOne(user => user.Address)
             .WithOne(address => address.User)
             .HasForeignKey<UserAddressEntity>(a => a.UserEntityId);

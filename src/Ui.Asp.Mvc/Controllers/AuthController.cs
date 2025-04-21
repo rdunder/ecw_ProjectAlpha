@@ -10,6 +10,7 @@ using Ui.Asp.Mvc.Models.Auth;
 using Ui.Asp.Mvc.Services;
 using Ui.Asp.Mvc.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Data.Enums;
 
 namespace Ui.Asp.Mvc.Controllers;
 

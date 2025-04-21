@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Data.Enums;
 using Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;

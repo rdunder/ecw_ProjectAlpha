@@ -1,8 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities;
-
 public class CustomerEntity
 {
     [Key]
@@ -15,8 +13,6 @@ public class CustomerEntity
     [EmailAddress]
     [MaxLength(100)]
     public string Email { get; set; } = null!;
-
-
 
     public ICollection<ProjectEntity> Projects { get; set; } = new List<ProjectEntity>();
 }

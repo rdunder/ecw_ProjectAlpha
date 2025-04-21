@@ -1,12 +1,9 @@
-﻿
-
-using Data.Contexts;
+﻿using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
-
 public class NotificationDismissedRepository(AppDbContext context) :
     BaseRepository<NotificationDismissedEntity>(context), INotificationDismissedRepository
 {

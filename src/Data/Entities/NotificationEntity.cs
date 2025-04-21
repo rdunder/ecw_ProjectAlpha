@@ -1,20 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Data.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Entities;
-
-public enum NotificationType
-{
-    User = 1,
-    Project = 2
-}
-
-public enum NotificationTargetGroup
-{
-    All         = 1,
-    Users       = 2,
-    Managers    = 3,
-    Admins      = 4
-}
 
 public class NotificationEntity
 {
@@ -27,16 +14,4 @@ public class NotificationEntity
     public NotificationType Type { get; set; }
 
     public string Icon { get; set; } = null!;
-}
-
-public class NotificationDismissedEntity
-{
-    [Key]
-    public int Id { get; set; }
-
-    public Guid UserId { get; set; }
-    public UserEntity User { get; set; } = null!;
-
-    public Guid NotificationId { get; set; }
-    public NotificationEntity Notification { get; set; } = null!;
 }
