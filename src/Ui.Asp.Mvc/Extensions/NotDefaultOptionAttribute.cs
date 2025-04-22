@@ -8,6 +8,10 @@ public class NotDefaultOptionAttribute : ValidationAttribute
     //  when validating a select element mwith a disabled default option
     private readonly string _defaultValue;
 
+    /// <summary>
+    /// Used when default option on select input element is considered "not selected"
+    /// </summary>
+    /// <param name="defaultValue"></param>
     public NotDefaultOptionAttribute(string defaultValue = "")
     {
         _defaultValue = defaultValue;

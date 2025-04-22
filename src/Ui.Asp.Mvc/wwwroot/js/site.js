@@ -1,8 +1,5 @@
 ﻿
-
-
 document.addEventListener("DOMContentLoaded", () => {
-
     //  Uncomment these lines if you want to check for duplicate Id's in HTML
     //const resultDuplicateIds = findDuplicateIds();
     //console.log(resultDuplicateIds);
@@ -105,8 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTheme(savedTheme);
 
-
-
 });
 
 function setTheme(theme) {
@@ -148,6 +143,7 @@ function quillJsInit(editorId, toolbarId, content, textAreaId) {
         textArea.value = quill.root.innerHTML;
     })
 }
+
 
 
 //const quill = new Quill('#quill-editor', {

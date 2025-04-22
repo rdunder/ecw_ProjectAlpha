@@ -55,6 +55,7 @@ builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddTransient<InitService>();
 builder.Services.AddScoped<ImageManager>();
 builder.Services.AddScoped<LinkGenerationService>();
+builder.Services.AddScoped<CookieConsentService>();
 
 
 
@@ -96,8 +97,9 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 builder.Services.Configure<CookiePolicyOptions>(opt =>
 {
+    opt.ConsentCookie.Name = "ConsentCookie";
     opt.CheckConsentNeeded = context => true;
-    opt.MinimumSameSitePolicy = SameSiteMode.None;
+    opt.MinimumSameSitePolicy = SameSiteMode.Lax;
 });
 
 
@@ -143,13 +145,11 @@ app.UseHsts();
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-app.UseCookiePolicy();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Projects}/{action=Index}/{id?}")

@@ -1,6 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Http.Features
 @using System.Security.Claims
 
 
@@ -26,6 +27,7 @@
 @inject SignInManager<UserEntity> _signInManager
 @inject UserManager<UserEntity> _userManager
 @inject INotificationService _notificationService
+@inject CookieConsentService cookieConsentService
 
 
 

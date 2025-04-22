@@ -8,7 +8,7 @@ public class MaxFileSizeAttribute : ValidationAttribute
 
 
     /// <summary>
-    /// 
+    /// Set max file size in MB
     /// </summary>
     /// <param name="maxFileSize">Maximum file size in MB</param>
     public MaxFileSizeAttribute(int maxFileSize)

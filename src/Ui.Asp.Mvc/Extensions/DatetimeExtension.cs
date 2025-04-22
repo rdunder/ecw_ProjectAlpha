@@ -2,6 +2,11 @@
 
 public static class DatetimeExtension
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns>String with time elapsed from DateTime.Now()</returns>
     public static string TimeAgo(this DateTime date)
     {
         var timeSpan = DateTime.Now - date;
