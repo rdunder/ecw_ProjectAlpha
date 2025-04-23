@@ -1,10 +1,6 @@
 ﻿
 #cookieConsent {
-    background-color: var(--clr-orange);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    align-items: center;
+    
 }
 
     #cookieConsent ::deep a {
@@ -26,4 +22,21 @@
         background-color: var(--clr-dark-green);
         color: white;
         min-width: 170px;
+    }
+
+#showCookieConsentBtn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    transition: all 0.5s ease-out;
+}
+
+    #showCookieConsentBtn i {
+        font-size: 2rem;
+        color: var(--clr-darker-orange);
+    }
+
+    #showCookieConsentBtn:hover {
+        transform: rotate(90deg);
+        cursor: pointer;
     }

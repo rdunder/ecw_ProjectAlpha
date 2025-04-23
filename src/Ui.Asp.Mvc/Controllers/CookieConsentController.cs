@@ -12,6 +12,7 @@ public class CookieConsentController(CookieConsentService consentService) : Cont
     private readonly CookieConsentService _consentService = consentService;
 
     [HttpGet]
+    [Route("")]
     public ActionResult<CookieConsentPreferences> GetConsent()
     {
         return _consentService.GetConsent();
@@ -22,5 +23,13 @@ public class CookieConsentController(CookieConsentService consentService) : Cont
     {
         _consentService.SetConsent(preferences);
         return Ok();
+    }
+
+    
+    [HttpGet]
+    [Route("IsConsentGiven")]
+    public ActionResult<bool> IsConsentGiven(string category)
+    {
+        return _consentService.IsConsentGiven(category);
     }
 }

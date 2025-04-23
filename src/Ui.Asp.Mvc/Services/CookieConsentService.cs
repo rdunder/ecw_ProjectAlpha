@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Http.Features;
+using System.Text.Json;
 using Ui.Asp.Mvc.Models;
 
 namespace Ui.Asp.Mvc.Services;
@@ -44,13 +45,19 @@ public class CookieConsentService(IHttpContextAccessor httpContextAccesor)
 
     public bool IsConsentGiven(string category)
     {
+        var context = _httpContextAccessor.HttpContext;
+        var consentFeature = context!.Features.Get<ITrackingConsentFeature>();
+        if (consentFeature != null && category == "general")
+                return consentFeature.CanTrack ? true : false;
+
         var prefs = GetConsent();
+
         return category.ToLower() switch
         {
-            "essential" => prefs.Essential,
-            "functional" => prefs.Functional,
-            "analytics" => prefs.Analytics,
-            "marketing" => prefs.Marketing,
+            "essential"     => prefs.Essential,
+            "functional"    => prefs.Functional,
+            "analytics"     => prefs.Analytics,
+            "marketing"     => prefs.Marketing,
             _ => false
         };
     }

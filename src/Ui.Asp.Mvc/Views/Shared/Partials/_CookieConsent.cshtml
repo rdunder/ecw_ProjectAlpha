@@ -1,29 +1,31 @@
 ﻿
 @{
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    var showBanner = !consentFeature?.CanTrack ?? false;
     var cookieString = consentFeature?.CreateConsentCookie();
-
-    cookieConsentService.SetConsent(new CookieConsentPreferences());
 }
 
-@if (showBanner)
-{
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        <p>This website only use cookies that are needed for the website to function properly, <a asp-page="/Privacy">Learn More</a></p>
-        <div class="accept-policy-container">
-            <button type="button" class="accept-policy close" data-bs-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-                <span aria-hidden="true">Accept</span>
-            </button>
+<div id="cookieConsent" class="cookieConsentBanner">
+    <p>This website only use cookies that are needed for the website to function properly, <a asp-page="/Privacy">Learn More</a></p>
+    <div class="accept-policy-container">
+
+
+        <div>
+            <label>Essential</label>
+            <input  type="checkbox" checked disabled />
         </div>
-    </div>
-    <script>
-        (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            button.addEventListener("click", function (event) {
-                document.cookie = button.dataset.cookieString;
-            }, false);
-        })();
-    </script>
-}
 
+        <div>
+            <label>Functional</label>
+            <input type="checkbox" id="cookieFunctional" />
+        </div>
+
+        <button type="button" class="accept-policy close" data-cookie-string="@cookieString">
+            <span aria-hidden="true">Accept</span>
+        </button>
+    </div>
+</div>
+
+
+<div id="showCookieConsentBtn">
+    <i class="bi bi-cookie"></i>
+</div>
