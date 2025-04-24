@@ -1,5 +1,6 @@
 ﻿
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
     //  Uncomment these lines if you want to check for duplicate Id's in HTML
     //const resultDuplicateIds = findDuplicateIds();
     //console.log(resultDuplicateIds);
@@ -90,39 +91,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     })
-
-
-    //  Hnadle Theme
-    let savedTheme = localStorage.getItem("theme");
-
-    if (!savedTheme) {
-        localStorage.setItem("theme", "theme-light");
-        savedTheme = "theme-light";
-    }
-
-    setTheme(savedTheme);
-
+    
 });
 
-function setTheme(theme) {
-    if (theme === "theme-light") {
-        document.body.classList.remove("theme-dark")
-        document.body.classList.add("theme-light")
-        localStorage.setItem("theme", "theme-light")
-    } else if (theme === "theme-dark") {
-        document.body.classList.remove("theme-light")
-        document.body.classList.add("theme-dark")
-        localStorage.setItem("theme", "theme-dark")
-        document.querySelector("#theme-toggle-checkbox").checked = true;
-    }
-}
+async function removeConsentStorage() {
+    const functionalConsentGiven = await checkIfConsentIsGiven("functional")
+    const analyticConsentGiven = await checkIfConsentIsGiven("analytics")
+    const marketingConsentGiven = await checkIfConsentIsGiven("marketing")
 
-function ToggleTheme() {
-    let savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "theme-light") {
-        setTheme("theme-dark")
-    } else if (savedTheme === "theme-dark") {
-        setTheme("theme-light")
+    if (functionalConsentGiven) {
+        localStorage.removeItem("theme-dark")
+    }
+
+    if (analyticConsentGiven) {
+
+    }
+
+    if (marketingConsentGiven) {
+
     }
 }
 

@@ -5,24 +5,54 @@
 }
 
 <div id="cookieConsent" class="cookieConsentBanner">
-    <p>This website only use cookies that are needed for the website to function properly, <a asp-page="/Privacy">Learn More</a></p>
+
+    <div class="policy-information">
+        <h4>Cookie Consent</h4>
+        <p>
+            This website uses cookies to ensure you get the best experience. We use:
+        </p>
+        <ul>
+            <li>
+                <p>Essential cookies: Required for the website to function properly</p>
+            </li>
+            <li>
+                <p>Functional cookies: Enhance your experience by remembering preferences like dark theme</p>
+            </li>
+        </ul>
+        <p>You can manage your cookie preferences anytime. Functional preferences are stored in your local storage.</p>
+    </div>
+    
+    
     <div class="accept-policy-container">
+        <div class="policy-checkboxes">
+            <div>
+                <label>Essential</label>
+                <input type="checkbox" checked disabled />
+            </div>
 
+            <div>
+                <label>Functional</label>
+                <input type="checkbox" id="cookieFunctional" />
+            </div>
 
-        <div>
-            <label>Essential</label>
-            <input  type="checkbox" checked disabled />
+            <div>
+                <label class="text-decoration-line-through">Analytics</label>
+                <input type="checkbox" disabled />
+            </div>
+
+            <div>
+                <label class="text-decoration-line-through">Marketing</label>
+                <input type="checkbox" disabled />
+            </div>
         </div>
-
-        <div>
-            <label>Functional</label>
-            <input type="checkbox" id="cookieFunctional" />
-        </div>
+        
 
         <button type="button" class="accept-policy close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
+            <span aria-hidden="true">Accept Cookies</span>
         </button>
     </div>
+
+
 </div>
 
 

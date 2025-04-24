@@ -4,14 +4,13 @@
     
 
     if (!await checkIfConsentIsGiven("general")) {
-        consentBanner.style.display = 'flex'
+        consentBanner.classList.toggle("show")
     }
 
     consentAllbtn.addEventListener("click", function (e) {
-        console.log("click")
         document.cookie = consentAllbtn.dataset.cookieString;
         SetCookiePrefs()
-        consentBanner.style.display = 'none'
+        consentBanner.classList.toggle("show")
     }, false)
 
     document.querySelector("#showCookieConsentBtn")
@@ -43,7 +42,8 @@ function SetCookiePrefs() {
         },
         body: JSON.stringify(prefs)
     })
-        
+
+    removeConsentStorage()
 }
 
 async function checkIfConsentIsGiven(category) {
