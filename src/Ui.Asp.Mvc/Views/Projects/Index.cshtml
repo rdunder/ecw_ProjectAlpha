@@ -17,7 +17,10 @@ else
     <section class="section-projects">
         <div class="d-flex justify-content-between mb-5">
             <h1>Projects</h1>
-            <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addProjectModal">Add Project</button>
+            @if (!User.IsInRole("Viewer"))
+            {
+                <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addProjectModal">Add Project</button>
+            }
         </div>
         
         <div class="project-sort-menu-container">

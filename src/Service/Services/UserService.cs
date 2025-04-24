@@ -17,12 +17,14 @@ public class UserService(
     UserManager<UserEntity> userManager, 
     RoleManager<RoleEntity> roleManager, 
     IUserAddressService userAddressService,
-    IJobTitleService jobTitleService) : IUserService
+    IJobTitleService jobTitleService,
+    INotificationService notificationService) : IUserService
 {
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly RoleManager<RoleEntity> _roleManager = roleManager;
     private readonly IUserAddressService _userAddressService = userAddressService;
     private readonly IJobTitleService _jobTitleService = jobTitleService;
+    private readonly INotificationService _notificationService = notificationService;
 
 
     public async Task<bool> CreateAsync(UserDto? dto)
@@ -51,6 +53,13 @@ public class UserService(
         else
         {
             await _userManager.AddToRoleAsync(entity, dto.RoleName);
+        }
+
+        var allNotifications = await _notificationService.GetAllAsync();
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        foreach (var notification in allNotifications)
+        {
+           await _notificationService.DismissNotificationAsync(notification.Id, user.Id);
         }
 
         return result.Succeeded ? true : false;

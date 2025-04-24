@@ -43,6 +43,9 @@ public class NotificationService(
     {
         var user = _userManager.Users.Where(x => x.Id == userId).FirstOrDefault();
         var userRoles = await _userManager.GetRolesAsync(user);
+
+        if (userRoles.Contains("Viewer")) return new List<NotificationModel>();
+
         var targetGroups = new List<NotificationTargetGroup>()
         {
             NotificationTargetGroup.All
@@ -98,5 +101,9 @@ public class NotificationService(
         }
     }
 
-
+    public async Task<IEnumerable<NotificationModel>> GetAllAsync()
+    {
+        var notifications = await _repo.GetAllAsync();
+        return notifications.Select(n => NotificationFactory.Create(n));
+    }
 }

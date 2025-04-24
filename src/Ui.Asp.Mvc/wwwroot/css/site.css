@@ -154,6 +154,32 @@ h6 {
     font-weight: var(--font-weight-semibold);
     color: var(--headline-color);
 }
+
+@media (width < 500px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+
+    h5 {
+        font-size: 1.1rem;
+    }
+
+    h6 {
+        font-size: 1.05rem;
+    }
+}
 /* #endregion */
 
 /* #region || Links and Forms */
@@ -175,6 +201,13 @@ h6 {
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
+}
+
+@media (width < 620px) {
+    .btn {
+        padding: 11px 17px;
+        font-size: 1.1rem;
+    }
 }
 
 .btn-blue {
@@ -223,6 +256,12 @@ h6 {
     align-items: center;
     gap: 1rem;
     width: 500px;
+}
+
+@media (width < 620px) {
+    .form-container {
+        width: 100%;
+    }
 }
 
 .form-divider-alt {
@@ -401,6 +440,12 @@ input::-webkit-inner-spin-button {
     border-radius: 16px;
 }
 
+@media (width < 620px) {
+    .surface {
+        width: 100%;
+    }
+}
+
 .surface.login-form {
 
 }
@@ -457,12 +502,14 @@ input::-webkit-inner-spin-button {
 
 .cookieConsentBanner {
     transform: translate(-50%, -200%);
+    pointer-events: none;
     opacity: 0;
     transition: all 0.5s;
 }
 
     .cookieConsentBanner.show {
         transform: translate(-50%, -50%);
+        pointer-events: auto;
         opacity: 1;
     }
 
@@ -470,6 +517,38 @@ input::-webkit-inner-spin-button {
     .portal {
         grid-template-columns: auto 1fr;
     }
+}
+
+@media (width < 620px) {
+
+    .portal .side {
+        grid-area: side;
+        border-right: 1px solid var(--border-color);
+        padding: 0.5rem;
+    }
+
+    .portal .top {
+        grid-area: top;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.3rem;
+        align-items: center;
+    }
+
+    .portal .content {
+        grid-area: content;
+        padding: 1rem;
+    }
+
+    .topmenu-nav {
+        gap: 1rem;
+    }
+
+        .topmenu-nav .topmenu-nav-item {
+            font-size: 1.1rem;
+        }
 }
 
 /* #endregion */

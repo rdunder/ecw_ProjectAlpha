@@ -48,10 +48,9 @@
 
         <hr />
 
-        <li><a class="dropdown-item" asp-action="Index" asp-controller="Account" asp-route-id="@user.Id">Account Settings</a></li>
-        
-        <li><a class="dropdown-item" href="/">Admin Login</a></li>
-        
+        <li><a class="dropdown-item" asp-action="Index" asp-controller="Account" asp-route-id="@user.Id">Account Settings</a></li>        
+        <li><a class="dropdown-item" href="#" onclick="toggleCookieConsentBanner()">Privacy Settings</a></li>
+        <li><a class="dropdown-item" href="/">Admin Login</a></li>        
         <li>
             <a class="dropdown-item" href="@Url.Action("LogOut", "Auth")"><i class="bi bi-box-arrow-right"></i> Logout</a>
         </li>

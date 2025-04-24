@@ -25,7 +25,16 @@
             <a class="nav-link @(Context.Request.Path == "/jobtitles" ? "active" : "")" asp-controller="JobTitles" asp-action="Index">
                 <i class="bi bi-person-vcard-fill"></i>
                 <span>Job Titles</span>
-            </a>
-        }        
+            </a>            
+        }       
+        
+        <a class="nav-link @(Context.Request.Path == "/privacy" ? "active" : "")"
+           asp-controller="Privacy"
+           asp-action="Index"
+           asp-route-layout="portal">
+            <i class="bi bi-person-vcard-fill"></i>
+            <span>Privacy & User Agreement</span>
+        </a>
+
     </nav>
 </div>

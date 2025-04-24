@@ -13,10 +13,11 @@
         consentBanner.classList.toggle("show")
     }, false)
 
-    document.querySelector("#showCookieConsentBtn")
-        .addEventListener("click", () => {
-            consentBanner.classList.toggle("show")
-        })
+    //  This eventlistener is moved to the ShowCookieBtn at _CookieConsent.cshtml
+    //document.querySelector("#showCookieConsentBtn")
+    //    .addEventListener("click", () => {
+    //        consentBanner.classList.toggle("show")
+    //    })
 
     
     getCookieConsentPrefs()
@@ -44,6 +45,10 @@ function SetCookiePrefs() {
     })
 
     removeConsentStorage()
+}
+
+function toggleCookieConsentBanner() {
+    document.querySelector("#cookieConsent").classList.toggle("show")
 }
 
 async function checkIfConsentIsGiven(category) {

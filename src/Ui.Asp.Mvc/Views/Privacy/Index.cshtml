@@ -1,0 +1,43 @@
+﻿
+@{
+    var layoutParam = Context.Request.Query["layout"].ToString();
+    Layout = layoutParam == "portal" ? "_PortalLayout" : "_AuthLayout";
+}
+
+<section class="privacy-section">
+    
+
+    <div class="surface content">
+        @if (Layout == "_AuthLayout")
+        {
+            <a class="back-btn" href="/"><i class="bi bi-arrow-left"></i></a>
+        }
+        <div>
+            <h2>Privacy and User Agreement</h2>
+            <h4>Important Notice: This app is for testing purposes only</h4>
+        </div>
+        <div>
+            <strong>Use at your own risk</strong>
+            <p>You understand and agree that you are using this app at your own risk. The app is provided "as is" without any warranties of any kind, either express or implied.</p>
+        </div>
+        <div>
+            <strong>No Liability</strong>
+            <p>The developers and providers of this app shall not be held liable for any damages or losses resulting from the use of this app, including but not limited to data loss, service interruptions, or other issues.</p>
+        </div>
+        <div>
+            <strong>Changes & Termination</strong>
+            <p>The app may be updated, changed, or discontinued at any time without prior notice.</p>
+        </div>
+        <div>
+            <strong>Privacy & Cookies</strong>
+            <p>This website uses cookies to ensure you get the best experience. We use:</p>
+            <ul>
+                <li><p>Essential cookies: Required for the website to function properly</p></li>
+                <li><p>Functional cookies: Enhance your experience by remembering preferences like dark theme</p></li>
+            </ul>
+            <p>You can manage your cookie preferences at anytime from within the app. Functional preferences are stored in your local storage.</p>
+        </div> 
+        <strong>If you do not agree with these terms, please do not use the app.</strong>
+    </div>
+</section>
+

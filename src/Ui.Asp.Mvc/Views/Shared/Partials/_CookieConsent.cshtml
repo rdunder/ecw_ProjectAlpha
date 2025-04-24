@@ -21,8 +21,8 @@
         </ul>
         <p>You can manage your cookie preferences anytime. Functional preferences are stored in your local storage.</p>
     </div>
-    
-    
+
+
     <div class="accept-policy-container">
         <div class="policy-checkboxes">
             <div>
@@ -45,7 +45,7 @@
                 <input type="checkbox" disabled />
             </div>
         </div>
-        
+
 
         <button type="button" class="accept-policy close" data-cookie-string="@cookieString">
             <span aria-hidden="true">Accept Cookies</span>
@@ -56,6 +56,18 @@
 </div>
 
 
-<div id="showCookieConsentBtn">
-    <i class="bi bi-cookie"></i>
-</div>
+
+@if (ViewBag.Layout == "Auth")
+{
+    <div id="showCookieConsentBtn">
+        <i class="bi bi-cookie"></i>
+    </div>
+
+    <script>
+        document.querySelector("#showCookieConsentBtn")
+        .addEventListener("click", () => {
+            toggleCookieConsentBanner()
+        })
+    </script>
+}
+
