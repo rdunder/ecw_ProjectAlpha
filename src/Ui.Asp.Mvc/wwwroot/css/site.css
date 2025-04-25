@@ -430,7 +430,9 @@ input::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100dvh;
+    min-height: 100dvh;
+    overflow: auto;
+    padding: 3rem 0.5rem;
 }
 
 .surface {
@@ -444,10 +446,6 @@ input::-webkit-inner-spin-button {
     .surface {
         width: 100%;
     }
-}
-
-.surface.login-form {
-
 }
 
 .surface h1 {
@@ -522,24 +520,11 @@ input::-webkit-inner-spin-button {
 @media (width < 768px) {
 
     .portal .side {
-        grid-area: side;
-        border-right: 1px solid var(--border-color);
         padding: 0.5rem;
     }
 
     .portal .top {
-        grid-area: top;
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem;
-        display: grid;
-        grid-template-columns: 1fr auto;
         gap: 0.3rem;
-        align-items: center;
-    }
-
-    .portal .content {
-        grid-area: content;
-        padding: 1rem;
     }
 
     .topmenu-nav {
