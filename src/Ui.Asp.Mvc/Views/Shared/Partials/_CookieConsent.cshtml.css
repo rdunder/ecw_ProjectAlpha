@@ -12,6 +12,14 @@
     z-index: 10;
 }
 
+@media (width < 768px) {
+    .cookieConsentBanner {
+        width: 100vw;
+        top: auto;
+        left: auto;
+    }
+} 
+
 .policy-information {
     background-color: var(--background-color-badges);
     padding: 3rem;

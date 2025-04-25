@@ -155,7 +155,7 @@ h6 {
     color: var(--headline-color);
 }
 
-@media (width < 500px) {
+@media (width < 768px) {
     h1 {
         font-size: 1.7rem;
     }
@@ -203,7 +203,7 @@ h6 {
     align-items: center;
 }
 
-@media (width < 620px) {
+@media (width < 768px) {
     .btn {
         padding: 11px 17px;
         font-size: 1.1rem;
@@ -258,7 +258,7 @@ h6 {
     width: 500px;
 }
 
-@media (width < 620px) {
+@media (width < 768px) {
     .form-container {
         width: 100%;
     }
@@ -440,7 +440,7 @@ input::-webkit-inner-spin-button {
     border-radius: 16px;
 }
 
-@media (width < 620px) {
+@media (width < 768px) {
     .surface {
         width: 100%;
     }
@@ -519,7 +519,7 @@ input::-webkit-inner-spin-button {
     }
 }
 
-@media (width < 620px) {
+@media (width < 768px) {
 
     .portal .side {
         grid-area: side;
@@ -548,6 +548,15 @@ input::-webkit-inner-spin-button {
 
         .topmenu-nav .topmenu-nav-item {
             font-size: 1.1rem;
+        }
+
+
+    .cookieConsentBanner {
+        transform: none;
+    }
+
+        .cookieConsentBanner.show {
+            transform: translateX(0);
         }
 }
 
