@@ -11,8 +11,10 @@ using Data.Repositories;
 using Ui.Asp.Mvc.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Security.Claims;
 using Ui.Asp.Mvc.Hubs;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("LocalDb") ?? throw new ArgumentNullException($"Failed to get connectionstring:\n{nameof(args)}");
@@ -23,6 +25,12 @@ builder.Services.AddControllersWithViews()
         opt.JsonSerializerOptions.WriteIndented = true;
         opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
+
+builder.Services.Configure<ForwardedHeadersOptions>(opt =>
+{
+    opt.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
+    opt.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
+});
 
 builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
@@ -140,7 +148,7 @@ builder.Services.AddAuthentication(opt =>
 
 var app = builder.Build();
 
-
+app.UseForwardedHeaders();
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
