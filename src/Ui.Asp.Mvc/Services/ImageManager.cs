@@ -3,25 +3,36 @@ using Ui.Asp.Mvc.Controllers;
 
 namespace Ui.Asp.Mvc.Services;
 
-public class ImageManager(IWebHostEnvironment env, IConfiguration config)
+public class ImageManager(IWebHostEnvironment env, IConfiguration config, ILogger<ImageManager> logger)
 {
     private readonly IWebHostEnvironment _env = env;
     private readonly IConfiguration _config = config;
+    private readonly ILogger<ImageManager> _logger = logger;
 
     public async Task<string> SaveImage(IFormFile file, string controller)
     {
-        var uploadFolder = Path.Combine(_env.WebRootPath, $"images/{controller.Replace("Controller", "")}_Avatars");
-        Directory.CreateDirectory(uploadFolder);
-
-        var newFileName = $"{controller.Replace("Controller", "")}_Avatar_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        var filePath = Path.Combine(uploadFolder, newFileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await file.CopyToAsync(stream);
-        }
 
-        return newFileName;
+
+            var uploadFolder = Path.Combine(_env.WebRootPath, $"images/{controller.Replace("Controller", "")}_Avatars");
+            Directory.CreateDirectory(uploadFolder);
+
+            var newFileName = $"{controller.Replace("Controller", "")}_Avatar_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(uploadFolder, newFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return newFileName;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning($"ERROR when saving image: {ex.Message}\nWebRoot Path: {_env.WebRootPath}");
+            return null!;
+        }
     }
     
     public void DeleteImage(string avatar, string controller)
@@ -46,6 +57,7 @@ public class ImageManager(IWebHostEnvironment env, IConfiguration config)
 
 
         var path = $"/images/{controllerName}_Avatars/{avatar}";
+        _logger.LogWarning($"ImageManager.GetPath({controller}, {avatar})\nreturns: {path}");
         return path ;
     }
 }
