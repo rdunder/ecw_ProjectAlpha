@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Service.Dtos;
 using Service.Interfaces;
-using Service.Models;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Models.Account;
@@ -43,9 +40,9 @@ public class AccountController(
                 PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
                 Avatar = user.Avatar,
-                Address = user.Address.Address,
-                PostalCode = user.Address.PostalCode,
-                City = user.Address.City,
+                Address = user.Address?.Address,
+                PostalCode = user.Address?.PostalCode,
+                City = user.Address?.City,
                 RoleName = user.RoleName!,
                 JobTitleId = user.JobTitleId,
             },
@@ -80,7 +77,7 @@ public class AccountController(
             return RedirectToAction("Index");
 
         ViewBag.ErrorMessage = "Profile information failed to update";
-        return View(form);
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -106,9 +103,9 @@ public class AccountController(
 
 
     [AllowAnonymous]
-    public async Task<IActionResult> ConfirmEmail(Guid userId, string code)
+    public async Task<IActionResult> ConfirmEmail(Guid userId, string? code)
     {
-        if (userId == Guid.Empty || code == null) return RedirectToAction("Auth", "Login");
+        if (userId == Guid.Empty || code == null) return RedirectToAction("Login", "Auth");
 
         var result = await _userService.ConfirmEmail(userId, code);
         
@@ -129,7 +126,7 @@ public class AccountController(
 
     #region Password Reset
     [AllowAnonymous]
-    public async Task<IActionResult> RequestPasswordReset()
+    public IActionResult RequestPasswordReset()
     {
         ViewBag.EmailSent = null;
         return View();
@@ -143,27 +140,27 @@ public class AccountController(
         if (!ModelState.IsValid)
             return View(form);
 
-        var paswordResetLink = await _linkGenerationService.CreatePasswordResetLink(form.Email);
-        if (!string.IsNullOrEmpty(paswordResetLink))
+        var passwordResetLink = await _linkGenerationService.CreatePasswordResetLink(form.Email);
+        if (!string.IsNullOrEmpty(passwordResetLink))
         {
-            //var msgBody = $"Click this link to reset your password: {paswordResetLink}";
+            //var msgBody = $"Click this link to reset your password: {passwordResetLink}";
             var msgBody = new StringBuilder()
                         .Append("<strong>If you did not request this information, please do NOT click the link</strong>")
                         .Append($"<p>Click the link to reset your password:</p>")
-                        .Append($"{paswordResetLink}");
+                        .Append($"{passwordResetLink}");
 
             var emailResult = await _mailService.SendEmail(msgBody.ToString(), form.Email);
 
-            ViewBag.EmailSent = emailResult ? true : false;
+            ViewBag.EmailSent = emailResult;
         }
         
         return View();
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> ResetPassword(Guid userId, string code)
+    public IActionResult ResetPassword(Guid userId, string code)
     {
-        PasswordResetForm form = new PasswordResetForm
+        var form = new PasswordResetForm
         {
             Id = userId,
             Code = code
