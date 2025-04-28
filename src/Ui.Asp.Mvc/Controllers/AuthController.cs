@@ -181,7 +181,7 @@ public class AuthController(
             {
                 await _signInManager.SignOutAsync();
                 var result = await _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, viewModel.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded) return RedirectToLocal("/");
+                if (result.Succeeded) return RedirectToLocal(returnUrl);
             }
         }
 
