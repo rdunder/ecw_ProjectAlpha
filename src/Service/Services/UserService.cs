@@ -10,6 +10,7 @@ using Service.Interfaces;
 using Service.Models;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace Service.Services;
 
@@ -241,4 +242,27 @@ public class UserService(
         return result.Succeeded;
     }
 
+    public async Task<byte[]> GetPersonalData(ClaimsPrincipal userPrincipal)
+    {
+        var personalData = new Dictionary<string, string>();
+        var user = await _userManager.GetUserAsync(userPrincipal);
+        if (user == null) return null!;
+
+        var props = typeof(UserEntity).GetProperties()
+            .Where(p => 
+                Attribute.IsDefined(p, typeof(PersonalDataAttribute)) || 
+                Attribute.IsDefined(p, typeof(ProtectedPersonalDataAttribute)));
+
+        foreach (var prop in props)
+        {
+            personalData.Add(prop.Name, prop.GetValue(user)?.ToString() ?? "null");
+        }
+        
+        var jsonOptions = new JsonSerializerOptions()
+        {
+            WriteIndented = true
+        };
+        
+        return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(personalData, jsonOptions));
+    }
 }

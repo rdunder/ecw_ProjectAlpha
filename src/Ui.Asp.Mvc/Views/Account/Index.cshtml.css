@@ -48,6 +48,25 @@
     gap: 0.5rem;
 }
 
+.account-management-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+    .account-management-buttons ::deep form {
+        flex: 1;
+    }
+
+    .account-management-buttons form ::deep button,
+    .account-management-buttons > button {
+        flex: 1;
+    }
+
+::deep .btn {
+    width: 100%;
+}
+
 @media (width < 900px) {
     .section-account-management {
         padding: 2rem 1rem;

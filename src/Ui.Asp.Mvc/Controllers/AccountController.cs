@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Service.Interfaces;
 using System.Text;
+using System.Text.Json;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Models.Account;
 using Ui.Asp.Mvc.Services;
@@ -16,12 +17,14 @@ public class AccountController(
     IUserService userService, 
     UserManager<UserEntity> userManager,
     IMailService mailService,
-    LinkGenerationService linkGenerationService) : Controller
+    LinkGenerationService linkGenerationService,
+    ILogger<AccountController> logger) : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly IMailService _mailService = mailService;
     private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
+    private readonly ILogger<AccountController> _logger = logger;
 
     public async Task<IActionResult> Index(Guid id)
     {
@@ -99,6 +102,20 @@ public class AccountController(
 
         ViewBag.ErrorMessage = "Failed to update password";
         return RedirectToAction("Index", new { id = form.Id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetPersonalInformation()
+    {
+        var userInfo = await _userService.GetPersonalData(User);
+        return File(userInfo, "text/json", "PersonalData.json");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccount(Guid id)
+    {
+        await _userService.DeleteAsync(id);
+        return RedirectToAction("LogOut", "Auth");
     }
 
 

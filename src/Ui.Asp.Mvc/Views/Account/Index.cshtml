@@ -4,6 +4,14 @@
 @{
     ViewBag.ExternalProvider = User.FindFirstValue(ClaimTypes.AuthenticationMethod);
     var avatar = imageManager.GetPath(nameof(MembersController), Model.MemberForm.Avatar!);
+
+    var confirmDeleteModel = new ConfirmDeleteModel()
+    {
+        Id = Model.CurrentUser.Id,
+        Controller = "Account",
+        Action = "DeleteAccount",
+        Message = "You are about to delete this account permanently!"
+    };
 }
 
 <section class="surface section-account-management">
@@ -36,6 +44,22 @@
         </div>
         <img src="@avatar" alt="profile avatar." />
     </header>
+    
     <partial name="_Forms" model="@Model" />
+    
+    <partial name="Partials/ConfirmDeleteModal" model="@confirmDeleteModel"/>
+    
+    <hr />
+    <h4>Manage Account</h4>
+    <div class="account-management-buttons">
+        <form>
+            <button class="btn btn-blue" asp-action="GetPersonalInformation" asp-controller="Account">
+                Get Personal Information
+            </button>        
+        </form>
+        <button class="btn btn-red" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@Model.CurrentUser.Id.ToString()">
+            Delete Account
+        </button>
+    </div>
 
 </section>

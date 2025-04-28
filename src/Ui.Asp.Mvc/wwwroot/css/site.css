@@ -219,6 +219,18 @@ h6 {
 }
 .btn-blue:hover {
     background-color: var(--clr-dark-accent);
+    color: var(--clr-surface);
+}
+
+.btn-red {
+    color: var(--clr-surface);
+    border: 1px solid var(--border-color);
+    background-color: var(--clr-red);
+    font-weight: var(--font-weight-semibold);
+}
+.btn-red:hover {
+    background-color: var(--clr-dark-red);
+    color: var(--clr-surface);
 }
 
 .btn-grey {

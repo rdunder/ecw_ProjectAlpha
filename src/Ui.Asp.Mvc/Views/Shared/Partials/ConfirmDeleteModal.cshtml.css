@@ -1,0 +1,11 @@
+h3 i {
+    color: var(--clr-dark-red);
+    font-size: 1.7rem;
+}
+
+p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
