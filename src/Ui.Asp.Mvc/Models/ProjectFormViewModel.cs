@@ -43,6 +43,7 @@ public class ProjectFormViewModel
 
     [Display(Name = "Project Avatar", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
+    [MaxFileSize(5, ErrorMessage = "Max filesize is 5 MB")]
     public IFormFile? File { get; set; }
     public string? Avatar { get; set; }
 
