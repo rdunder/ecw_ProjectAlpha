@@ -14,8 +14,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 */images/*
+*/gitignored/*
 */Design/*
-/*DataBase/*
+*/DataBase/*
 
 # Mono auto generated files
 mono_crash.*
