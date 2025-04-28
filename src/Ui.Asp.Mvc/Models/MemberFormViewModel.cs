@@ -19,11 +19,13 @@ public class MemberFormViewModel
 
     [Display(Name = "First Name")]
     [Required(ErrorMessage = "You must enter your First Name")]
+    [MaxLength(50)]
     public string FirstName { get; set; } = null!;
 
 
     [Display(Name = "Last Name")]
     [Required(ErrorMessage = "You must enter your Last Name")]
+    [MaxLength(50)]
     public string LastName { get; set; } = null!;
 
 
