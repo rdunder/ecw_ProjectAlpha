@@ -40,9 +40,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //  Handle submit forms from modals
     const modals = document.querySelectorAll('.modal')
-    modals.forEach(modal => {
+    modals.forEach(modal => {        
         if (modal.classList.contains("not-validate")) return
         const form = modal.querySelector('form')
+
+        
+        
+        //  Handle EndDate not being before StartDate
+        const formStartDate = form.querySelector("input[type='date'][name='StartDate']")
+        const formEndDate = form.querySelector("input[type='date'][name='EndDate']")
+        
+        if (formStartDate && formEndDate) {
+            formStartDate.addEventListener("change", (e) => {
+                if (e.target.value > formEndDate.value) {
+                   formEndDate.value = e.target.value
+                }
+            })
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault()
