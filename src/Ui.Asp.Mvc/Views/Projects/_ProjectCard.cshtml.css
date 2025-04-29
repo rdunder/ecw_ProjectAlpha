@@ -22,9 +22,6 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-
-
-
     .project-card header {
         display: flex;
         justify-content: space-between;
@@ -50,6 +47,7 @@
 
         .project-card header .menu {
             cursor: default;
+            position: relative;
         }
 
         .project-card header .menu .menu-btn {
@@ -61,7 +59,9 @@
             font-weight: var(--font-weight-semibold);
         }
 
-
+        .menu .dropdown-menu show {
+            position: relative;
+        }
 
 
     .project-card .project-description {
@@ -72,8 +72,6 @@
         text-overflow: ellipsis;
         max-width: 100%;
     }
-
-
 
 
     .project-card footer {
@@ -91,7 +89,6 @@
             border-radius: 8px;
             font-size: 0.9em;
         }
-
             
 
 .timeframe.pending {
