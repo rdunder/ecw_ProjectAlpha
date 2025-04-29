@@ -3,6 +3,7 @@
 
 @{
     ViewBag.ExternalProvider = User.FindFirstValue(ClaimTypes.AuthenticationMethod);
+    ViewBag.Avatar = imageManager.GetPath(nameof(MembersController), Model.MemberForm.Avatar!);
     var avatar = imageManager.GetPath(nameof(MembersController), Model.MemberForm.Avatar!);
 
     var confirmDeleteModel = new ConfirmDeleteModel()
@@ -42,7 +43,9 @@
                 <h3>@ViewBag.ErrorMessage</h3>
             </div>
         </div>
-        <img src="@avatar" alt="profile avatar." />
+        @* <img src="@avatar" alt="profile avatar." /> *@
+
+        
     </header>
     
     <partial name="_Forms" model="@Model" />

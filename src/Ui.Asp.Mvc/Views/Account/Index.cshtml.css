@@ -67,6 +67,10 @@
     width: 100%;
 }
 
+
+
+
+
 @media (width < 900px) {
     .section-account-management {
         padding: 2rem 1rem;

@@ -5,11 +5,34 @@
 }
 
 <h2>Update Profile Information</h2>
-<form class="account-form" novalidate method="post" asp-action="Index" asp-controller="Account">
+<form class="account-form" novalidate method="post" asp-action="Index" asp-controller="Account" enctype="multipart/form-data">
     <input asp-for="Id" hidden />
     <input asp-for="Avatar" hidden />
     <input asp-for="RoleName" hidden />
     <input asp-for="JobTitleId" hidden />
+
+    <div class="image-preview-container">
+        @if (@Model.Avatar == null)
+        {
+            <div id="circle-container" class="image-preview-border">
+                <div class="circle circle-gray">
+                    <i class="bi bi-camera"></i>
+                </div>
+            </div>
+            <img src="#" id="image-preview" alt="avatar image preview" class="d-none" />
+            <input asp-for="@Model.File" hidden accept="image/*" />
+        }
+        else
+        {
+            <div id="circle-container" class="image-preview-border d-none">
+                <div class="circle circle-gray">
+                    <i class="bi bi-camera"></i>
+                </div>
+            </div>
+            <img src="@ViewBag.Avatar" id="image-preview" alt="avatar image preview" class="" />
+            <input asp-for="@Model.File" hidden accept="image/*" />
+        }
+    </div>
 
     <div class="horizontal">
         <div class="form-group">
@@ -50,7 +73,11 @@
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     }
-    
+    else
+    {
+        <input asp-for="Email" class="form-control" hidden autocomplete="off" />
+    }
+
 
     <div class="horizontal mt-3">
         <div class="form-group">

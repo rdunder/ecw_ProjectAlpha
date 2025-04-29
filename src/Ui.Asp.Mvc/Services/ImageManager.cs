@@ -37,6 +37,8 @@ public class ImageManager(IWebHostEnvironment env, IConfiguration config, ILogge
     
     public void DeleteImage(string avatar, string controller)
     {
+        if (avatar == null) return;
+
         if (avatar.StartsWith(nameof(controller)))
         {
             var filePath = Path.Combine(

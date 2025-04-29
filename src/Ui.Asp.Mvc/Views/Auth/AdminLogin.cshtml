@@ -2,15 +2,15 @@
 
 
 @{
-    Layout = "_AuthLayout";
-    ViewData["Title"] = "Login";
+    Layout = "_AdminAuthLayout";
+    ViewData["Title"] = "Admin Login";
 
     var errorCount = ViewData.ModelState.Values.SelectMany(v => v.Errors).Count();
 
 }
 
 
-<div class="admin-wrapper">
+<main class="admin-wrapper">
     <div class="left-panel">
         <div class="left-panel-content">
             <h1 class="welcome-text">Welcome to</h1>
@@ -127,4 +127,4 @@
             *@
         </div>
     </div>
-</div>
+</main>

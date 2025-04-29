@@ -18,12 +18,14 @@ public class AccountController(
     UserManager<UserEntity> userManager,
     IMailService mailService,
     LinkGenerationService linkGenerationService,
+    ImageManager imageManager,
     ILogger<AccountController> logger) : Controller
 {
     private readonly IUserService _userService = userService;
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly IMailService _mailService = mailService;
     private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
+    private readonly ImageManager _imageManager = imageManager;
     private readonly ILogger<AccountController> _logger = logger;
 
     public async Task<IActionResult> Index(Guid id)
@@ -56,6 +58,7 @@ public class AccountController(
             }
             
         };
+
         ViewBag.ErrorMessage = "";
 
         return View(viewModel);
@@ -72,7 +75,13 @@ public class AccountController(
         };
 
         if (!ModelState.IsValid)
-            return View(viewModel);        
+            return View(viewModel);
+        
+        if (form.File != null)
+        {
+            _imageManager.DeleteImage(form.Avatar, nameof(MembersController));
+            form.Avatar = await _imageManager.SaveImage(form.File, nameof(MembersController));
+        }
 
         var result = await _userService.UpdateAsync(form.Id, form);
 
