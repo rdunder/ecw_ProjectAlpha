@@ -166,5 +166,6 @@ app.MapControllerRoute(
 
 app.MapHub<NotificationHub>("/notificationHub");
 app.MapHub<PresenceHub>("/presenceHub");
+app.MapHub<MessageHub>("/messageHub");
 
 app.Run();

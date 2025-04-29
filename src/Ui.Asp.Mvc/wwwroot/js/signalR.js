@@ -149,3 +149,20 @@ function updateOnlineUsersFeedback(userId, isOnline) {
     }
 }
 //#endregion
+
+//#region || SignalR Message Hub
+const messageSignalRConnection = new signalR.HubConnectionBuilder()
+    .withUrl("/messageHub")
+    .build()
+
+messageSignalRConnection.on("RecieveMessage", (sender, message) => {
+    console.log(`Private message from ${sender}:\n${message}`)
+})
+
+messageSignalRConnection.start().catch(err => console.error(`messageHub SignalR failed to start: ${err}`))
+
+
+function signalRSendMessage(userId, message) {
+    messageSignalRConnection.invoke("SendMessage", userId, message)
+}
+//#endregion

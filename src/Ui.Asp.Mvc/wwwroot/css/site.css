@@ -664,6 +664,7 @@ input::-webkit-inner-spin-button {
 
 
 #notificationsContainer {
+    
 }
 
     #notificationsContainer .notification-item {
@@ -673,9 +674,17 @@ input::-webkit-inner-spin-button {
         padding: 0.1rem 1rem;
         border-radius: 16px;
     }
+        #notificationsContainer .notification-item .content {
+            flex: 1;
+        }
+
         #notificationsContainer .notification-item .type {
             font-size: 0.75rem;
             font-weight: var(--font-weight-bold);
+        }
+
+        #notificationsContainer .notification-item .message {
+            
         }
 
         #notificationsContainer .notification-item:hover {
