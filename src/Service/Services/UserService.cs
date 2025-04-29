@@ -11,6 +11,7 @@ using Service.Models;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using System.Globalization;
 
 namespace Service.Services;
 
@@ -113,8 +114,15 @@ public class UserService(
 
     public async Task<IEnumerable<UserModel>> GetAllAsync()
     {
-        var userEntities = await _userManager.Users.Include(u => u.Address).Include(u => u.JobTitle).OrderBy(u => u.LastName).ToListAsync();
-        
+        var userEntities = await _userManager.Users
+            .Include(u => u.Address)
+            .Include(u => u.JobTitle)
+            .ToListAsync();
+
+        userEntities = userEntities
+            .OrderBy(u => u.LastName, StringComparer.Create(new CultureInfo("sv-SE"), false))
+            .ToList();
+
         foreach (var userEntity in userEntities)
         {
             var roles = await _userManager.GetRolesAsync(userEntity);
