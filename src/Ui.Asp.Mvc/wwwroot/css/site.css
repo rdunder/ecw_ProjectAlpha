@@ -790,4 +790,13 @@ input::-webkit-inner-spin-button {
 }
 /* #endregion */
 
+/* #region || SignalR Message Modal */
+#signalRMessageModal {
+    
+}
 
+#signalRMessageModal .modal-title i {
+    color: var(--clr-dark-accent);
+    font-size: 1.5rem;
+}
+    

@@ -1,0 +1,50 @@
+@model UserModel
+
+
+<div class="modal fade not-validate" id="memberMessageModal_@Model.Id" tabindex="-1" aria-labelledby="memberMessageModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dynamicModalLabel"><i class="bi bi-chat-fill"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label for="memberMessage">Message</label>
+                    <input type="text" id="memberMessage" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-blue" data-bs-dismiss="modal">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    /*
+    
+    //get the button and add eventlistener, get input.value, send message
+    //signalRSendMessage("@Model.Id", "Static test message")
+    
+     
+    document.addEventListener("DOMContentLoaded", async () => {
+        const msgBtnContainer = document.querySelector("#msgBtnContainer_@Model.Id")
+        const presenceStatus = msgBtnContainer.querySelector(".presence-status")
+        const messageButton = msgBtnContainer.querySelector("button")
+
+
+        messageButton.addEventListener("click", (e) => {
+            if (presenceStatus.classList.contains("presence-online")) {
+                signalRSendMessage("@Model.Id", "Static test message")
+
+            }
+            else {
+                console.log("clicking OFFLINE")
+            }
+        })
+        
+    })
+    */
+</script>

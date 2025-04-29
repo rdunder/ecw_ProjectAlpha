@@ -155,22 +155,23 @@ const messageSignalRConnection = new signalR.HubConnectionBuilder()
     .withUrl("/messageHub")
     .build()
 
-messageSignalRConnection.on("RecieveMessage", (sender, message) => {
-    console.log(`Private message from ${sender}:\n${message}`)
+messageSignalRConnection.on("RecieveMessage", (senderName, senderTitle, message) => {
+    console.log(`Private message from ${senderName} <${senderTitle}>:\n${message}`)
 
     const messageModal = `
     <div class="modal fade" id="signalRMessageModal" tabindex="-1" aria-labelledby="signalRMessageModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="dynamicModalLabel">Message</h5>
+            <h5 class="modal-title" id="dynamicModalLabel"><i class="bi bi-chat-fill"></i></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            This modal will be disposed and removed from the DOM when closed.
+            <h6>Message from: ${senderName} [${senderTitle}]</h6>
+            <p>${message}</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-blue" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

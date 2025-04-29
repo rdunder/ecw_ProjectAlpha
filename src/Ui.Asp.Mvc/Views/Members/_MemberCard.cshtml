@@ -56,15 +56,20 @@
 
     <p class="contact member-card-email">@Model.Email</p>
     <p class="contact">@(Model.PhoneNumber.Length > 5 ? Model.PhoneNumber : "070xxxxxxx")</p>
-
+    
+    <partial name="_MessageModal" model="@Model"/>
+    
     <div class="msg-btn-container" id="msgBtnContainer_@Model.Id">
         <div class="presence-status presence-offline"></div>
-        <button class="btn btn-grey">Message</button>
+        <button type="button" class="btn btn-grey" >
+            Message
+        </button>
     </div>
 
 </div>
 
 <script>
+    // data-bs-toggle="modal" data-bs-target="#memberMessageModal_@Model.Id"
     document.addEventListener("DOMContentLoaded", async () => {
         const msgBtnContainer = document.querySelector("#msgBtnContainer_@Model.Id")
         const presenceStatus = msgBtnContainer.querySelector(".presence-status")
@@ -73,14 +78,15 @@
 
         messageButton.addEventListener("click", (e) => {
             if (presenceStatus.classList.contains("presence-online")) {
-                signalRSendMessage("@Model.Id", "Static test message")
-
+                //signalRSendMessage("@Model.Id", "Static test message")
+                const modal = new bootstrap.Modal("#memberMessageModal_@Model.Id")
+                modal.show()
             }
             else {
-                console.log("clicking OFFLINE")
+                console.log("You cant send a message when the user is offline.")
             }
         })
-        
+
     })
 </script>
 

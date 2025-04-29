@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using Service.Interfaces;
 
 namespace Ui.Asp.Mvc.Hubs;
 
 [Authorize]
-public class MessageHub(UserManager<UserEntity> userManager) : Hub
+public class MessageHub(IUserService userService) : Hub
 {
-    private readonly UserManager<UserEntity> _userManager = userManager;
+    private readonly IUserService _userService = userService;
 
     public override async Task OnConnectedAsync()
     {
@@ -18,9 +19,7 @@ public class MessageHub(UserManager<UserEntity> userManager) : Hub
     public async Task SendMessage(string userId, string message)
     {
         if (Context.User == null) return;
-        var sender = await _userManager.GetUserAsync(Context.User);
-        //  chanmge sender to send first last name and role
-
-        await Clients.User(userId).SendAsync("RecieveMessage", sender, message);
+        var sender = await _userService.GetByIdAsync(Guid.Parse(Context.UserIdentifier));
+        await Clients.User(userId).SendAsync("RecieveMessage", $"{sender.FirstName} {sender.LastName}", sender.Title, message);
     }
 }
