@@ -31,7 +31,7 @@ public class NotificationsController(
             await _notificationHub.Clients.All.SendAsync("ReceiveNotification", newNotification);
         }
         return Ok(new {success = true});
-    }
+    }    
 
     [HttpGet]
     public async Task<IActionResult> GetNotifications()

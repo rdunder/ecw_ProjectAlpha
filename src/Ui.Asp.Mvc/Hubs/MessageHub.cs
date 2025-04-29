@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Ui.Asp.Mvc.Hubs;
 
+[Authorize]
 public class MessageHub : Hub
 {
     public override async Task OnConnectedAsync()

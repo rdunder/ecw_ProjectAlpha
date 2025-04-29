@@ -86,6 +86,14 @@ public class UserService(
             {
                 await _userManager.AddLoginAsync(entity, loginInfo);
                 await _userManager.AddToRoleAsync(entity, "Viewer");
+
+                var allNotifications = await _notificationService.GetAllAsync();
+                var user = await _userManager.FindByEmailAsync(dto.Email);
+                foreach (var notification in allNotifications)
+                {
+                    await _notificationService.DismissNotificationAsync(notification.Id, user.Id);
+                }
+
                 return entity;
             }
             return null!;

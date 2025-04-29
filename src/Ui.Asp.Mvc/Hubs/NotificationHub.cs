@@ -15,7 +15,6 @@ public class NotificationHub : Hub
         await Clients.All.SendAsync("ReceiveNotification", notification);
     }
 
-
     public override async Task OnConnectedAsync()
     {
         var userId = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);

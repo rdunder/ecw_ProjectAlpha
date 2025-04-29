@@ -11,7 +11,7 @@ using Ui.Asp.Mvc.Services;
 
 namespace Ui.Asp.Mvc.Controllers;
 
-[Authorize(Roles = "Administrator")]
+[Authorize(Roles = "Administrator, Manager")]
 public class MembersController(
                     IUserService userService, 
                     IRoleService roleService, 
