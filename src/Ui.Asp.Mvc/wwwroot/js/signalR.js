@@ -157,6 +157,36 @@ const messageSignalRConnection = new signalR.HubConnectionBuilder()
 
 messageSignalRConnection.on("RecieveMessage", (sender, message) => {
     console.log(`Private message from ${sender}:\n${message}`)
+
+    const messageModal = `
+    <div class="modal fade" id="signalRMessageModal" tabindex="-1" aria-labelledby="signalRMessageModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="dynamicModalLabel">Message</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This modal will be disposed and removed from the DOM when closed.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+
+    document.body.insertAdjacentHTML('beforeend', messageModal)
+    const modalEllement = document.querySelector("#signalRMessageModal")
+    const modal = new bootstrap.Modal(modalEllement)
+
+    modalEllement.addEventListener("hidden.bs.modal", () => {
+        modal.dispose()
+        modalEllement.remove()
+    })
+
+    modal.show()
 })
 
 messageSignalRConnection.start().catch(err => console.error(`messageHub SignalR failed to start: ${err}`))
