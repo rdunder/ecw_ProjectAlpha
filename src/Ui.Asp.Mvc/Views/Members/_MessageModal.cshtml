@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dynamicModalLabel"><i class="bi bi-chat-fill"></i></h5>
+                <h5 class="modal-title"><i class="bi bi-chat-fill"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -23,28 +23,15 @@
 
 
 <script>
-    /*
-    
-    //get the button and add eventlistener, get input.value, send message
-    //signalRSendMessage("@Model.Id", "Static test message")
-    
-     
-    document.addEventListener("DOMContentLoaded", async () => {
-        const msgBtnContainer = document.querySelector("#msgBtnContainer_@Model.Id")
-        const presenceStatus = msgBtnContainer.querySelector(".presence-status")
-        const messageButton = msgBtnContainer.querySelector("button")
+    document.addEventListener("DOMContentLoaded", () => {
+        const messageModal = document.querySelector("#memberMessageModal_@Model.Id")
 
+        const memberMessageInput = messageModal.querySelector("input")
+        const memberMessageButton = messageModal.querySelector(".btn-blue")
 
-        messageButton.addEventListener("click", (e) => {
-            if (presenceStatus.classList.contains("presence-online")) {
-                signalRSendMessage("@Model.Id", "Static test message")
-
-            }
-            else {
-                console.log("clicking OFFLINE")
-            }
+        memberMessageButton.addEventListener("click", (e) => {
+            console.log(memberMessageInput.value)
+            signalRSendMessage("@Model.Id", memberMessageInput.value)
         })
-        
     })
-    */
 </script>

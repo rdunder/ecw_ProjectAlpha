@@ -20,6 +20,12 @@ public class MessageHub(IUserService userService) : Hub
     {
         if (Context.User == null) return;
         var sender = await _userService.GetByIdAsync(Guid.Parse(Context.UserIdentifier));
-        await Clients.User(userId).SendAsync("RecieveMessage", $"{sender.FirstName} {sender.LastName}", sender.Title, message);
+
+        await Clients.User(userId).SendAsync(
+            "RecieveMessage", 
+            $"{sender.FirstName} {sender.LastName}", 
+            sender.Title, 
+            message, 
+            Guid.NewGuid().ToString());
     }
 }

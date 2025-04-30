@@ -151,43 +151,68 @@ function updateOnlineUsersFeedback(userId, isOnline) {
 //#endregion
 
 //#region || SignalR Message Hub
+//  This implementaion is not complete, the messages are not stored in DB
+//  therefore they dissapear on reload.
 const messageSignalRConnection = new signalR.HubConnectionBuilder()
     .withUrl("/messageHub")
     .build()
 
-messageSignalRConnection.on("RecieveMessage", (senderName, senderTitle, message) => {
-    console.log(`Private message from ${senderName} <${senderTitle}>:\n${message}`)
+messageSignalRConnection.on("RecieveMessage", (senderName, senderTitle, message, id) => {
+    console.log(`Private message from ${senderName} [Title: ${senderTitle}] [ID: ${id}]:\n${message}`)
 
-    const messageModal = `
-    <div class="modal fade" id="signalRMessageModal" tabindex="-1" aria-labelledby="signalRMessageModal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="dynamicModalLabel"><i class="bi bi-chat-fill"></i></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <h6>Message from: ${senderName} [${senderTitle}]</h6>
-            <p>${message}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-blue" data-bs-dismiss="modal">Close</button>
-          </div>
+    const container = document.querySelector("#notificationsContainer")
+
+    const item = document.createElement('div')
+    item.classList.add("notification-item")
+    item.setAttribute('data-id', id)
+    item.innerHTML =
+        `
+        <img class="icon" src="/images/chat.svg" />
+        <div class="content">
+            <div class="type">${senderName} [${senderTitle}]</div>
+            <div class="message">${message}</div>
+            <div class="time" data-created="${new Date().toISOString()}">Created</div>
         </div>
-      </div>
-    </div>
-    `
+        <button class="btn-close" onclick="dismissNotification('${id}')"></button>
+        `
 
-    document.body.insertAdjacentHTML('beforeend', messageModal)
-    const modalEllement = document.querySelector("#signalRMessageModal")
-    const modal = new bootstrap.Modal(modalEllement)
+    container.insertBefore(item, container.firstChild)
+    updateRelativeTimes()
+    updateNotificationCount()
 
-    modalEllement.addEventListener("hidden.bs.modal", () => {
-        modal.dispose()
-        modalEllement.remove()
-    })
 
-    modal.show()
+    //  Modal popup with message sent, a bit intrucive
+
+    //const messageModal = `
+    //<div class="modal fade" id="signalRMessageModal" tabindex="-1" aria-labelledby="signalRMessageModal" aria-hidden="true">
+    //  <div class="modal-dialog">
+    //    <div class="modal-content">
+    //      <div class="modal-header">
+    //        <h5 class="modal-title" id="dynamicModalLabel"><i class="bi bi-chat-fill"></i></h5>
+    //        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    //      </div>
+    //      <div class="modal-body">
+    //        <h6>Message from: ${senderName} [${senderTitle}]</h6>
+    //        <p>${message}</p>
+    //      </div>
+    //      <div class="modal-footer">
+    //        <button type="button" class="btn btn-blue" data-bs-dismiss="modal">Close</button>
+    //      </div>
+    //    </div>
+    //  </div>
+    //</div>
+    //`
+
+    //document.body.insertAdjacentHTML('beforeend', messageModal)
+    //const modalEllement = document.querySelector("#signalRMessageModal")
+    //const modal = new bootstrap.Modal(modalEllement)
+
+    //modalEllement.addEventListener("hidden.bs.modal", () => {
+    //    modal.dispose()
+    //    modalEllement.remove()
+    //})
+
+    //modal.show()
 })
 
 messageSignalRConnection.start().catch(err => console.error(`messageHub SignalR failed to start: ${err}`))

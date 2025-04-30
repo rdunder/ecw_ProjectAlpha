@@ -69,16 +69,13 @@
 </div>
 
 <script>
-    // data-bs-toggle="modal" data-bs-target="#memberMessageModal_@Model.Id"
     document.addEventListener("DOMContentLoaded", async () => {
         const msgBtnContainer = document.querySelector("#msgBtnContainer_@Model.Id")
         const presenceStatus = msgBtnContainer.querySelector(".presence-status")
         const messageButton = msgBtnContainer.querySelector("button")
 
-
         messageButton.addEventListener("click", (e) => {
             if (presenceStatus.classList.contains("presence-online")) {
-                //signalRSendMessage("@Model.Id", "Static test message")
                 const modal = new bootstrap.Modal("#memberMessageModal_@Model.Id")
                 modal.show()
             }
