@@ -81,7 +81,6 @@ function updateNotificationCount() {
 
 function removeNotification(id) {
     const item = document.querySelector(`.notification-item[data-id="${id}"]`)
-    console.log(id)
     if (!item) return
     item.remove()
     updateNotificationCount()
