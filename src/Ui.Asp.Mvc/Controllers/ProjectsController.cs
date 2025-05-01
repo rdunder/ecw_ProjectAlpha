@@ -203,7 +203,7 @@ public class ProjectsController(
             Icon = "/images/NotificationIcons/ProjectNotification.png",
             TargetGroup = NotificationTargetGroup.All,
             Type = NotificationType.Project,
-            TypeName = NotificationType.Project.ToString()
+            TypeName = nameof(NotificationType.Project)
         };
 
         await _notificationService.CreateNotificationAsync(notification);

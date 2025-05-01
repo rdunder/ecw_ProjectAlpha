@@ -84,7 +84,8 @@ public class AuthController(
                 Message = $"{viewModel.FirstName} {viewModel.LastName} Added",
                 Icon = "/images/NotificationIcons/MemberNotification.png",
                 TargetGroup = NotificationTargetGroup.Admins,
-                Type = NotificationType.User
+                Type = NotificationType.User,
+                TypeName = nameof(NotificationType.User)
             };
 
             await _notificationService.CreateNotificationAsync(notification);

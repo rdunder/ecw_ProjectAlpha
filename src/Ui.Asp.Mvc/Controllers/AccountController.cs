@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.WebUtilities;
 using Service.Interfaces;
 using System.Text;
 using System.Text.Json;
+using Data.Enums;
+using Microsoft.AspNetCore.SignalR;
+using Service.Dtos;
+using Ui.Asp.Mvc.Hubs;
 using Ui.Asp.Mvc.Models;
 using Ui.Asp.Mvc.Models.Account;
 using Ui.Asp.Mvc.Services;
@@ -19,6 +23,8 @@ public class AccountController(
     IMailService mailService,
     LinkGenerationService linkGenerationService,
     ImageManager imageManager,
+    INotificationService notificationService,
+    IHubContext<NotificationHub> notificationHub,
     ILogger<AccountController> logger) : Controller
 {
     private readonly IUserService _userService = userService;
@@ -26,6 +32,8 @@ public class AccountController(
     private readonly IMailService _mailService = mailService;
     private readonly LinkGenerationService _linkGenerationService = linkGenerationService;
     private readonly ImageManager _imageManager = imageManager;
+    private readonly INotificationService _notificationService = notificationService;
+    private readonly IHubContext<NotificationHub> _notificationHub = notificationHub;
     private readonly ILogger<AccountController> _logger = logger;
 
     public async Task<IActionResult> Index(Guid id)
@@ -123,7 +131,23 @@ public class AccountController(
     [HttpPost]
     public async Task<IActionResult> DeleteAccount(Guid id)
     {
-        await _userService.DeleteAsync(id);
+        var user = await _userService.GetByIdAsync(id);
+        var result = await _userService.DeleteAsync(id);
+        if (result)
+        {
+            var notification = new NotificationDto()
+            {
+                Message = $"{user.FirstName} {user.LastName} has been deleted",
+                Icon = "/images/NotificationIcons/MemberNotification.png",
+                TargetGroup = NotificationTargetGroup.Admins,
+                Type = NotificationType.User,
+                TypeName = nameof(NotificationType.User)
+            };
+
+            await _notificationService.CreateNotificationAsync(notification);
+            await _notificationHub.Clients.Group("Administrator").SendAsync("ReceiveNotification", notification);
+        }
+        
         return RedirectToAction("LogOut", "Auth");
     }
 
