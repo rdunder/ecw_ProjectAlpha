@@ -86,11 +86,12 @@ public class MembersController(
 
         if (result)
         {
-            #region Send confirm email
+#region Send confirm email
             var emailConfirmLink = await _linkGenerationService.CreateEmailConfirmLink(dto.Email);
             var msgBody = new StringBuilder()
                         .Append($"<strong>Admin has registered you on Alpha Project Panel</strong>")
                         .Append($"<p>If you have any questions, contact Admin by email: {User.Identity.Name}</p>")
+                        .Append($"<p>Your temporary password is: <strong>{dto.Password}</strong> You can change this in the account settings</p>")
                         .Append($"<p>Please Confirm your email with this link:</p>")
                         .Append($"{emailConfirmLink}");
 
@@ -101,7 +102,7 @@ public class MembersController(
                     ? "A confirmation Link has been sent to the registered Email"
                     : "There was a problem sending the confirmation Link to the registered Email";
             }
-            #endregion
+#endregion
 
             return Ok();
         }
