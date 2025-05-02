@@ -14,7 +14,8 @@ public class InitService(
      IStatusService statusService,
      IUserAddressService userAddressService,
      IJobTitleService jobTitleService,
-     IUserService userService)
+     IUserService userService,
+     IConfiguration config)
 {
 
     private readonly ICustomerService _customerService = customerService;
@@ -24,6 +25,7 @@ public class InitService(
     private readonly IUserAddressService _userAddressService = userAddressService;
     private readonly IJobTitleService _jobTitleService = jobTitleService;
     private readonly IUserService _userService = userService;
+    private readonly IConfiguration _config = config;
 
     public async Task InitCreate()
     {
@@ -74,16 +76,18 @@ public class InitService(
     }
     private async Task CreateAdmin()
     {
+        var adminEmail = _config["DefaultAdmin:Email"] ?? throw new NullReferenceException("Default Admin is not configured in appsettings.json");
+        var adminPassword = _config["DefaultAdmin:Password"] ?? throw new NullReferenceException("Default Admin is not configured in appsettings.json");
         var titles = await _jobTitleService.GetAllAsync();
         Guid t = titles.FirstOrDefault(t => t.Title == "Sys Admin").Id;
+
 
         var admin = new UserDto()
         {
             FirstName = "Super",
             LastName = "User",
-            Email = "admin@domain.com",
-            PhoneNumber = "+46 743 897 356",
-            Password = "Password123!",
+            Email = adminEmail,
+            Password = adminPassword,
             JobTitleId = t,
         };
 
