@@ -10,7 +10,7 @@
 <section class="section-customers">
     <div class="d-flex justify-content-between mb-5">
         <h1>@ViewData["Title"]</h1>
-        @if (User.IsInRole("Administrator"))
+        @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
         {
             <button class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
         }

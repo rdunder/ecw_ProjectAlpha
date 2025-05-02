@@ -97,12 +97,19 @@
     </div>
 </div>
 
-<div class="form-group">
-    <label class="control-label">Select Members</label>
-    <div class="user-selection-container">
-        <select asp-for="MemberIds" id="memberSelect__@Model.Id" asp-items="@ViewBag.Users" class="memberSelectDropdown"></select>
+@if (User.IsInRole("User"))
+{
+    <select hidden asp-for="MemberIds"></select>
+}
+else
+{
+    <div class="form-group">
+        <label class="control-label">Select Members</label>
+        <div class="user-selection-container">
+            <select asp-for="MemberIds" id="memberSelect__@Model.Id" asp-items="@ViewBag.Users" class="memberSelectDropdown"></select>
+        </div>
     </div>
-</div>
+}
 
 <div class="col-md-12 form-group">
     <label asp-for="Budget" ></label>
@@ -120,17 +127,23 @@
 
         // Things i tried with TomSelect.
         // TomSelect will not init items from asp-items!!
-        // items: SNABEL_A Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString()))),
-        new TomSelect(document.querySelector("#memberSelect__@Model.Id"), {
-            plugins: ['remove_button'],
-            placeholder: 'Search and select members...',
-            persist: false,
-            maxItems: 3,
-            items: @Html.Raw(Json.Serialize(Model.MemberIds)),
-            load: function(query, callback) {
-                callback();
-            }
-        });
+        // items: SNABEL_A Html.Raw(Json.Serialize(Model.Project.Users.Select(u => u.Id.ToString())))
+        @if (!User.IsInRole("User"))
+        {
+            <text>
+                new TomSelect(document.querySelector("#memberSelect__@Model.Id"), 
+                {
+                    plugins: ['remove_button'],
+                    placeholder: 'Search and select members...',
+                    persist: false,
+                    maxItems: 3,
+                    items: @Html.Raw(Json.Serialize(Model.MemberIds)),
+                    load: function(query, callback) {
+                    callback();
+                }
+                });
+            </text>
+        }
 
         quillJsInit(
             '#quillEditor__@Model.Id',

@@ -87,10 +87,13 @@
                     <li class="mt-2 mb-3">
                         <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editProjectModal_@Model.Id"><i class="bi bi-pencil-fill"></i> Edit</a>
                     </li>
-
-                    <li class="mt-2 mb-3">
-                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addMemberToProjectModal_@Model.Id"><i class="bi bi-person-plus-fill"></i> Add Member</a>
-                    </li>
+                    
+                    @if (!User.IsInRole("User"))
+                    {
+                        <li class="mt-2 mb-3">
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addMemberToProjectModal_@Model.Id"><i class="bi bi-person-plus-fill"></i> Add Member</a>
+                        </li>
+                    }
 
                     @if (Model.Status.StatusName == "Pending")
                     {
