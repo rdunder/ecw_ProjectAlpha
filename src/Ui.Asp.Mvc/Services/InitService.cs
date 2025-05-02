@@ -92,6 +92,6 @@ public class InitService(
         };
 
         var adminResult = await _userService.CreateAsync(admin);
-        var adToRoleResult = await _userService.AddToRoleAsync("admin@domain.com", "Administrator");
+        var adToRoleResult = await _userService.AddToRoleAsync(adminEmail, "Administrator");
     }
 }
