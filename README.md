@@ -49,41 +49,44 @@ The application uses **statically defined roles** to control access:
    cd ProjectAlpha
 
 2. **Configure Appsettings**
-   */src/Ui.Asp.Mv/appsettings.json*
-     ```JSON
-      {
-        "ConnectionStrings": {
-          "LocalDb": "<Database Connectionstring>"
-        },
-      
-        "Authentication": {
-          "Google": {
-            "ClientId": "<Client ID>",
-            "ClientSecret": "<Client Secret>"
-          },
-          "Github": {
-            "ClientId": "<Client ID",
-            "ClientSecret": "Client Secret"
-          }
-        },
-        
-        "EmailProvider": {
-          "Address": "<Address to Mail Service",
-          "Port": <Port as number>,
-          "ApiKey": "<ApiKey>",
-          "Secret": "<Secret>",
-          "SenderEmail": "<Sender Email>"
-        }
-      }
 
-  */src/Data/appsettings.json*    
-    ```JSON
+   */src/Ui.Asp.Mv/appsettings.json*
+   ```json
+    {
+      "ConnectionStrings": {
+        "LocalDb": "<Database Connectionstring>"
+      },
     
-      {
-        "ConnectionStrings": {
-          "LocalDb": "<Database Connectionstring>"
+      "Authentication": {
+        "Google": {
+          "ClientId": "<Client ID>",
+          "ClientSecret": "<Client Secret>"
+        },
+        "Github": {
+          "ClientId": "<Client ID",
+          "ClientSecret": "Client Secret"
         }
+      },
+      
+      "EmailProvider": {
+        "Address": "<Address to Mail Service",
+        "Port": <Port as number>,
+        "ApiKey": "<ApiKey>",
+        "Secret": "<Secret>",
+        "SenderEmail": "<Sender Email>"
       }
+    }
+   ```
+
+    */src/Data/appsettings.json*    
+    ```json
+    {
+      "ConnectionStrings": {
+        "LocalDb": "<Database Connectionstring>"
+      }
+    }
+    ```
+  
 
 3. **Run Database Migrations**
     ```bash
