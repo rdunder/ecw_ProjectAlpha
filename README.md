@@ -106,23 +106,23 @@ The application uses **statically defined roles** to control access:
 6. **On First time start**
    When started för the first time with a clean database, these records will be added.
 
-   ***Job Titles***
-   - Guest
-   - Trainee
-   - Frontend Developer
-   - Backend Developer
-   - Fullstack Developer
-   - Designer
-   - Project Manager
-   - Team Lead
-   - Scrum Master
-   - Product Owner
-   - Sys Admin
+  ***Job Titles***
+  - Guest
+  - Trainee
+  - Frontend Developer
+  - Backend Developer
+  - Fullstack Developer
+  - Designer
+  - Project Manager
+  - Team Lead
+  - Scrum Master
+  - Product Owner
+  - Sys Admin
 
   ***Customers***
   - Test Customer 01
-
+  
   ***Admin User***
-  email / username: 
-    
+  *Will be named, Super User, the credentials will be taken from appsettings.json*
+
 
