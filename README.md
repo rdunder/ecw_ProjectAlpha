@@ -48,6 +48,17 @@ The application uses **statically defined roles** to control access:
    git clone https://github.com/rdunder/ecw_ProjectAlpha.git
    cd ProjectAlpha
 
+
+> ⚠️ **A Note About appsettings.json** 
+> Never store sensitive information such as passwords, API keys, or connection strings in plain text in `appsettings.json`, especially in production environments or source control.  
+>  
+> **Recommended practices:**  
+> - Use [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) for local development.  
+> - Use environment variables or a secure secrets manager (e.g., Azure Key Vault) in production.  
+> - Add `appsettings.*.json` to `.gitignore` if it contains sensitive values.
+
+
+
 2. **Configure Appsettings**
 
    */src/Ui.Asp.Mv/appsettings.json*
@@ -106,12 +117,6 @@ The application uses **statically defined roles** to control access:
   *The credentials will be taken from appsettings.json*
 
 
-> ⚠️ **A Note About appsettings.json** 
-> Never store sensitive information such as passwords, API keys, or connection strings in plain text in `appsettings.json`, especially in production environments or source control.  
->  
-> **Recommended practices:**  
-> - Use [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) for local development.  
-> - Use environment variables or a secure secrets manager (e.g., Azure Key Vault) in production.  
-> - Add `appsettings.*.json` to `.gitignore` if it contains sensitive values.
+
 
 
