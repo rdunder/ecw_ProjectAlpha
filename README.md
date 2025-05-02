@@ -101,28 +101,17 @@ The application uses **statically defined roles** to control access:
 5. **Run the Application**
      ```bash
      dotnet ef database update
-
-
-6. **On First time start**
-   When started för the first time with a clean database, these records will be added.
-
-  ***Job Titles***
-  - Guest
-  - Trainee
-  - Frontend Developer
-  - Backend Developer
-  - Fullstack Developer
-  - Designer
-  - Project Manager
-  - Team Lead
-  - Scrum Master
-  - Product Owner
-  - Sys Admin
-
-  ***Customers***
-  - Test Customer 01
   
-  ***Admin User***
-  *Will be named, Super User, the credentials will be taken from appsettings.json*
+  *When the application starts first time with clean database, a default admin will be created*
+  *The credentials will be taken from appsettings.json*
+
+
+> ⚠️ **A Note About appsettings.json** 
+> Never store sensitive information such as passwords, API keys, or connection strings in plain text in `appsettings.json`, especially in production environments or source control.  
+>  
+> **Recommended practices:**  
+> - Use [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) for local development.  
+> - Use environment variables or a secure secrets manager (e.g., Azure Key Vault) in production.  
+> - Add `appsettings.*.json` to `.gitignore` if it contains sensitive values.
 
 
