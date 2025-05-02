@@ -51,10 +51,16 @@ The application uses **statically defined roles** to control access:
 2. **Configure Appsettings**
 
    */src/Ui.Asp.Mv/appsettings.json*
+   *(Admin Password must meet the requirements: min 8 characters, min one digit, min one uppercase letter, min one special character)*
    ```json
     {
       "ConnectionStrings": {
         "LocalDb": "<Database Connectionstring>"
+      },
+
+     "DefaultAdmin": {
+        "Email": "<Email>",
+        "Password": "<Password>" 
       },
     
       "Authentication": {
@@ -88,12 +94,35 @@ The application uses **statically defined roles** to control access:
     ```
   
 
-3. **Run Database Migrations**
+4. **Run Database Migrations**
     ```bash
     dotnet ef database update
 
-4. **Run the Application**
+5. **Run the Application**
      ```bash
      dotnet ef database update
+
+
+6. **On First time start**
+   When started för the first time with a clean database, these records will be added.
+
+   ***Job Titles***
+   - Guest
+   - Trainee
+   - Frontend Developer
+   - Backend Developer
+   - Fullstack Developer
+   - Designer
+   - Project Manager
+   - Team Lead
+   - Scrum Master
+   - Product Owner
+   - Sys Admin
+
+  ***Customers***
+  - Test Customer 01
+
+  ***Admin User***
+  email / username: 
     
 
