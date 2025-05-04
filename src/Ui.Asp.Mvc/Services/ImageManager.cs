@@ -59,7 +59,6 @@ public class ImageManager(IWebHostEnvironment env, IConfiguration config, ILogge
 
 
         var path = $"/images/{controllerName}_Avatars/{avatar}";
-        _logger.LogWarning($"ImageManager.GetPath({controller}, {avatar})\nreturns: {path}");
         return path ;
     }
 }
