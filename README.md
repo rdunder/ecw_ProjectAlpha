@@ -62,7 +62,7 @@ The application uses **statically defined roles** to control access:
 
 2. **Configure Appsettings**
 
-   **/src/Ui.Asp.Mv/appsettings.json**
+   **/src/Ui.Asp.Mv/appsettings.json**<br/>
    *(Admin Password must meet the requirements: min 8 characters, min one digit, min one uppercase letter, min one special character)*<br/>
    *Email Provider used in this app is Mailjet, you can create an account at: https://www.mailjet.com*
    
