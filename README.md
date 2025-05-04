@@ -114,7 +114,7 @@ The application uses **statically defined roles** to control access:
 
 5. **Run the Application**
      ```bash
-     dotnet ef database update
+     dotnet run
   
   *When the application starts first time with clean database, a default admin will be created*
   *The credentials will be taken from appsettings.json*
