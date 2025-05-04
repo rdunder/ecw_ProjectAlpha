@@ -48,6 +48,7 @@ The application uses **statically defined roles** to control access:
    git clone https://github.com/rdunder/ecw_ProjectAlpha.git
    cd ProjectAlpha
 
+----
 
 > ⚠️ **A Note About appsettings.json** 
 > Never store sensitive information such as passwords, API keys, or connection strings in plain text in `appsettings.json`, especially in production environments or source control.  
@@ -57,12 +58,14 @@ The application uses **statically defined roles** to control access:
 > - Use environment variables or a secure secrets manager (e.g., Azure Key Vault) in production.  
 > - Add `appsettings.*.json` to `.gitignore` if it contains sensitive values.
 
-
+----
 
 2. **Configure Appsettings**
 
-   */src/Ui.Asp.Mv/appsettings.json*
-   *(Admin Password must meet the requirements: min 8 characters, min one digit, min one uppercase letter, min one special character)*
+   **/src/Ui.Asp.Mv/appsettings.json**
+   *(Admin Password must meet the requirements: min 8 characters, min one digit, min one uppercase letter, min one special character)*<br/>
+   *Email Provider used in this app is Mailjet, you can create an account at: https://www.mailjet.com*
+   
    ```json
     {
       "ConnectionStrings": {
