@@ -1,6 +1,10 @@
 # ProjectAlpha
 
-**ProjectAlpha** is a role-based project management application built with **ASP.NET Core MVC** and **SQL Server**. It provides functionality for managing projects, users, and customers, with a clear hierarchy of roles and permissions. The application also supports authentication via GitHub and Google, and includes a built-in mail service.
+**ProjectAlpha** is a role-based project management application built with **ASP.NET Core MVC** and **SQL Server**. It provides functionality for managing projects, users, and customers, with a clear hierarchy of roles and permissions. The application also supports authentication via GitHub and Google, and includes a built-in mail service.<br/>
+
+
+**See a live demo at:** *https://alphapanel.hajt.se*<br/><br/>
+
 
 ## ✨ Features
 
